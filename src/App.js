@@ -1,8 +1,7 @@
 import './App.css';
 import './index.css';
 import Header from './components/Header';
-import Pitch from './components/Pitch';
-import Players from './components/Players';
+import Main from './components/Main';
 import Fixtures from './components/Fixtures';
 import Footer from './components/Footer';
 
@@ -10,8 +9,7 @@ function App() {
   return (
     <>
       <Header />
-      <Pitch />
-      <Players />
+      <Main />
       <Fixtures />
       <Footer />
     </>
