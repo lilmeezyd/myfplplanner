@@ -1,0 +1,46 @@
+
+		<svg width="2154px" height="1368px" viewBox="0 0 2154px 1368px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+			<title>21-22-Master-pitch-v2</title>
+			<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+				<g transform="translate(-0.000424, -0.000851)">
+					<g>
+						<g transform="translate(0.000000, 57.927033)">
+							<polyline fill="#01BA5C" fill-rule="nonzero" points="1763.47151 -2.84217094e-14 390.528487 -2.84217094e-14 -5.68434189e-14 1310.07297 2154 1310.07297 1763.47151 -2.84217094e-14"></polyline>
+							<polygon id="Rectangle-Copy-9" fill="#00AE55" points="71.2786823 1202.11218 2079.86718 1202.11218 2112.31361 1310.07297 39.0304282 1310.07297"></polygon>
+							<polygon id="Rectangle-Copy-8" fill="#01BA5C" points="122.480844 1022.71878 2028.78016 1022.71878 2081.38877 1202.11218 69.8654136 1202.11218"></polygon>
+							<polygon id="Rectangle-Copy-7" fill="#00AE55" points="170.291463 859.360537 1979.78909 859.360537 2029.82909 1022.71878 121.55519 1022.71878"></polygon>
+			                <polygon id="Rectangle-Copy-6" fill="#01BA5C" points="214.076601 711.035262 1938.38549 711.035262 1981.40088 859.360537 170.962047 859.360537"></polygon>
+			                <polygon id="Rectangle-Copy-5" fill="#00AE55" points="251.293381 575.738559 1899.64074 575.738559 1939.07831 711.035262 214.95905 711.035262"></polygon>
+			                <polygon id="Rectangle-Copy-5" fill="#01BA5C" points="287.633723 452.468229 1863.56443 452.468229 1899.93331 575.738559 252.895664 575.738559"></polygon>
+			                <polygon id="Rectangle-Copy-4" fill="#00AE55" points="321.337211 340.222075 1829.87931 340.222075 1862.81596 452.468229 288.857106 452.468229"></polygon>
+			                <polygon id="Rectangle-3" fill="#01BA5C" points="351.206559 237.997899 1801.0243 237.997899 1828.05697 340.222075 324.569068 340.222075"></polygon>
+			                <polygon id="Rectangle-2" fill="#00AE55" fill-rule="nonzero" points="378.187036 144.793504 1775.05659 144.793504 1801.10201 237.997899 352.522363 237.997899"></polygon>
+			                <polygon id="Rectangle-1" fill="#01BA5C" points="403.021613 58.6044927 1750.76974 58.6044927 1773.66665 144.793504 379.861316 144.793504"></polygon>
+			                <polygon id="Rectangle-1" fill="#01BA5C" points="403.021613 58.6044927 1750.76974 58.6044927 1773.66665 144.793504 379.861316 144.793504"></polygon>
+						</g>
+                </g>
+                <g id="Pitch-markings" transform="translate(36.043495, 114.99581)">
+                <g id="Penalty-area" transform="translate(541.956930, 0.000000)">
+                    <path d="M962.195061,2.50006599 L1001.99749,218.602656 L2.94032543,218.602656 L38.1477572,2.52935798" id="Outer-box" stroke="#FFFFFF" stroke-width="2"></path>
+                    <path d="M745.524095,2.50503506 L755.236084,88.4696313 L238.974078,88.4696313 L247.03509,2.50503506" id="6-yard-box" stroke="#FFFFFF" stroke-width="2"></path>
+                    <path d="M294.123106,219.679573 C424.785201,298.315634 561.627946,298.315634 704.651341,219.679573" id="outer-curve" stroke="#FFFFFF" stroke-width="2"></path>
+                    <ellipse id="penalty-spot" fill="#FFFFFF" cx="495.414656" cy="148.697164" rx="8" ry="4"></ellipse>
+                </g>
+                <g id="Centre-circle" transform="translate(61.956930, 848.990256)">
+                    <rect id="Rectangle" fill="#FFFFFF" x="0" y="190.572672" width="1954" height="2"></rect>
+                    <ellipse id="Oval" fill="#FFFFFF" cx="977.9553" cy="194.182413" rx="13" ry="11"></ellipse>
+                    <ellipse id="Oval" stroke="#FFFFFF" stroke-width="2" cx="977.800548" cy="201.471109" rx="235.084463" ry="197.471109"></ellipse>
+                </g>
+                <g id="Pitch-outline" fill="#FFFFFF">
+                    <polygon id="Rectangle" points="365 0 367 0 2 1252.99727 0 1253.00347"></polygon>
+                    <polygon id="Rectangle" points="1710 0 1712 0 2074 1252.99426 2072 1253.00504"></polygon>
+                    <polygon id="Rectangle" points="367 0 1712 0 1712 2 367 2"></polygon>
+                </g>
+            </g>
+				</g>
+
+			</g>
+		</svg>
+	
+
+

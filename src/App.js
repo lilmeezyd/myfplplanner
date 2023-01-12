@@ -1,11 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import './index.css';
+import Header from './components/Header';
+import Pitch from './components/Pitch';
+import Players from './components/Players';
+import Fixtures from './components/Fixtures';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="App">
-      Welcome to my FPL Planner
-    </div>
+    <>
+      <Header />
+      <Pitch />
+      <Players />
+      <Fixtures />
+      <Footer />
+    </>
   );
 }
 

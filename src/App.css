@@ -1,38 +1,360 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  overflow-x: hidden;
+  font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, 'Arial', sans-serif;
+  color: rgba(22, 22, 68, 1.0);
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.players,  .player-info {
+  max-width: 330px;
+  margin: auto;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.player-info {
+  margin-top: 25px;
+}
+.players-container {
+  margin: 0.5rem 0.2rem;
+  padding-top: 0.3rem;
+}
+.players-heading-container {
+  margin: 0.5rem;
+  padding: 0.1rem 0.5rem;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+}
+.players-heading {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0%;
+}
+.players-heading-link {
+  text-decoration: none;
+  color: black;
+  font-weight: bolder;
+}
+.form {
+  margin: 0.5rem 0.3rem;
+  padding: 0.1rem 0.5rem;
+}
+.view, .sort, .search, .cost {
+  margin: 1rem 0;
+}
+.search {
+  margin: 1rem 0;
+}
+.custom-select {
+  /*position: relative;
+  margin: 1rem 0;*/
+}
+.custom-select select {
+  /*display: none;*/ /* Hide original select element*/ 
+}
+select:after {
+  position: absolute;
+}
+.select-selected {
+  background-color: rgba(5, 240, 255, 100);
+}
+
+/* style the arrow inside the select element */
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 50%;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid black;
+  border-color: #000 transparent transparent transparent;
+}
+
+/* Point the arrow upwards when the select box is open(active) */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+}
+
+/* style the items(options), including the selected item */
+.select-items div, .select-selected {
+  color: #000;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+/* style items (options) */
+.select-items {
+  position: absolute;
+  background-color: rgba(5, 240, 255, 100);
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/* Hide the items when the select box is closed */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+label {
+  display: block;
+  font-weight: bolder;
+  margin: .2rem 0;
+}
+
+select, input {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+  outline: rgba(0, 0, 0, 0.1);
+}
+
+select:focus, input:focus {
+  border: 1px solid skyblue;
+}
+.table-one {
+  width: 100%;
+  border: none;
+  border-collapse: collapse;
+}
+.player-info {
+  padding: 0.5rem 0.2rem 0;
+  margin-bottom: 1rem;
+}
+.player-numbers {
+  padding: 0.5rem;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  column-gap: 1rem;
+  font-size: 0.9rem;
+  /*font-family: 'Montserrat';*/
+  border-bottom: 1px solid rgba(22, 22, 68, 0.1);
+  background: rgb(0 255 255 / 40%);
+  color: rgba(22, 22, 68, 1.0);
+}
+.player-numbers .number {
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.position-table {
+  font-style: italic;
+  overflow: hidden;
+}
+#goalkeepers thead {
+  background: #ebff00;
+  border: 1px solid transparent;
+}
+#defenders thead {
+  background: rgba(0, 255, 135, 100);
+  border: 1px solid transparent;
+}
+#midfielders thead {
+  background: rgba(5, 240, 255, 100);
+  border: 1px solid transparent;
+}
+#forwards thead {
+  background: rgba(233, 0, 82, 100);
+  border: 1px solid transparent;
+}
+.table-one th {
+  text-align: left;
+  padding: 0.5rem 0.2rem;
+}
+.table-one tr:not(tr:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+.player-cell .images {
+  margin-right: 0.3rem;
+}
+.player-cell img {
+  width: 30px;
+}
+.player-cell {
+  display: flex;
+  align-items: center;
+  padding: 0.2rem;
+  width: 80%;
+  margin: 0.3rem;
+}
+.player-cell.active {
+  border-color: rgba(233, 0, 82, 100);;
+}
+.player-cell-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Montserrat';
+  width: 110px;
+}
+.player-cell-info .name {
+  text-align: left;
+  text-align: -webkit-left;
+  font-weight: 700;
+  font-family: 'Montserrat Alternates', sans-serif;
 }
 
-.App-link {
-  color: #61dafb;
+.player-cell-details  {
+  display: flex;
+  margin-top: 0.2rem;
+}
+.name {
+  padding-left: 0.2rem;
+  margin-bottom: 0.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.team {
+  font-weight: bolder;
+  display: block;
+  margin-right: 0.5rem;
+}
+.position {
+  display: block;
+  margin-left: 0.3rem;
+}
+.price, .points {
+  display: inline-block;
+  padding-left: 0.3rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.price {
+  border-left: 1px solid rgba(0, 0, 0, 0.3);
+}
+option div {
+  border: 1px solid dimgray;
+}
+.button-controls {
+  display: flex;
+  justify-self: stretch;
+  padding: 1rem 0;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  background-color: rgba(0, 255, 255, 0.4);
+}
+.button-controls img, .prev_next img {
+  width: 25px;
+}
+.btn-table {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding: 0.2rem;
+  margin: 0.3rem 0;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn-dark {
+  padding: 0.8rem 0.5rem;
+  width: 100px;
+  font-weight: 700;
+  border-radius: 5px;
+  background-color: darkcyan;
+  opacity: 0.8;
+}
+.btn-controls {
+  color: rgba(0, 255, 255, 100);
+  outline: none;
+  border: none;
+  background: rgba(255, 255, 255, 1.0);
+  /*padding: 1rem 1rem;*/
+  margin: 0 0.2rem;
+  border-radius: 50%;
+  font-size: 0.7rem;
+}
+.pages {
+  padding: 0.2rem;
+  color: rgba(22, 22, 68, 1.0);
+}
+.pages .current {
+  font-weight: 700;
+}
+select option { 
+  padding: 1rem;
+ }
+ .search input {
+   display: block;
+   font-size: 16px;
+   font-family: 'Montserrat', 'Arial', sans-serif;
+   color: #444;
+   line-height: 1.3;
+   padding: .6rem 1.4rem .5rem .8rem;
+   width: 100%;
+   max-width: 100%;
+   box-sizing: border-box;
+   margin: 0;
+   border: 1px solid #aaa;
+   box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+   background-color: #fff;
+ }
+ .blur {
+   background-image: url('./static/search.svg');
+   background-repeat: no-repeat;
+   background-position: calc(100% - 3px) center;
+   background-size: 25px;
+ }
+ .info {
+   cursor: pointer;
+   padding-left: 3px;
+ }
+ .custom-select{
+   display: block;
+   font-family: 'Montserrat', 'Arial', sans-serif;
+   font-weight: 700;
+   line-height: 1.3;
+   padding: .6rem 1.4rem .5rem .8rem;
+   width: 100%;
+   max-width: 100%;
+   box-sizing: border-box;
+   margin: 0.5rem 0;
+   border: 1px solid #aaa;
+   box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+   /*border-radius: .5rem;*/
+   -moz-appearance: none;
+   -webkit-appearance: none;
+   appearance: none;
+   background-image: url('./static/chevron-down.svg');
+   background-repeat: no-repeat;
+   background-position: calc(100% - 3px) center;
+   background-size: 30px;
+   background-color: #fff;
+ }
+
+.custom-select-next {
+  width: 80px;
+}
+ .open {
+   background-image: url('./static/chevron-up.svg');
+   background-repeat: no-repeat;
+   background-position: calc(100% - 3px) center;
+   background-size: 30px;
+ }
+ .custom-select:hover {
+   border-color: #888;
+ }
+ .custom-select:focus {
+   border-color: #aaa;
+   box-shadow: 0 0 1px 1px rgba(59, 153, 252, .7);
+   color: #222;
+   outline: none;
+ }
+ .custom-select option {
+   font-weight: normal;
+ }
+
+.App {
+  text-align: center;
 }
