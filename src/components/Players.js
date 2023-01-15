@@ -1,8 +1,15 @@
+import { useState } from 'react'
 import lastPage from '../static/last_page.png'
 import firstPage from '../static/first_page.png'
 import prevPage from "../static/chevron_left.png"
 import nextPage from "../static/chevron_right.png"
 function Players() {
+
+    const [ sort, setSort ] = useState('totalPoints')
+
+    const onSort = (e) => {
+        setSort(e.target.value)
+    }
   return (
     
 	<div className="players-col">
@@ -23,10 +30,10 @@ function Players() {
                         </div>
                         <div className="sort">
                             <label>Sorted by</label>
-                            <select className="custom-select" id="sort_by">
-                            <option value="total_points">Total points</option>
-                            <option value="event_points">Round points</option>
-                        <option value="now_cost">Price</option>
+                            <select onChange={onSort} className="custom-select" id="sort_by">
+                            <option value="totalPoints">Total points</option>
+                            <option value="eventPoints">Round points</option>
+                        <option value="nowCost">Price</option>
                         <option>Team selected by %</option>
                         <option>Minutes played</option>
                         <option>Goals scored</option>
