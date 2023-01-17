@@ -11,9 +11,6 @@ function Fixtures() {
 					<span className="small">Fixtures</span>
 				</div>
 				<table className="ticker-table">
-					<tr>
-						<td><i>Loading...</i></td>
-					</tr>
 				</table>
 			</div>
 		</div>

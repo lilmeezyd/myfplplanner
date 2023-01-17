@@ -4,9 +4,7 @@ export const BootstrapstaticContext = createContext({
     teams: [],
     players: [],
     playerPosition: [],
-    events: [],
-    loadPlayers: () => {},
-    loadPrices: () => {}
+    events: []
 })
 
 function BootstrapstaticProvider({children}) {
@@ -34,18 +32,13 @@ function BootstrapstaticProvider({children}) {
         }
 
     }
-
-    function loadPlayers() {}
-    function loadPrices() {}
     
 
     const contextValue = {
         players: players,
         teams: teams,
         events: events,
-        playerPosition: playerPosition,
-        loadPlayers,
-        loadPrices
+        playerPosition: playerPosition
     }
 
     return (

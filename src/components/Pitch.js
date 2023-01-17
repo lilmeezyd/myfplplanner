@@ -3,19 +3,19 @@ import nextPage from "../static/chevron_right.png"
 
 function Pitch() {
   return (
-    <div class="transfers-col">
+    <div className="transfers-col">
 			<div>
 				<div className="details-one">
-					<div class="gw-buttonswrapper">
-						<div class="gw-buttons">
-							<button class="btn btn-fpl small prev_next" id="prevGameweek">
+					<div className="gw-buttonswrapper">
+						<div className="gw-buttons">
+							<button className="btn btn-fpl small prev_next" id="prevGameweek">
 								<img src={prevPage} alt="prev_page" />
 							</button>
 							<div id="deadline">
 								<h4 id="gameweekNum" className="large"></h4>
-								<div class="large">
+								<div className="large">
 									<h4 className="theading">Deadline In:</h4>
-									<div class="ttime small">
+									<div className="ttime small">
 										<div>
 											<span id="day"></span><span>Days</span>
 										</div>
@@ -31,7 +31,7 @@ function Pitch() {
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-fpl small prev_next" id="nextGameweek">
+							<button className="btn btn-fpl small prev_next" id="nextGameweek">
 								<img src={nextPage}  alt="next_page" />
 							</button>
 						</div>
