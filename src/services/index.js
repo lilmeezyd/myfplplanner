@@ -1,6 +1,6 @@
 
-const pageSize = 20
-let curPage = 1
+const pageSize = 10
+//let curPage = 1
 
 export const getMinMax = (players) => {
     let prices = []
@@ -15,12 +15,41 @@ export const getMinMax = (players) => {
     return { prices, minPrice, maxPrice }
 } 
 
-export const getPlayers = (players, sort, view) => {
-    const returnedPlayers = players.filter((player, idx) => {
-        let start = (curPage-1)*pageSize
-        let end = curPage*pageSize
-        if(idx >= start && idx < end) return true
-    })
+export const getPlayers = (players, sort, view, word, cutPrice) => {
+    let id
+    const filteredPlayers = []
+    if(view.startsWith('position')) {
+        id = +view.slice(-1)
+        filteredPlayers.push(...players.filter(x => x.element_type === id))
+    } else if(view.startsWith('team')) {
+        id = +view.slice(5)
+        filteredPlayers.push(...players.filter(x => x.team === id))
+    } else {
+        filteredPlayers.push(...players)
+    }
+    
+    const returnedPlayers = filteredPlayers
+                            .sort((x,y) => {
+                                if(x[sort]>y[sort]) return -1
+                                if(x[sort]<y[sort]) return 1
+                            })
+                            .filter(player => +(player.now_cost/10).toFixed(1)<=cutPrice)
+                            .filter(player => {
+                                if(player.web_name.toLowerCase().startsWith(word?.toLowerCase())) return true
+                            })
+
+    
+
+    return { returnedPlayers }
+}
+
+export const getArrangedPlayers = (players, curPage) => {
+    const returnedPlayers = players
+                            .filter((player, idx) => {
+                                let start = (curPage-1)*pageSize
+                                let end = curPage*pageSize
+                                if(idx >= start && idx < end) return true
+                            })
 
     const goalkeepers = returnedPlayers
     .filter((player => {
@@ -42,5 +71,8 @@ export const getPlayers = (players, sort, view) => {
         if(player.element_type === 4) return true
     }))
 
-    return { returnedPlayers, goalkeepers, defenders, midfielders, forwards}
+    return { goalkeepers, defenders, midfielders, forwards}
 }
+
+
+

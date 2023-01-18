@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
-import { getMinMax, getPlayers } from '../services/index'
+import { getMinMax, getPlayers, getArrangedPlayers, viewNext } from '../services/index'
 import lastPage from '../static/last_page.png'
 import firstPage from '../static/first_page.png'
 import prevPage from "../static/chevron_left.png"
@@ -11,22 +11,29 @@ function Players(props) {
     const fplElements = useContext(BootstrapstaticContext)
     const teams = fplElements.teams
     const playerPosition = fplElements.playerPosition
-    const [ sort, setSort ] = useState('totalPoints')
+    const [ sort, setSort ] = useState('total_points')
     const [ view, setView ] = useState('allPlayers')
-    const players = getPlayers(fplElements.players, sort, view).returnedPlayers
-    const goalkeepers = getPlayers(fplElements.players, sort, view).goalkeepers
-    const defenders = getPlayers(fplElements.players, sort, view).defenders
-    const midfielders = getPlayers(fplElements.players, sort, view).midfielders
-    const forwards = getPlayers(fplElements.players, sort, view).forwards
-    const prices = getMinMax(players).prices
+    const [ word, setWord ] = useState('')
+    const [ cutPrice, setCutPrice ] = useState(25)
+    const [ curPage, setCurPage ] = useState(1)
+    const players = getPlayers(fplElements.players, sort, view, word, cutPrice).returnedPlayers
+    const goalkeepers = getArrangedPlayers(players, curPage).goalkeepers
+    const defenders = getArrangedPlayers(players, curPage).defenders
+    const midfielders = getArrangedPlayers(players, curPage).midfielders
+    const forwards = getArrangedPlayers(players, curPage).forwards
+    const prices = getMinMax(fplElements.players).prices
     const minPrice = getMinMax(players).minPrice
     const maxPrice = getMinMax(players).maxPrice
         
-    //const [ cutPrice, setCutPrice ] = useState(maxPrice)
+    
 
 
     const onPrice = (e) => {
-        //setCutPrice(e.target.value)
+        setCutPrice(+e.target.value)
+    }
+
+    const onSearch = (e) => {
+        setWord(e.target.value)
     }
 
     const onSort = (e) => {
@@ -36,6 +43,23 @@ function Players(props) {
     const onView = (e) => {
         setView(e.target.value)
     }
+
+    const viewNextPage = () => {
+        setCurPage(curPage+1)
+    }
+    const viewPreviousPage = () => {
+        setCurPage(curPage-1)
+    }
+
+    const viewFirstPage = () => {
+        setCurPage(1)
+    }
+
+    const viewLastPage = () => {
+        setCurPage(Math.ceil(players.length/10))
+    }
+
+
   return (
     
 	<div className="players-col">
@@ -56,7 +80,7 @@ function Players(props) {
                                     {playerPosition.map((pPos, idx) => {
                                         let positionId = 'position_'+pPos.id
                                         return(
-                                            <option key={idx} value={positionId}>{pPos.singular_name}</option>
+                                            <option key={idx} value={positionId}>{pPos.singular_name}s</option>
                                         )
                                     }
                                      )}
@@ -74,9 +98,9 @@ function Players(props) {
                         <div className="sort">
                             <label>Sorted by</label>
                             <select onChange={onSort} className="custom-select" id="sort_by">
-                            <option value="totalPoints">Total points</option>
-                            <option value="eventPoints">Round points</option>
-                        <option value="nowCost">Price</option>
+                            <option value="total_points">Total points</option>
+                            <option value="event_points">Round points</option>
+                        <option value="now_cost">Price</option>
                         <option>Team selected by %</option>
                         <option>Minutes played</option>
                         <option>Goals scored</option>
@@ -102,11 +126,11 @@ function Players(props) {
                 </div>
                 <div className="search">
                     <label>Search</label>
-                    <input id="search" className="blur" type="text" name=""/>
+                    <input onChange={onSearch} id="search" className="blur" type="text" name=""/>
                 </div>
                 <div className="cost">
                     <label>Max cost</label>
-                    <div>Between <span id="pMin">{minPrice}</span> and <span id="pMax">{maxPrice}</span></div>
+                    <div>Between <span id="pMin">{minPrice.toFixed(1)}</span> and <span id="pMax">{maxPrice.toFixed(1)}</span></div>
                     <select onChange={onPrice} className="custom-select" id="cost_by">
                         {prices.map((price, idx) => 
                                 <option key={idx} value={price}>{price}</option>
@@ -120,8 +144,8 @@ function Players(props) {
 
 <div className="player-info">
     <div className="player-numbers">
-        <span className="number"></span>
-        <span className="numbers"></span>
+        <span className="number">{players.length}</span>
+        <span className="numbers">Players</span>
     </div>
     <div className="players-table small">
         { goalkeepers.length > 0 ? (<table className='table-one' id='goalkeepers'>
@@ -163,7 +187,7 @@ function Players(props) {
                         </button>
                     </td>
                     <td><span className="price">{(goalkeeper.now_cost/10).toFixed(1)}</span></td>
-                    <td><span className="points">{goalkeeper.total_points}</span></td>
+                    <td><span className="points">{sort === 'event_points' ? goalkeeper.event_points : goalkeeper.total_points}</span></td>
                 </tr>)
                 })}
             </tbody>
@@ -208,7 +232,7 @@ function Players(props) {
                         </button>
                     </td>
                     <td><span className="price">{(defender.now_cost/10).toFixed(1)}</span></td>
-                    <td><span className="points">{defender.total_points}</span></td>
+                    <td><span className="points">{sort === 'event_points' ? defender.event_points : defender.total_points}</span></td>
                 </tr>)
                 })}
             </tbody>
@@ -252,7 +276,7 @@ function Players(props) {
                         </button>
                     </td>
                     <td><span className="price">{(midfielder.now_cost/10).toFixed(1)}</span></td>
-                    <td><span className="points">{midfielder.total_points}</span></td>
+                    <td><span className="points">{sort === 'event_points' ? midfielder.event_points : midfielder.total_points}</span></td>
                 </tr>)
                 })}
             </tbody>
@@ -296,17 +320,17 @@ function Players(props) {
                         </button>
                     </td>
                     <td><span className="price">{(forward.now_cost/10).toFixed(1)}</span></td>
-                    <td><span className="points">{forward.total_points}</span></td>
+                    <td><span className="points">{sort === 'event_points' ? forward.event_points : forward.total_points}</span></td>
                 </tr>)
                 })}
             </tbody>
         </table>): ''}
     </div>
     <div className="button-controls">
-        <button className="btn btn-controls" id="firstPage">
+        <button onClick={viewFirstPage} className="btn btn-controls" id="firstPage">
             <img src={firstPage} alt="first_page"/>
         </button>
-        <button className="btn btn-controls" id="prevButton">
+        <button onClick={viewPreviousPage} className="btn btn-controls" id="prevButton">
             <img src={prevPage} alt="prev_page"/>
         </button>
         <div className="pages">
@@ -314,10 +338,10 @@ function Players(props) {
             <span>of</span>
             <span className="total_pages"></span>
         </div>
-        <button className="btn btn-controls" id="nextButton">
+        <button onClick={viewNextPage} className="btn btn-controls" id="nextButton">
             <img src={nextPage} alt="next_page"/>
         </button>
-        <button className="btn btn-controls" id="lastPage">
+        <button onClick={viewLastPage} className="btn btn-controls" id="lastPage">
             <img src={lastPage} alt="last_page"/>
         </button>
     </div>
