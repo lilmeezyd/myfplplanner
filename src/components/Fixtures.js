@@ -6,8 +6,10 @@ function Fixtures() {
 
 	const fplElements = useContext(BootstrapstaticContext)
 	const events = fplElements.events
-	const fixOptions = numberOfFixtures(events).fixOptions
-	const [ gws, setGws ] = useState('')
+	const teams = fplElements.teams
+	const [ gws, setGws ] = useState(38)
+	const fixOptions = numberOfFixtures(events, gws).fixOptions
+	const fixHeader = numberOfFixtures(events, gws).fixHeader
 
   return (
     <div className="fixtures-col">
@@ -23,9 +25,32 @@ function Fixtures() {
 							
 						})}
 					</select>
-					<span className="small">Gameweeks</span>
+					<span className="small">{gws === 1 ? 'Gameweek' : 'Gameweeks'}</span>
 				</div>
 				<table className="ticker-table">
+					<thead className="small">
+						<tr>
+							<th>Team</th>
+							{fixHeader.map((header, idx) => {
+								return (
+									<th key={idx}>GW{header.id}</th>
+								)
+							})}
+						</tr>
+					</thead>
+					<tbody className="small triple">
+						{teams.map((team, idx) => {
+							return(
+							<tr key={idx}>
+								<td>
+									<span className="ticker-image">
+										<img src={require(`../static/t${team.code}.png`)} alt={team.name} />
+									</span>
+									<span className="ticker-team">{team.name}</span>
+								</td>
+							</tr>)
+						})}
+					</tbody>
 				</table>
 			</div>
 		</div>
