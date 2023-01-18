@@ -1,11 +1,11 @@
-
-const pageSize = 10
 //let curPage = 1
 
 export const getMinMax = (players) => {
     let prices = []
-    let maxPrice = Math.max(...players.map(x => (x.now_cost/10).toFixed(1)))
-    let minPrice = Math.min(...players.map(x => (x.now_cost/10).toFixed(1)))
+    let maxPrice = players.length > 0 ? 
+    Math.max(...players.map(x => (x.now_cost/10).toFixed(1))) : 0
+    let minPrice = players.length > 0 ?  
+    Math.min(...players.map(x => (x.now_cost/10).toFixed(1))) : 0
     
     for(let i=maxPrice; i>=minPrice; i-=0.5) {
         prices.push(+(i.toFixed(1)))
@@ -43,7 +43,7 @@ export const getPlayers = (players, sort, view, word, cutPrice) => {
     return { returnedPlayers }
 }
 
-export const getArrangedPlayers = (players, curPage) => {
+export const getArrangedPlayers = (players, curPage, pageSize) => {
     const returnedPlayers = players
                             .filter((player, idx) => {
                                 let start = (curPage-1)*pageSize

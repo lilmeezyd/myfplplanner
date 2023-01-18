@@ -16,32 +16,38 @@ function Players(props) {
     const [ word, setWord ] = useState('')
     const [ cutPrice, setCutPrice ] = useState(25)
     const [ curPage, setCurPage ] = useState(1)
+    const pageSize = 30
     const players = getPlayers(fplElements.players, sort, view, word, cutPrice).returnedPlayers
-    const goalkeepers = getArrangedPlayers(players, curPage).goalkeepers
-    const defenders = getArrangedPlayers(players, curPage).defenders
-    const midfielders = getArrangedPlayers(players, curPage).midfielders
-    const forwards = getArrangedPlayers(players, curPage).forwards
+    const goalkeepers = getArrangedPlayers(players, curPage, pageSize).goalkeepers
+    const defenders = getArrangedPlayers(players, curPage, pageSize).defenders
+    const midfielders = getArrangedPlayers(players, curPage, pageSize).midfielders
+    const forwards = getArrangedPlayers(players, curPage, pageSize).forwards
     const prices = getMinMax(fplElements.players).prices
     const minPrice = getMinMax(players).minPrice
     const maxPrice = getMinMax(players).maxPrice
+    let totalPages = Math.ceil(players.length/pageSize)
         
     
 
 
     const onPrice = (e) => {
         setCutPrice(+e.target.value)
+        setCurPage(1)
     }
 
     const onSearch = (e) => {
         setWord(e.target.value)
+        setCurPage(1)
     }
 
     const onSort = (e) => {
         setSort(e.target.value)
+        setCurPage(1)
     }
 
     const onView = (e) => {
         setView(e.target.value)
+        setCurPage(1)
     }
 
     const viewNextPage = () => {
@@ -56,7 +62,7 @@ function Players(props) {
     }
 
     const viewLastPage = () => {
-        setCurPage(Math.ceil(players.length/10))
+        setCurPage(totalPages)
     }
 
 
@@ -145,7 +151,7 @@ function Players(props) {
 <div className="player-info">
     <div className="player-numbers">
         <span className="number">{players.length}</span>
-        <span className="numbers">Players</span>
+        <span className="numbers">{players.length === 1 ? 'Player' : 'Players'}</span>
     </div>
     <div className="players-table small">
         { goalkeepers.length > 0 ? (<table className='table-one' id='goalkeepers'>
@@ -327,21 +333,21 @@ function Players(props) {
         </table>): ''}
     </div>
     <div className="button-controls">
-        <button onClick={viewFirstPage} className="btn btn-controls" id="firstPage">
+        <button disabled={curPage === 1 ? true : false}  onClick={viewFirstPage} className="btn btn-controls" id="firstPage">
             <img src={firstPage} alt="first_page"/>
         </button>
-        <button onClick={viewPreviousPage} className="btn btn-controls" id="prevButton">
+        <button disabled={curPage === 1 ? true : false} onClick={viewPreviousPage} className="btn btn-controls" id="prevButton">
             <img src={prevPage} alt="prev_page"/>
         </button>
         <div className="pages">
-            <span className="current"></span>
+            <span className="current">{curPage}</span>
             <span>of</span>
-            <span className="total_pages"></span>
+            <span className="total_pages">{totalPages}</span>
         </div>
-        <button onClick={viewNextPage} className="btn btn-controls" id="nextButton">
+        <button disabled={curPage === totalPages ? true : false} onClick={viewNextPage} className="btn btn-controls" id="nextButton">
             <img src={nextPage} alt="next_page"/>
-        </button>
-        <button onClick={viewLastPage} className="btn btn-controls" id="lastPage">
+        </button> 
+        <button disabled={curPage === totalPages ? true : false} onClick={viewLastPage} className="btn btn-controls" id="lastPage">
             <img src={lastPage} alt="last_page"/>
         </button>
     </div>
