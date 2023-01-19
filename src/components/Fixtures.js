@@ -7,6 +7,7 @@ function Fixtures() {
 	const fplElements = useContext(BootstrapstaticContext)
 	const events = fplElements.events
 	const teams = fplElements.teams
+	const fixtures = fplElements.fixtures
 	const [ gws, setGws ] = useState(38)
 	const fixOptions = numberOfFixtures(events, gws).fixOptions
 	const fixHeader = numberOfFixtures(events, gws).fixHeader

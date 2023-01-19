@@ -4,7 +4,8 @@ export const BootstrapstaticContext = createContext({
     teams: [],
     players: [],
     playerPosition: [],
-    events: []
+    events: [],
+    fixtures: []
 })
 
 function BootstrapstaticProvider({children}) {
@@ -13,10 +14,25 @@ function BootstrapstaticProvider({children}) {
     const [teams, setTeams ] = useState([])
     const [events, setEvents ] = useState([])
     const [playerPosition, setPlayerPosition ] = useState([])
+    const [ fixtures, setFixtures ] = useState([])
 
     useEffect(() => {
         fetchData()
+        fetchFixtures()
+
+        
     }, [])
+
+    const fetchFixtures = async () => {
+        const url1 = `https://corsproxy.io/?https://fantasy.premierleague.com/api/fixtures/`
+        try {
+            const response = await fetch(url1)
+            const data = await response.json()
+            setFixtures(data)
+        } catch(error) {
+            console.log(error)
+        }
+    }
 
     const fetchData = async () => {
         const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/bootstrap-static/`
@@ -31,14 +47,15 @@ function BootstrapstaticProvider({children}) {
             console.log(error)
         }
 
-    }
+    } 
     
 
     const contextValue = {
         players: players,
         teams: teams,
         events: events,
-        playerPosition: playerPosition
+        playerPosition: playerPosition,
+        fixtures: fixtures
     }
 
     return (
