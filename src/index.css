@@ -1030,6 +1030,10 @@
 	table td span:first-child {
 		font-family: 'Montserrat Alternates', sans-serif;
 	}
+	span.opponent {
+		display:block;
+		line-height: 1.7;
+	}
 	.diff-2 {
 		background: darkgreen;
 		color: #fff;

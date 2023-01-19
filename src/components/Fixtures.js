@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
-import { numberOfFixtures } from '../services/fixtureService'
+import { numberOfFixtures, loadOpponents } from '../services/fixtureService'
 
 function Fixtures() {
 
@@ -41,6 +41,7 @@ function Fixtures() {
 					</thead>
 					<tbody className="small triple">
 						{teams.map((team, idx) => {
+							const opponents = loadOpponents(fixtures, team.id, gws).newTeamAandH
 							return(
 							<tr key={idx}>
 								<td>
@@ -49,6 +50,20 @@ function Fixtures() {
 									</span>
 									<span className="ticker-team">{team.name}</span>
 								</td>
+								{opponents.map((cell, idx) => {
+									return (<td key={idx}>
+										{cell.arr.map((x, idx) => {
+											let color = x.difficulty === 4 || x.difficulty === 5 ? 
+											'rgb(255,255,255)': 'rgb(0,0,0)'
+											let backgroundColor = x.difficulty === 2 ? 'rgb(1, 252, 122)' : 
+											x.difficulty === 3 ? 'rgb(231, 231, 231)' : x.difficulty === 4 ?
+											'rgb(255, 23, 81)' : x.difficulty === 5 ? 'rgb(128, 7, 45)' : 'rgb(0,0,0)'
+											let name = teams.filter(y => y.id === x.opponent)[0].short_name
+											return (
+											<span className='opponent' style={{color: color, backgroundColor: backgroundColor}} key={idx}>{name}{x.venue}</span>)
+										})}
+									</td>)
+								})}
 							</tr>)
 						})}
 					</tbody>
