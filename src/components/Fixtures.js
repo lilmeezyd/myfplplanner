@@ -41,7 +41,7 @@ function Fixtures() {
 					</thead>
 					<tbody className="small triple">
 						{teams.map((team, idx) => {
-							const opponents = loadOpponents(fixtures, team.id, gws).newTeamAandH
+							const opponents = loadOpponents(fixtures, events, team.id, gws).newTeamAandH
 							return(
 							<tr key={idx}>
 								<td>

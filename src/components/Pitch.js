@@ -1,18 +1,44 @@
+import { useContext, useState } from "react"
+import { getTime, getGameweeks } from "../services/timeService"
+import { BootstrapstaticContext } from "../BootstrapstaticContext"
 import prevPage from "../static/chevron_left.png"
 import nextPage from "../static/chevron_right.png"
 
 function Pitch() {
+
+	const fplElements = useContext(BootstrapstaticContext)
+	const events = fplElements.events
+	const curSize = 1
+	const [ curPage, setCurPage ] = useState(1)
+	const gameweeks = getGameweeks(events, curPage, curSize).gameweeks
+	const length = getGameweeks(events, curPage, curSize).length
+
+	const viewNextPage = () => {
+        setCurPage(curPage+1)
+    }
+    const viewPreviousPage = () => {
+        setCurPage(curPage-1)
+    }
+
+	let pageOneVisible = curPage === 1 ? 'hidden' : 'visible'
+	let lastPageVisible = curPage === length ? 'hidden' : 'visible'
+
   return (
     <div className="transfers-col">
 			<div>
 				<div className="details-one">
 					<div className="gw-buttonswrapper">
 						<div className="gw-buttons">
-							<button className="btn btn-fpl small prev_next" id="prevGameweek">
+							<button style={{visibility: pageOneVisible}} onClick={viewPreviousPage} className="btn btn-fpl small prev_next" id="prevGameweek">
 								<img src={prevPage} alt="prev_page" />
 							</button>
 							<div id="deadline">
-								<h4 id="gameweekNum" className="large"></h4>
+								{gameweeks.map((gameweek, idx) => {
+									return(
+									<h4 key={idx} id="gameweekNum" className="large">
+										{gameweek}
+									</h4>)
+								})}
 								<div className="large">
 									<h4 className="theading">Deadline In:</h4>
 									<div className="ttime small">
@@ -31,7 +57,7 @@ function Pitch() {
 									</div>
 								</div>
 							</div>
-							<button className="btn btn-fpl small prev_next" id="nextGameweek">
+							<button style={{visibility: lastPageVisible}} onClick={viewNextPage} className="btn btn-fpl small prev_next" id="nextGameweek">
 								<img src={nextPage}  alt="next_page" />
 							</button>
 						</div>

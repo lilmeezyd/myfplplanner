@@ -9,12 +9,12 @@ import BootstrapstaticProvider from './BootstrapstaticContext';
 function App() {
   return (
     <>
-      <Header />
-      <BootstrapstaticProvider>
-        <Main />
-        <Fixtures />
-      </BootstrapstaticProvider>
+    <BootstrapstaticProvider>
+      <Header />  
+      <Main />
+      <Fixtures />
       <Footer />
+      </BootstrapstaticProvider>
     </>
   );
 }

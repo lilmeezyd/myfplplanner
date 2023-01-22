@@ -9,7 +9,7 @@ function Footer() {
                 </svg>
             </a>
 		</div>
-		<p>Copyright &copy; Fpl Captain 2022</p>
+		<p>Copyright &copy; Fpl Captain {new Date().getFullYear()}</p>
 	</footer>
   )
 }

@@ -5,7 +5,10 @@ export const BootstrapstaticContext = createContext({
     players: [],
     playerPosition: [],
     events: [],
-    fixtures: []
+    fixtures: [],
+    managerInfo: [],
+    managerId: 0,
+    getManagerInfo: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -15,13 +18,32 @@ function BootstrapstaticProvider({children}) {
     const [events, setEvents ] = useState([])
     const [playerPosition, setPlayerPosition ] = useState([])
     const [ fixtures, setFixtures ] = useState([])
+    const [ managerId, setManagerId ] = 
+    useState(localStorage.getItem('managerId') === null ? 0 : localStorage.getItem('managerId'))
+    const [ managerInfo, setManagerInfo ] = useState([])
+
+    useEffect(() => {
+        const fetchManagerInfo = async () => {
+            const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/`
+            try {
+                const response = await fetch(url)
+                const data = await response.json()
+                setManagerInfo(data)
+            } catch(error) {
+                console.log(error)
+            }
+        }
+         {managerId > 0 && fetchManagerInfo()}
+
+    }, [managerId])
 
     useEffect(() => {
         fetchData()
         fetchFixtures()
 
-        
     }, [])
+
+    
 
     const fetchFixtures = async () => {
         const url1 = `https://corsproxy.io/?https://fantasy.premierleague.com/api/fixtures/`
@@ -48,6 +70,10 @@ function BootstrapstaticProvider({children}) {
         }
 
     } 
+
+    const getManagerInfo = (id) => {
+        setManagerId(id)
+    }
     
 
     const contextValue = {
@@ -55,7 +81,10 @@ function BootstrapstaticProvider({children}) {
         teams: teams,
         events: events,
         playerPosition: playerPosition,
-        fixtures: fixtures
+        fixtures: fixtures,
+        managerId: managerId,
+        managerInfo: managerInfo,
+        getManagerInfo
     }
 
     return (

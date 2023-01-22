@@ -12,10 +12,12 @@ export const numberOfFixtures = (events, gws) => {
     return { fixOptions, fixHeader }
 }
 
-export const loadOpponents = (fixtures, teamId, gws) => {
+export const loadOpponents = (fixtures, events, teamId, gws) => {
 
-    const teamA = fixtures.filter(fix => fix.team_a === teamId && !fix.finished && fix.event !== null)
-    const teamH = fixtures.filter(fix => fix.team_h === teamId && !fix.finished && fix.event !== null)
+    const eventIds = events.filter(event => new Date(event.deadline_time) > new Date()).map(x => x.id)
+
+    const teamA = fixtures.filter(fix => fix.team_a === teamId && !fix.finished && fix.event !== null && eventIds.includes(fix.event))
+    const teamH = fixtures.filter(fix => fix.team_h === teamId && !fix.finished && fix.event !== null && eventIds.includes(fix.event))
     const teamHome = []
     const teamAway = []
 
