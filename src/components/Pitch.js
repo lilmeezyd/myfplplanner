@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { getTime, getGameweeks } from "../services/timeService"
+import { getGameweeks } from "../services/timeService"
 import { BootstrapstaticContext } from "../BootstrapstaticContext"
 import prevPage from "../static/chevron_left.png"
 import nextPage from "../static/chevron_right.png"
@@ -12,6 +12,10 @@ function Pitch() {
 	const [ curPage, setCurPage ] = useState(1)
 	const gameweeks = getGameweeks(events, curPage, curSize).gameweeks
 	const length = getGameweeks(events, curPage, curSize).length
+	const countdowns = getGameweeks(events, curPage, curSize).countdowns
+	const [ showTransfers, setShowTransfers ] = useState(true)
+	const [ showTransfersMade, setShowTransfersMade ] = useState(false)
+	const [ showChips, setShowChips ] = useState(false)
 
 	const viewNextPage = () => {
         setCurPage(curPage+1)
@@ -20,8 +24,30 @@ function Pitch() {
         setCurPage(curPage-1)
     }
 
+	const showTransfersDiv = () => {
+		setShowTransfers(true)
+		if(showChips) {
+			setShowChips(false) 
+		}
+	}
+
+	const showPlayersOut = () => {
+		setShowTransfersMade(!showTransfersMade)	
+	}
+
+	const showChipsDiv = () => {
+		setShowChips(true)
+		if(showTransfers) {
+			setShowTransfers(false) 
+		}
+		if(showTransfersMade) {
+			setShowTransfersMade(false)
+		}
+	}
+
 	let pageOneVisible = curPage === 1 ? 'hidden' : 'visible'
 	let lastPageVisible = curPage === length ? 'hidden' : 'visible'
+	let tabBorder = 'rgba(22, 22, 68, 1.0) 4px solid'
 
   return (
     <div className="transfers-col">
@@ -41,20 +67,28 @@ function Pitch() {
 								})}
 								<div className="large">
 									<h4 className="theading">Deadline In:</h4>
-									<div className="ttime small">
-										<div>
-											<span id="day"></span><span>Days</span>
-										</div>
-										<div>
-											<span id="hour"></span><span>Hrs</span>
-										</div>
-										<div>
-											<span id="minute"></span><span>Mins</span>
-										</div>
-										<div>
-											<span id="second"></span><span>Secs</span>
-										</div>
-									</div>
+									{countdowns.map((countdown, idx) => {
+										return (
+											<div key={idx} className="ttime small">
+												<div>
+													<span id="day">{countdown.days}</span>
+													<span>Days</span>
+												</div>
+												<div>
+													<span id="hour">{countdown.hours}</span>
+													<span>Hrs</span>
+												</div>
+												<div>
+													<span id="minute">{countdown.minutes}</span>
+													<span>Mins</span>
+												</div>
+												<div>
+													<span id="second">{countdown.seconds}</span>
+													<span>Secs</span>
+												</div>
+											</div>
+											)
+										})}
 								</div>
 							</div>
 							<button style={{visibility: lastPageVisible}} onClick={viewNextPage} className="btn btn-fpl small prev_next" id="nextGameweek">
@@ -83,24 +117,24 @@ function Pitch() {
 						</div>
 					</div>
 					<div className="btn-displayer">
-						<div id="transfer" className="tab-item tab-border">
+						<div style={{borderBottom: showTransfers && tabBorder}} onClick={showTransfersDiv} id="transfer"  className="tab-item">
 							<p className="large">Transfers</p>
 						</div>
-						<div id="chip" className="tab-item">
+						<div style={{borderBottom: showChips && tabBorder}}  onClick={showChipsDiv} id="chip" className='tab-item'>
 							<p className="large">Chips</p>
 						</div>
 					</div>
-					<div id="transfer-tab"  className="upper-buttons button-item show">
-						<button className="btn btn-block show-fpl btn-fpl small">Transfers</button>
+					{showTransfers && <div id="transfer-tab"  className="upper-buttons button-item show">
+						<button onClick={showPlayersOut} className="btn btn-block show-fpl btn-fpl small">Transfers</button>
 						<button className="btn btn-block reset btn-fpl small">Reset</button>
-					</div>
-					<div id="chip-tab"  className="chip-buttons button-item">
+					</div>}
+					{showChips && <div id="chip-tab"  className="chip-buttons button-item">
 						<button className="btn btn-block btn-chip small" id="wcard">Wildcard</button>
 						<button className="btn btn-block btn-chip small" id="bbench">Bench Boost</button>
 						<button className="btn btn-block btn-chip small" id="tcap">Triple Captain</button>
 						<button className="btn btn-block btn-chip small" id="fhit">Free Hit</button>
-					</div>
-					<div className="transfer-rows">
+					</div>}
+					{showTransfersMade && <div className="transfer-rows">
 						<div className="transfer-out-wrapper">
 							<h4 className="small">Transfer Out</h4>
 							<div className="transfer-out"></div>
@@ -109,22 +143,22 @@ function Pitch() {
 							<h4 className="small">Transfer In</h4>
 							<div className="transfer-in"></div>
 						</div>
-					</div>
+					</div>}
 					<div className="message small"></div>
 				</div>
 				<div className="field">
 					<div className="pitch">
 						<div className="tname-details large">
 							<span className="theading">Name</span>
-							<h4 className="tname"></h4>
+							<h4 className="tname">{fplElements.managerInfo.name}</h4>
 						</div>
 						<div className="trank-details large">
 							<span className="theading">Overall Rank</span>
 							<div>
-								<h4 className="trank"></h4>
-								<div className="arrow">
-								
-							</div>
+								<h4 className="trank">
+									{fplElements.managerInfo.summary_overall_rank}
+								</h4>
+								<div className="arrow"></div>
 							</div>
 						</div>
                         

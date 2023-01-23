@@ -234,6 +234,7 @@
 		grid-row: 1/2;*/
 	}
 	.transfer-rows {
+		display: flex;
 		margin-top: 1rem;
 		width: 100%;
 		height: fit-content;
@@ -243,7 +244,6 @@
 		column-gap: 0.5rem;
 		background: rgba(0, 139, 139, 0.5);
 		border-radius: 10px;
-		display: none;
 	}
 	.transfer-rows h4 {
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -1213,10 +1213,10 @@
 	.btn-displayer > div:hover {
 		cursor: pointer;
 	}
-	.tab-border {
+	/*.tab-border {
 	    border-bottom: rgba(22, 22, 68, 1.0) 4px solid;
 	    
-	}
+	}*/
 	.btn-chip {
 		background: linear-gradient(300deg, rgba(0, 229, 229, 0.56) 15.54%, 
 	    	rgba(0, 229, 0, 0.192) 60.23%, rgba(0, 229, 229, 8e-5) 100%);
@@ -1233,7 +1233,7 @@
 		opacity: 0.7;
 	}
 	.upper-buttons, .chip-buttons  {
-		display: none;
+		display: flex;
 		align-items: center;
 		margin: auto;
 		width: 80%;
