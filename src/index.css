@@ -1415,13 +1415,13 @@
 		padding: 0.2rem;
 	}
 	.ticker-team {
-		min-width: 200px;
+		/*min-width: 200px;*/
 		padding: 0.2rem;
 		text-align: left;
 	}
 	.ticker-image img {
-		width: 40px;
-		height: 40px;
+		width: 20px;
+		height: 25px;
 	}
 	.ticker-table tr {
 		border: 1px solid rgba(22, 22, 68, 0.2);
@@ -1483,8 +1483,8 @@
 			display: none;
 		}
 		.ticker-image img {
-			width: 28px;
-			height: 28px;
+			width: 16px;
+			height: 20px;
 		}
 		.ticker-table tbody td:first-child {
 			max-width:200px;

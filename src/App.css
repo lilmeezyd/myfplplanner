@@ -177,6 +177,13 @@ select:focus, input:focus {
 }
 .player-cell img {
   width: 30px;
+  height: 40px;
+}
+@media (max-width: 575px) {
+  .player-cell img {
+    width: 25px;
+    height: 33px;
+  }
 }
 .player-cell {
   display: flex;

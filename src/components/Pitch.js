@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import { getGameweeks } from "../services/timeService"
 import { BootstrapstaticContext } from "../BootstrapstaticContext"
 import prevPage from "../static/chevron_left.png"
@@ -10,13 +10,23 @@ function Pitch() {
 	const events = fplElements.events
 	const curSize = 1
 	const [ curPage, setCurPage ] = useState(1)
+	//const [ countdowns, setCoundowns ] = useState([])
 	const gameweeks = getGameweeks(events, curPage, curSize).gameweeks
 	const length = getGameweeks(events, curPage, curSize).length
 	const countdowns = getGameweeks(events, curPage, curSize).countdowns
 	const [ showTransfers, setShowTransfers ] = useState(true)
 	const [ showTransfersMade, setShowTransfersMade ] = useState(false)
 	const [ showChips, setShowChips ] = useState(false)
+	
+	/*useEffect(() => {
+		setInterval(() => {
+		setCoundowns(getGameweeks(events, curPage, curSize).countdowns)
+	}, 100)
+	}, [])
 
+	const getCountdownArray = () => {
+		setCoundowns(getGameweeks(events, curPage, curSize).countdowns)
+	}*/
 	const viewNextPage = () => {
         setCurPage(curPage+1)
     }

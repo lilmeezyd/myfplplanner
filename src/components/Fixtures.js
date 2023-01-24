@@ -31,7 +31,7 @@ function Fixtures() {
 				<table className="ticker-table">
 					<thead className="small">
 						<tr>
-							<th>Team</th>
+							<th></th>
 							{fixHeader.map((header, idx) => {
 								return (
 									<th key={idx}>GW{header.id}</th>
