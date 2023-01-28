@@ -321,19 +321,19 @@
 	/*.btn-details img {
 		width: 65px;
 	}*/
-	[size="image"] {
+	.image_pic {
 		width: 55px;
 		height: 65px;
 	}
 	@media(max-width: 620px) {
-		[size="image"] {
+		.image_pic {
 			width: 46.54px;
 			/*height: 72.5px;*/
 			height: 55px;
 		}
 	}
 	@media(max-width: 515px) {
-		[size="image"] {
+		.image_pic {
 			width: 38.08px;
 			/*height: 59.3px;*/
 			height: 45px;
@@ -1654,3 +1654,10 @@
 		border-radius: .3rem;
 		font-size: 1.2rem;
 	}*/
+	.loader {
+		font-weight: 900;
+		background: #fff;
+		width: fit-content;
+		padding: 1rem;
+		margin: auto;
+	}

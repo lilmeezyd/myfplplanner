@@ -105,3 +105,8 @@ const fixtureHeader = (events, fix, gws) => {
 	    	.filter((event, key) => key <= (fix-1))
             .slice(0, gws)
 }
+
+export const loadPlayerOpponents = (opponents, curPage) => {
+    const playerFix = opponents.slice(curPage-1, 3+(curPage-1))
+    return { playerFix }
+}
