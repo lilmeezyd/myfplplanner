@@ -69,6 +69,20 @@ export const loadOpponents = (fixtures, events, teamId, gws) => {
 
     
     const teamAandH = [...teamHome, ...teamAway]
+    const teamAandHIds = teamAandH.map(x => x.event)
+    const blankIds = eventIds.filter(x => !teamAandHIds.includes(x))
+    const blankEvents = []
+
+    blankIds.length && blankIds.forEach(x => {
+        const arr = {}
+        arr.event = x
+        arr.opponent = ''
+        arr.venue = ''
+        arr.difficulty = ''
+        blankEvents.push(arr)
+    })
+
+    teamAandH.push(...blankEvents)
 
     teamAandH.sort((x,y) => {
         if(x['event'] > y['event']) return 1
@@ -107,6 +121,6 @@ const fixtureHeader = (events, fix, gws) => {
 }
 
 export const loadPlayerOpponents = (opponents, curPage) => {
-    const playerFix = opponents.slice(curPage-1, 3+(curPage-1))
+    const playerFix = opponents.slice(curPage-1, 1+(curPage-1))
     return { playerFix }
 }
