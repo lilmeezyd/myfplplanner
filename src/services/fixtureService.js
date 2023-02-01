@@ -74,13 +74,18 @@ export const loadOpponents = (fixtures, events, teamId, gws) => {
     const blankEvents = []
 
     blankIds.length && blankIds.forEach(x => {
-        const arr = {}
-        arr.event = x
-        arr.opponent = ''
-        arr.venue = ''
-        arr.difficulty = ''
-        blankEvents.push(arr)
+        const obj = {}
+        const obj1 = {}
+        const arr = []
+        obj.event = x
+        obj1.opponent = 0
+        obj1.venue = ''
+        obj1.difficulty = ''
+        arr.push(obj1)
+        obj.arr = arr
+        blankEvents.push(obj)
     })
+
 
     teamAandH.push(...blankEvents)
 

@@ -475,13 +475,9 @@
 		bottom: 0;
 		width: 100%;
 		height: 40%;*/
-	}
+	} 
 	.bench {
-		background: linear-gradient(
-	 		rgb(0, 229, 229) 0%,
-	 		rgb(200, 229, 229) 40%,
-	 		rgb(230, 235, 235) 40%,
-	 		rgb(0, 229, 229) 100%);
+		background: rgba(0, 0, 0, 0.4);
 	}
 	.bench_boost {
 		background: rgba(13, 122, 86, 1);
