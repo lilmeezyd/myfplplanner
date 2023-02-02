@@ -76,7 +76,7 @@ function SquadPlayer(props) {
                         </svg>
                 </button>
                                 </div>
-                                </div>
+                                </div> 
     </div>
 
     {show && <div onClick={handleClose} className="playerpopup"></div>}

@@ -44,7 +44,9 @@ export const getPicks = (players, picks, curPage, curSize) => {
         if(a.position < b.position) return -1
         if(a.position > b.position) return 1
     })
+
+    const itb = returnedPicks[0].bank
     
-    return { goalkeeper, defenders, midfielders, forwards, benched }
+    return { goalkeeper, defenders, midfielders, forwards, benched, itb }
     
 }

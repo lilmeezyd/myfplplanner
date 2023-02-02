@@ -16,7 +16,9 @@ function Pitch() {
 	const fixtures = fplElements.fixtures
 	const players = fplElements.players
 	const picks = fplElements.picks
+	const transferLogic = fplElements.transferLogic
 	const playerPosition = fplElements.playerPosition
+	const chips = fplElements.chips
 	//const history = fplElements.managerHistory
 	const curSize = 1
 	const [ curPage, setCurPage ] = useState(1)
@@ -115,7 +117,8 @@ function Pitch() {
 							</div>
 							<div className="free-transfers large">
 								<h4 title="Free Transfers large">FT</h4>
-								<span className="transfer-number">N/A</span>
+								{transferLogic && 
+								<span className="transfer-number">{transferLogic.fts}</span>}
 							</div>
 							<div className="cost-transfers large">
 								<h4 title="Transfer Cost large">TC</h4>
@@ -123,7 +126,8 @@ function Pitch() {
 							</div>
 							<div className="remain large">
 								<h4 className="large">Remaining Budget</h4>
-								<span className="remain-budget">N/A</span>
+								{players.length && picks.length && fixtures.length && events.length && 
+								<span className="remain-budget">{getPicks(players, picks, curPage, curSize).itb}</span>}
 							</div>
 						</div>
 					</div>
@@ -140,10 +144,34 @@ function Pitch() {
 						<button className="btn btn-block reset btn-fpl small">Reset</button>
 					</div>}
 					{showChips && <div id="chip-tab"  className="chip-buttons button-item">
-						<button className="btn btn-block btn-chip small" id="wcard">Wildcard</button>
-						<button className="btn btn-block btn-chip small" id="bbench">Bench Boost</button>
-						<button className="btn btn-block btn-chip small" id="tcap">Triple Captain</button>
-						<button className="btn btn-block btn-chip small" id="fhit">Free Hit</button>
+						<button className="btn btn-block btn-chip small" id="wcard">
+							Wildcard&nbsp;{chips.wildcard.event === null ? '' : 'Played'} 
+							{chips.wildcard.used && 
+								<div className="gw">
+								  GW&nbsp;{chips.wildcard.event}
+							</div>}
+						</button>
+						<button className="btn btn-block btn-chip small" id="bbench">
+							Bench Boost&nbsp;{chips.bboost.event === null ? '' : 'Played'} 
+							{chips.bboost.used && 
+								<div className="gw">
+								  GW&nbsp;{chips.bboost.event}
+							</div>}
+							</button>
+						<button className="btn btn-block btn-chip small" id="tcap">
+							Triple Captain&nbsp;{chips.tcap.event === null ? '' : 'Played'}
+							{chips.tcap.used && 
+								<div className="gw">
+								  GW&nbsp;{chips.tcap.event}
+							</div>} 
+						</button>
+						<button className="btn btn-block btn-chip small" id="fhit">
+							Free Hit&nbsp;{chips.freehit.event === null ? '' : 'Played'} 
+							{chips.freehit.used && 
+								<div className="gw">
+								  GW&nbsp;{chips.freehit.event}
+							</div>}
+						</button>
 					</div>}
 					{showTransfersMade && <div className="transfer-rows">
 						<div className="transfer-out-wrapper">

@@ -289,7 +289,7 @@ function BootstrapstaticProvider({children}) {
                 
                 bank = (data.entry_history.bank/10).toFixed(1)
 				value = (data.entry_history.value/10).toFixed(1)
-                let totalBudget = newPicks.reduce((x,y) => x+(+y.selling_price),0) + +bank
+                let totalBudget = (newPicks.reduce((x,y) => x+(+y.selling_price),0) + +bank).toFixed(1)
 
 
                 for(let i = eventId+1; i <= 38; i++) {
