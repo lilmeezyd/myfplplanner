@@ -22,6 +22,10 @@ function SquadPlayer(props) {
 		}
 	},[])
 
+    const onTransfer = (id) => {
+        console.log(id)
+    }
+
     let fromTop = (top-175)/2
 	let fromLeft = (left-320)/2
 
@@ -75,6 +79,14 @@ function SquadPlayer(props) {
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
                         </svg>
                 </button>
+                <div className="captain">
+                    {playerPos.is_captain ? 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" role="img" focusable="false" className="captain">
+                            <title>Captain</title><circle cx="12" cy="12" r="12" aria-hidden="true"></circle>
+	<path d="M15.0769667,14.370341 C14.4472145,15.2780796 13.4066319,15.8124328 12.3019667,15.795341 C10.4380057,15.795341 8.92696674,14.284302 8.92696674,12.420341 C8.92696674,10.55638 10.4380057,9.045341 12.3019667,9.045341 C13.3988206,9.06061696 14.42546,9.58781014 15.0769667,10.470341 L17.2519667,8.295341 C15.3643505,6.02401882 12.1615491,5.35094208 9.51934028,6.67031017 C6.87713147,7.98967826 5.49079334,10.954309 6.17225952,13.8279136 C6.8537257,16.7015182 9.42367333,18.7279285 12.3769667,18.720341 C14.2708124,18.7262708 16.0646133,17.8707658 17.2519667,16.395341 L15.0769667,14.370341 Z" fill="#fff" aria-hidden="true"></path>
+	</svg> : playerPos.is_vice_captain ? <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" role="img" focusable="false" className="vice-captain">
+	<title>Captain</title><circle cx="12" cy="12" r="12" aria-hidden="true"></circle><polygon points="13.5 .375 8.925 12.375 4.65 12.375 0 .375 3.15 .375 6.75 10.05 10.35 .375" transform="translate(5.25 6)" fill="#fff" aria-hidden="true"></polygon>
+	</svg> : ''}</div>
                                 </div>
                                 </div> 
     </div>
@@ -87,7 +99,7 @@ function SquadPlayer(props) {
             <button onClick={handleClose} className="btn-info btn-close btn-danger"><svg style={{color: 'white'}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="white"></path> </svg></button>
         </div>
         <div className="infobuttons">
-            <button className="btn-info btn-info-block btn-danger transfer">Transfer</button>
+            <button onClick={onTransfer(playerPos.element)} className="btn-info btn-info-block btn-danger transfer">Transfer</button>
             <button className="btn-info btn-info-block btn-warn substitute"></button>
             <button className="btn-info btn-info-block btn-cap ">Make Captain</button>
             <button className="btn-info btn-info-block btn-vcap " >Make Vice Captain</button>

@@ -19,6 +19,7 @@ function Pitch() {
 	const transferLogic = fplElements.transferLogic
 	const playerPosition = fplElements.playerPosition
 	const chips = fplElements.chips
+	const eventId = fplElements.eventId
 	//const history = fplElements.managerHistory
 	const curSize = 1
 	const [ curPage, setCurPage ] = useState(1)
@@ -29,12 +30,49 @@ function Pitch() {
 	const [ showTransfers, setShowTransfers ] = useState(true)
 	const [ showTransfersMade, setShowTransfersMade ] = useState(false)
 	const [ showChips, setShowChips ] = useState(false)
+	const [ disableChips, setDisableChips ] = useState({
+		wildcard: false,
+		bboost: false,
+		freehit: false,
+		tcap: false
+	})
 	
 	const viewNextPage = () => {
         setCurPage((curPage) => curPage+1)
-    }
+		if(chips.wildcard.used && (+chips.wildcard.event < +eventId+curPage || +chips.wildcard.event > +eventId+curPage)){
+			setDisableChips({
+				...disableChips,
+				freehit: false,
+				tcap: false,
+				bboost: false
+			})
+		} 
+		if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage) {
+			setDisableChips({
+				...disableChips,
+				freehit: true,
+				tcap: true,
+				bboost: true
+			})
+		}}
     const viewPreviousPage = () => {
         setCurPage((curPage) => curPage-1)
+		if(chips.wildcard.used && (+chips.wildcard.event < +eventId+curPage || +chips.wildcard.event > +eventId+curPage)){
+			setDisableChips({
+				...disableChips,
+				freehit: false,
+				tcap: false,
+				bboost: false
+			})
+		} 
+		if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage) {
+			setDisableChips({
+				...disableChips,
+				freehit: true,
+				tcap: true,
+				bboost: true
+			})
+		}
     }
 
 	const showTransfersDiv = () => {
@@ -57,6 +95,21 @@ function Pitch() {
 			setShowTransfersMade(false)
 		}
 	}
+
+	const setWildCard = () => {
+		let eventPlayed = chips.wildcard.event === null ? eventId+curPage : null
+		let isUsed = !chips.wildcard.used
+		fplElements.updateWildcard(isUsed, eventPlayed)
+		setDisableChips({
+			...disableChips,
+			freehit: !disableChips.freehit,
+			bboost: !disableChips.bboost,
+			tcap: !disableChips.tcap
+		})
+	}
+	const setBenchBoost = () => {}
+	const setTriple = () => {}
+	const setFreeHit = () => {}
 
 	let pageOneVisible = curPage === 1 ? 'hidden' : 'visible'
 	let lastPageVisible = curPage === length ? 'hidden' : 'visible'
@@ -144,28 +197,39 @@ function Pitch() {
 						<button className="btn btn-block reset btn-fpl small">Reset</button>
 					</div>}
 					{showChips && <div id="chip-tab"  className="chip-buttons button-item">
-						<button className="btn btn-block btn-chip small" id="wcard">
-							Wildcard&nbsp;{chips.wildcard.event === null ? '' : 'Played'} 
-							{chips.wildcard.used && 
+						<button 
+						onClick={setWildCard} 
+						disabled={(chips.wildcard.used && +chips.wildcard.event < +eventId+curPage) || 
+							disableChips.wildcard === true ? true : false} 
+						style={{opacity: chips.wildcard.used && +chips.wildcard.event < +eventId+curPage && 0.7,
+						background: (+chips.wildcard.event) === +eventId+curPage && "rgb(22, 22, 68)",
+						color: (+chips.wildcard.event) === +eventId+curPage && 'white'}} 
+						className="btn btn-block btn-chip small" id="wcard">
+							Wildcard&nbsp;
+							{+chips.wildcard.event < +eventId+curPage && chips.wildcard.event !== null ? 'Played' : 
+							+chips.wildcard.event === +eventId+curPage ? 'Active' : ''} 
+							{chips.wildcard.used && +chips.wildcard.event <= +eventId+curPage &&
 								<div className="gw">
 								  GW&nbsp;{chips.wildcard.event}
 							</div>}
 						</button>
-						<button className="btn btn-block btn-chip small" id="bbench">
+						<button onClick={setBenchBoost} 
+						disabled={(chips.bboost.used && +chips.bboost.event < +eventId+curPage) || 
+							disableChips.bboost === true ? true : false}  style={{opacity: chips.bboost.used && 0.7}} className="btn btn-block btn-chip small" id="bbench">
 							Bench Boost&nbsp;{chips.bboost.event === null ? '' : 'Played'} 
 							{chips.bboost.used && 
 								<div className="gw">
 								  GW&nbsp;{chips.bboost.event}
 							</div>}
 							</button>
-						<button className="btn btn-block btn-chip small" id="tcap">
+						<button onClick={setTriple} disabled={chips.tcap.used && true} style={{opacity: chips.tcap.used && 0.7}} className="btn btn-block btn-chip small" id="tcap">
 							Triple Captain&nbsp;{chips.tcap.event === null ? '' : 'Played'}
 							{chips.tcap.used && 
 								<div className="gw">
 								  GW&nbsp;{chips.tcap.event}
 							</div>} 
 						</button>
-						<button className="btn btn-block btn-chip small" id="fhit">
+						<button onClick={setFreeHit} disabled={chips.freehit.used && true} style={{opacity: chips.freehit.used && 0.7}} className="btn btn-block btn-chip small" id="fhit">
 							Free Hit&nbsp;{chips.freehit.event === null ? '' : 'Played'} 
 							{chips.freehit.used && 
 								<div className="gw">

@@ -17,7 +17,8 @@ export const BootstrapstaticContext = createContext({
     transfers: [],
     managerId: 0,
     eventId: 0,
-    getManagerInfo: () => {}
+    getManagerInfo: () => {},
+    updateWildcard: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -72,12 +73,20 @@ function BootstrapstaticProvider({children}) {
                 const response = await fetch(url)
                 const data = await response.json()
                 setManagerHistory(data)
-                let wildcard = data.chips.some(x => x.name === 'wildcard') ? true : false
+                let wildcardLength = data.chips.filter(x => x.name === 'wildcard').length
+                let wildcard = data.chips.some(x => x.name === 'wildcard') && wildcardLength === 2 ? true : 
+                wildcardLength === 1 && data.chips.filter(x => x.name === 'wildcard')[0].time > new Date('2022/12/26/14:00').toISOString() ? true : false
+
                 let bboost = data.chips.some(x => x.name === 'bboost') ? true : false
                 let freehit = data.chips.some(x => x.name === 'freehit') ? true : false
                 let tcap = data.chips.some(x => x.name === '3xc') ? true : false
+
+                let wEvent = wildcardLength === 2 ? 
+                data.chips.filter(x => x.name === 'wildcard')[1].event : 
+                wildcardLength === 1 && data.chips.filter(x => x.name === 'wildcard')[0].time > new Date('2022/12/26/14:00').toISOString() ? 
+                data.chips.filter(x => x.name === 'wildcard')[0].event : null
         
-                let wEvent = wildcard === true ? data.chips.filter(x => x.name === 'wildcard')[0].event : null
+                //let wEvent = wildcard === true ? data.chips.filter(x => x.name === 'wildcard')[0].event : null
                 let bEvent = bboost === true ? data.chips.filter(x => x.name === 'bboost')[0].event : null
                 let fEvent = freehit === true ? data.chips.filter(x => x.name === 'freehit')[0].event : null
                 let tEvent = tcap === true ? data.chips.filter(x => x.name === '3xc')[0].event : null
@@ -87,6 +96,10 @@ function BootstrapstaticProvider({children}) {
                     bboost: {used: bboost, event: bEvent},
                     freehit: {used: freehit, event: fEvent},
                     tcap: {used: tcap, event: tEvent}})
+                
+                
+                localStorage.removeItem('chips')
+                localStorage.setItem('chips', JSON.stringify(chips))    
                 
                 const { current } = data
                 let fts = 1
@@ -128,7 +141,7 @@ function BootstrapstaticProvider({children}) {
         }
 
         const fetchManagerPicks = async () => {
-            const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/21/picks/`
+            const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/${eventId}/picks/`
             try {
                 const response = await fetch(url)
                 const data = await response.json()
@@ -323,7 +336,7 @@ function BootstrapstaticProvider({children}) {
          {managerId > 0 && fetchManagerPicks()}
          {managerId > 0 && fetchTransferHistory()}
 
-    }, [managerId, eventId, chips, transferLogic, players, transferHistory])
+    }, [managerId, eventId ])
 
     useEffect(() => {
         fetchData()
@@ -365,6 +378,12 @@ function BootstrapstaticProvider({children}) {
         setManagerId(id)
     }
 
+    const updateWildcard = (isUsed, eventPlayed) => {
+        setChips({
+            ...chips, wildcard: {used: isUsed, event: eventPlayed}
+        })
+    }
+
     
 
     const contextValue = {
@@ -384,7 +403,8 @@ function BootstrapstaticProvider({children}) {
         managerHistory: managerHistory,
         managerPicks: managerPicks,
         transferHistory: transferHistory,
-        getManagerInfo
+        getManagerInfo,
+        updateWildcard
     }
 
     return (
