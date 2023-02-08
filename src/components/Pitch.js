@@ -30,49 +30,55 @@ function Pitch() {
 	const [ showTransfers, setShowTransfers ] = useState(true)
 	const [ showTransfersMade, setShowTransfersMade ] = useState(false)
 	const [ showChips, setShowChips ] = useState(false)
-	const [ disableChips, setDisableChips ] = useState({
+	const [ wildcard, setWildcard ] = useState(false)
+	const [ bboost, setBboost ] = useState(false)
+	const [ tcap, setTcap ] = useState(false)
+	const [ freehit, setFreehit ] = useState(false)
+	/*const [ disableChips, setDisableChips ] = useState({
 		wildcard: false,
 		bboost: false,
 		freehit: false,
 		tcap: false
-	})
+	})*/
+
+	const forWildcard = () => {
+		if(+chips.wildcard.event < +eventId+curPage) {
+			setBboost(false)
+			setFreehit(false)
+			setTcap(false)
+		} else if(+chips.wildcard.event === +eventId+curPage) {
+			setBboost(true)
+			setFreehit(true)
+			setTcap(true)
+		}
+
+		
+	}
 	
 	const viewNextPage = () => {
         setCurPage((curPage) => curPage+1)
-		if(chips.wildcard.used && (+chips.wildcard.event < +eventId+curPage || +chips.wildcard.event > +eventId+curPage)){
-			setDisableChips({
-				...disableChips,
-				freehit: false,
-				tcap: false,
-				bboost: false
-			})
-		} 
-		if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage) {
+		forWildcard()
+
+		/*if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage) {
 			setDisableChips({
 				...disableChips,
 				freehit: true,
-				tcap: true,
-				bboost: true
+				bboost: true,
+				tcap: true
 			})
-		}}
+		}*/
+    }
     const viewPreviousPage = () => {
         setCurPage((curPage) => curPage-1)
-		if(chips.wildcard.used && (+chips.wildcard.event < +eventId+curPage || +chips.wildcard.event > +eventId+curPage)){
-			setDisableChips({
-				...disableChips,
-				freehit: false,
-				tcap: false,
-				bboost: false
-			})
-		} 
-		if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage) {
+		forWildcard()
+		/*if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage){
 			setDisableChips({
 				...disableChips,
 				freehit: true,
-				tcap: true,
-				bboost: true
+				bboost: true,
+				tcap: true
 			})
-		}
+		}*/
     }
 
 	const showTransfersDiv = () => {
@@ -100,17 +106,22 @@ function Pitch() {
 		let eventPlayed = chips.wildcard.event === null ? eventId+curPage : null
 		let isUsed = !chips.wildcard.used
 		fplElements.updateWildcard(isUsed, eventPlayed)
-		setDisableChips({
+		setFreehit(!freehit)
+		setTcap(!tcap)
+		setBboost(!bboost)
+		/*setDisableChips({
 			...disableChips,
 			freehit: !disableChips.freehit,
 			bboost: !disableChips.bboost,
 			tcap: !disableChips.tcap
-		})
+		})*/
 	}
 	const setBenchBoost = () => {}
 	const setTriple = () => {}
 	const setFreeHit = () => {}
 
+	
+    
 	let pageOneVisible = curPage === 1 ? 'hidden' : 'visible'
 	let lastPageVisible = curPage === length ? 'hidden' : 'visible'
 	let tabBorder = 'rgba(22, 22, 68, 1.0) 4px solid'
@@ -180,7 +191,10 @@ function Pitch() {
 							<div className="remain large">
 								<h4 className="large">Remaining Budget</h4>
 								{players.length && picks.length && fixtures.length && events.length && 
-								<span className="remain-budget">{getPicks(players, picks, curPage, curSize).itb}</span>}
+								<span className="remain-budget">
+									{fplElements.remainingBudget === null ?
+									 getPicks(players, picks, curPage, curSize).itb : fplElements.remainingBudget.toFixed(1)}
+								</span>}
 							</div>
 						</div>
 					</div>
@@ -200,7 +214,7 @@ function Pitch() {
 						<button 
 						onClick={setWildCard} 
 						disabled={(chips.wildcard.used && +chips.wildcard.event < +eventId+curPage) || 
-							disableChips.wildcard === true ? true : false} 
+							wildcard === true ? true : false} 
 						style={{opacity: chips.wildcard.used && +chips.wildcard.event < +eventId+curPage && 0.7,
 						background: (+chips.wildcard.event) === +eventId+curPage && "rgb(22, 22, 68)",
 						color: (+chips.wildcard.event) === +eventId+curPage && 'white'}} 
@@ -215,14 +229,16 @@ function Pitch() {
 						</button>
 						<button onClick={setBenchBoost} 
 						disabled={(chips.bboost.used && +chips.bboost.event < +eventId+curPage) || 
-							disableChips.bboost === true ? true : false}  style={{opacity: chips.bboost.used && 0.7}} className="btn btn-block btn-chip small" id="bbench">
+							bboost === true ? true : false}  style={{opacity: chips.bboost.used && 0.7}} className="btn btn-block btn-chip small" id="bbench">
 							Bench Boost&nbsp;{chips.bboost.event === null ? '' : 'Played'} 
 							{chips.bboost.used && 
 								<div className="gw">
 								  GW&nbsp;{chips.bboost.event}
 							</div>}
 							</button>
-						<button onClick={setTriple} disabled={chips.tcap.used && true} style={{opacity: chips.tcap.used && 0.7}} className="btn btn-block btn-chip small" id="tcap">
+						<button onClick={setTriple} 
+						disabled={(chips.tcap.used && +chips.tcap.event < +eventId+curPage) || 
+							tcap === true ? true : false} style={{opacity: chips.tcap.used && 0.7}} className="btn btn-block btn-chip small" id="tcap">
 							Triple Captain&nbsp;{chips.tcap.event === null ? '' : 'Played'}
 							{chips.tcap.used && 
 								<div className="gw">
@@ -270,13 +286,15 @@ function Pitch() {
 							{getPicks(players, picks, curPage, curSize).goalkeeper.map((playerPos, idx)=>{
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
+								let inTemp = fplElements.playersOut.some(x => x.element === playerPos.element)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
-	                            let image = positionObj.id === 1 ? `${teamObj.code}_1-66`: `${teamObj.code}-66`
+	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
+								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66`
 								let news = player.chance_of_playing_next_round
-								let backgroundColor = news == 0 ? 'darkred' : news == 25 ? 'darkorange' :
-											news == 50 ? 'orange' : news == 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
-								let color = news == 25 ? 'rgba(0,0,55,0.9)' :
-											news == 50 ? 'rgba(0,0,55,0.9)' : news == 75 ? 'rgba(0,0,55,0.9)' :'white'
+								let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
+											news === 50 ? 'orange' : news === 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
+								let color = news === 25 ? 'rgba(0,0,55,0.9)' :
+											news === 50 ? 'rgba(0,0,55,0.9)' : news === 75 ? 'rgba(0,0,55,0.9)' :'white'
 								const opponents = loadOpponents(fixtures, events, teamObj.id, gws).newTeamAandH
 								const playerOpps = loadPlayerOpponents(opponents, curPage).playerFix			
 								return	(<SquadPlayer image={image} 
@@ -286,7 +304,8 @@ function Pitch() {
 									idx={idx}
 									player={player} 
 									teams={teams}
-									playerPos={playerPos}></SquadPlayer>)
+									playerPos={playerPos}
+									curPage={curPage}></SquadPlayer>)
 							})}
 						</div>
                         
@@ -295,12 +314,14 @@ function Pitch() {
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
-	                            let image = positionObj.id === 1 ? `${teamObj.code}_1-66`: `${teamObj.code}-66` 
+								let inTemp = fplElements.playersOut.some(x => x.element === playerPos.element)
+	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
+								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66` 
 								let news = player.chance_of_playing_next_round
-								let backgroundColor = news == 0 ? 'darkred' : news == 25 ? 'darkorange' :
-											news == 50 ? 'orange' : news == 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
-								let color = news == 25 ? 'rgba(0,0,55,0.9)' :
-											news == 50 ? 'rgba(0,0,55,0.9)' : news == 75 ? 'rgba(0,0,55,0.9)' :'white'
+								let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
+											news === 50 ? 'orange' : news === 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
+								let color = news === 25 ? 'rgba(0,0,55,0.9)' :
+											news === 50 ? 'rgba(0,0,55,0.9)' : news === 75 ? 'rgba(0,0,55,0.9)' :'white'
 								const opponents = loadOpponents(fixtures, events, teamObj.id, gws).newTeamAandH
 								const playerOpps = loadPlayerOpponents(opponents, curPage).playerFix;
 								return	(<SquadPlayer image={image} 
@@ -310,7 +331,8 @@ function Pitch() {
 										idx={idx}
 										player={player} 
 										teams={teams}
-										playerPos={playerPos}></SquadPlayer>)
+										playerPos={playerPos}
+										curPage={curPage}></SquadPlayer>)
 							})}
 						</div>
 
@@ -319,12 +341,14 @@ function Pitch() {
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
-	                            let image = positionObj.id === 1 ? `${teamObj.code}_1-66`: `${teamObj.code}-66` 
+								let inTemp = fplElements.playersOut.some(x => x.element === playerPos.element)
+	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
+								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66`  
 								let news = player.chance_of_playing_next_round
-								let backgroundColor = news == 0 ? 'darkred' : news == 25 ? 'darkorange' :
-											news == 50 ? 'orange' : news == 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
-								let color = news == 25 ? 'rgba(0,0,55,0.9)' :
-											news == 50 ? 'rgba(0,0,55,0.9)' : news == 75 ? 'rgba(0,0,55,0.9)' :'white'
+								let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
+											news === 50 ? 'orange' : news == 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
+								let color = news === 25 ? 'rgba(0,0,55,0.9)' :
+											news === 50 ? 'rgba(0,0,55,0.9)' : news === 75 ? 'rgba(0,0,55,0.9)' :'white'
 								const opponents = loadOpponents(fixtures, events, teamObj.id, gws).newTeamAandH
 								const playerOpps = loadPlayerOpponents(opponents, curPage).playerFix;
 								return	(<SquadPlayer image={image} 
@@ -334,7 +358,8 @@ function Pitch() {
 										idx={idx}
 										player={player} 
 										teams={teams}
-										playerPos={playerPos}></SquadPlayer>
+										playerPos={playerPos}
+										curPage={curPage}></SquadPlayer>
 										)						})}
 						</div>
 
@@ -343,12 +368,14 @@ function Pitch() {
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
-	                            let image = positionObj.id === 1 ? `${teamObj.code}_1-66`: `${teamObj.code}-66` 
+								let inTemp = fplElements.playersOut.some(x => x.element === playerPos.element)
+	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
+								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66` 
 								let news = player.chance_of_playing_next_round
-								let backgroundColor = news == 0 ? 'darkred' : news == 25 ? 'darkorange' :
-											news == 50 ? 'orange' : news == 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
-								let color = news == 25 ? 'rgba(0,0,55,0.9)' :
-											news == 50 ? 'rgba(0,0,55,0.9)' : news == 75 ? 'rgba(0,0,55,0.9)' :'white'
+								let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
+											news === 50 ? 'orange' : news === 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
+								let color = news === 25 ? 'rgba(0,0,55,0.9)' :
+											news === 50 ? 'rgba(0,0,55,0.9)' : news === 75 ? 'rgba(0,0,55,0.9)' :'white'
 								const opponents = loadOpponents(fixtures, events, teamObj.id, gws).newTeamAandH
 								const playerOpps = loadPlayerOpponents(opponents, curPage).playerFix
 								return	(<SquadPlayer image={image} 
@@ -358,7 +385,8 @@ function Pitch() {
 									idx={idx}
 									player={player} 
 									teams={teams}
-									playerPos={playerPos}></SquadPlayer>)
+									playerPos={playerPos}
+									curPage={curPage}></SquadPlayer>)
 							})}
 						</div>
 						</> : <Loader />}
@@ -370,12 +398,14 @@ function Pitch() {
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
-	                            let image = positionObj.id === 1 ? `${teamObj.code}_1-66`: `${teamObj.code}-66` 
+								let inTemp = fplElements.playersOut.some(x => x.element === playerPos.element)
+	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
+								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66` 
 								let news = player.chance_of_playing_next_round
-								let backgroundColor = news == 0 ? 'darkred' : news == 25 ? 'darkorange' :
-											news == 50 ? 'orange' : news == 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
-								let color = news == 25 ? 'rgba(0,0,55,0.9)' :
-											news == 50 ? 'rgba(0,0,55,0.9)' : news == 75 ? 'rgba(0,0,55,0.9)' :'white'
+								let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
+											news === 50 ? 'orange' : news === 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
+								let color = news === 25 ? 'rgba(0,0,55,0.9)' :
+											news === 50 ? 'rgba(0,0,55,0.9)' : news === 75 ? 'rgba(0,0,55,0.9)' :'white'
 								const opponents = loadOpponents(fixtures, events, teamObj.id, gws).newTeamAandH
 								const playerOpps = loadPlayerOpponents(opponents, curPage).playerFix
 								return	(<SquadPlayer image={image} 
@@ -385,7 +415,8 @@ function Pitch() {
 									idx={idx}
 									player={player} 
 									teams={teams}
-									playerPos={playerPos}></SquadPlayer>)
+									playerPos={playerPos}
+									curPage={curPage}></SquadPlayer>)
 							})}
 					</div>}
 				</div>

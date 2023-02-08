@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+import { BootstrapstaticContext } from '../BootstrapstaticContext'
 
 function SquadPlayer(props) {
+
+    const fplElements = useContext(BootstrapstaticContext)
     const { image, 
         backgroundColor, 
-        color,playerOpps,  idx, player, teams , playerPos} = props
+        color,playerOpps,  idx, player, teams , playerPos, curPage } = props
     const [ show, setShow ] = useState(false)
 	const [ top, setTop ] = useState(window.innerHeight)
 	const [ left, setleft ] = useState(window.innerWidth)
@@ -22,9 +25,15 @@ function SquadPlayer(props) {
 		}
 	},[])
 
-    const onTransfer = (id) => {
-        console.log(id)
+   /* const onTransferOut = (player) => {
+        fplElements.addToTransfersOut(player)
+    }*/
+
+    const transferOut = (player) => {
+        fplElements.addToTransfersOut(player, curPage)
+        handleClose()
     }
+
 
     let fromTop = (top-175)/2
 	let fromLeft = (left-320)/2
@@ -69,7 +78,7 @@ function SquadPlayer(props) {
                     <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                     </svg>
                 </button>
-                <button className="transfer-button">
+                <button onClick={() => transferOut(playerPos)} className="transfer-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
                         </svg>
@@ -99,11 +108,24 @@ function SquadPlayer(props) {
             <button onClick={handleClose} className="btn-info btn-close btn-danger"><svg style={{color: 'white'}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="white"></path> </svg></button>
         </div>
         <div className="infobuttons">
-            <button onClick={onTransfer(playerPos.element)} className="btn-info btn-info-block btn-danger transfer">Transfer</button>
-            <button className="btn-info btn-info-block btn-warn substitute"></button>
-            <button className="btn-info btn-info-block btn-cap ">Make Captain</button>
-            <button className="btn-info btn-info-block btn-vcap " >Make Vice Captain</button>
-            <button className="btn-info btn-info-block btn-light btn-player-info">View Information</button>
+            <button onClick={() => transferOut(playerPos)} 
+            className={`btn-info btn-info-block 
+            ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
+                'btn-green':'btn-danger'} transfer`}>
+                {fplElements.playersOut.some(x => x.element === playerPos.element) ?
+                    'Restore':'Transfer'}</button>
+            <button className={`btn-info btn-info-block 
+            ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
+                'hide-btn':'show-btn'} btn-warn substitute`}></button>
+            <button className={`btn-info btn-info-block
+            ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
+                'hide-btn':'show-btn'} btn-cap `}>Make Captain</button>
+            <button className={`btn-info btn-info-block 
+            ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
+                'hide-btn':'show-btn'} btn-vcap `} >Make Vice Captain</button>
+            <button className={`btn-info btn-info-block btn-light
+            ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
+                'hide-btn':'show-btn'} btn-player-info`}>View Information</button>
         </div> 
     </div>  }
 </>

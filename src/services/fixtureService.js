@@ -106,7 +106,8 @@ export const loadOpponents = (fixtures, events, teamId, gws) => {
         let init = initial(teamAandH, x.event)
         let fin  = final(teamAandH, x.event)
         if(init === fin) {
-            console.log(x.event)
+            //console.log(x.event)
+            return
         } else {
             teamAandH[init].arr.push(...teamAandH[fin].arr)
             teamAandH.splice(fin,1)

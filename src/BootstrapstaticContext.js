@@ -15,10 +15,15 @@ export const BootstrapstaticContext = createContext({
     chips: {},
     transferLogic: {},
     transfers: [],
+    playersOut: [],
+    playersIn: [],
     managerId: 0,
-    eventId: 0,
+    eventId: 1,
+    remainingBudget: null,
     getManagerInfo: () => {},
-    updateWildcard: () => {}
+    updateWildcard: () => {},
+    addToTransfersOut: () => {},
+    addToTransfersIn: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -34,7 +39,7 @@ function BootstrapstaticProvider({children}) {
     const [ managerHistory, setManagerHistory ] = useState([])
     const [ managerPicks, setManagerPicks ] = useState([])
     const [ transferHistory, setTransferHistory ] = useState([])
-    const [ eventId, setEventId ] = useState(0)
+    const [ eventId, setEventId ] = useState(1)
     const [ chips, setChips ] = useState({
         wildcard: { used: false, event: null},
         bboost: { used: false, event: null},
@@ -52,6 +57,11 @@ function BootstrapstaticProvider({children}) {
     useState(localStorage.getItem('managerId') === null ? [] : JSON.parse(localStorage.getItem('picks')) )
     const [ real, setReal ] = useState([])
     const [ transfers, setTransfers ] = useState([])
+    const [ remainingBudget, setRemainingBudget ] = useState(null)
+    const [ playersOut, setPlayersOut ] = useState([])
+    const [ playersIn, setPlayersIn ] = useState([])
+    const [ outplayer, setOutPlayer ] = useState({})
+    const [ inplayer, setInPlayer ] = useState({})
 
   
 
@@ -384,6 +394,28 @@ function BootstrapstaticProvider({children}) {
         })
     }
 
+    const addToTransfersOut = (player, curPage) => {
+
+        //Add player to playersOut or remove player from playersOut
+        let totalBudget = +picks[curPage-1].totalBudget
+        let spent = picks[curPage-1].newPicks.reduce((x,y) => x+(+y.selling_price),0) - playersOut.reduce((x,y) => x+(+y.selling_price),0) 
+        let isFoundOut = playersOut.some(x => x.element === player.element)
+        let isFoundIn = playersIn.some(x => x.element === player.element)
+        let sellingPrice = +picks[curPage-1].newPicks.find(x => x.element === player.element).selling_price
+        let remainder = (+totalBudget-spent).toFixed(1)
+        if(isFoundOut) {
+            let isFoundOutIndex = playersOut.findIndex(x => x.element === player.element)
+            setPlayersOut(x => [...x.filter((y, idx) => idx !== isFoundOutIndex)])
+            setRemainingBudget(+remainder-sellingPrice)
+        } else {
+            setPlayersOut(x => [...x, player])
+            setRemainingBudget(+remainder+sellingPrice)
+        }
+        
+    }
+    const addToTransfersIn = (player) => {}
+    
+
     
 
     const contextValue = {
@@ -399,12 +431,17 @@ function BootstrapstaticProvider({children}) {
         picks: picks,
         real: real,
         transfers: transfers,
+        playersOut: playersOut,
+        playersIn: playersIn,
         transferLogic: transferLogic,
         managerHistory: managerHistory,
         managerPicks: managerPicks,
         transferHistory: transferHistory,
+        remainingBudget: remainingBudget,
         getManagerInfo,
-        updateWildcard
+        updateWildcard,
+        addToTransfersIn,
+        addToTransfersOut
     }
 
     return (

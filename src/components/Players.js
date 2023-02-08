@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
+import PlayerCard from './PlayerCard'
 import { getMinMax, getPlayers, getArrangedPlayers, viewNext } from '../services/playerService'
 import lastPage from '../static/last_page.png'
 import firstPage from '../static/first_page.png'
@@ -174,36 +175,19 @@ function Players(props) {
                     let pos_name = positionObj.singular_name
                     let forwardImage = positionObj.id === 1 ? `${teamObj.code}_1-66`:
 			            `${teamObj.code}-66`
-                    let backgroundColor = news == 0 ? 'darkred' : news == 25 ? 'darkorange' :
-                    news == 50 ? 'orange' : news == 75 ? 'yellow' : 'white'
-                    let color = news == 0 ? 'white' : news == 25 ? 'white' :
-                    news == 50 ? 'white' : 'black'    
-                    return (<tr key={idx} className="player-tbh">
-                    <td className="info">
-                        <button style={{backgroundColor: backgroundColor, color: color}} className="player-info-button-table">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-square" viewBox="0 0 16 16">
-								  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-								  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-								 </svg>
-                        </button>
-                    </td>
-                    <td className="player">
-                        <button className="player-cell btn-table">
-                            <div className="images">
-                            <img src={require(`../static/shirt_${forwardImage}.webp`)} />
-                            </div>
-                            <div className="player-cell-info small">
-                                <span className="name">{goalkeeper.web_name}</span>
-                                <div className="player-cell-details">
-                                    <span className="name">{short_name}</span>
-                                    <span className="position">{short_pos}</span>
-                                </div>
-                            </div>
-                        </button>
-                    </td>
-                    <td><span className="price">{(goalkeeper.now_cost/10).toFixed(1)}</span></td>
-                    <td><span className="points">{sort === 'event_points' ? goalkeeper.event_points : goalkeeper.total_points}</span></td>
-                </tr>)
+                    let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
+                    news === 50 ? 'orange' : news === 75 ? 'yellow' : 'white'
+                    let color = news === 0 ? 'white' : news === 25 ? 'white' :
+                    news === 50 ? 'white' : 'black'    
+                    return (<PlayerCard 
+                                idx={idx}
+                                backgroundColor={backgroundColor}
+                                color={color}
+                                forwardImage={forwardImage}
+                                playerPos={goalkeeper}
+                                shortName={short_name}
+                                shortPos={short_pos}
+                                sort={sort}></PlayerCard>)
                 })}
             </tbody>
         </table>): ''}
@@ -227,36 +211,19 @@ function Players(props) {
                     let pos_name = positionObj.singular_name
                     let forwardImage = positionObj.id === 1 ? `${teamObj.code}_1-66`:
 			            `${teamObj.code}-66`
-                        let backgroundColor = news == 0 ? 'darkred' : news == 25 ? 'darkorange' :
-                        news == 50 ? 'orange' : news == 75 ? 'yellow' : 'white'
-                        let color = news == 0 ? 'white' : news == 25 ? 'white' :
-                        news == 50 ? 'white' : 'black'    
-                        return (<tr key={idx} className="player-tbh">
-                        <td className="info">
-                            <button style={{backgroundColor: backgroundColor, color: color}} className="player-info-button-table">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-square" viewBox="0 0 16 16">
-								  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-								  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-								 </svg>
-                        </button>
-                    </td>
-                    <td className="player">
-                        <button className="player-cell btn-table">
-                            <div className="images">
-                            <img src={require(`../static/shirt_${forwardImage}.webp`)} />
-                            </div>
-                            <div className="player-cell-info small">
-                                <span className="name">{defender.web_name}</span>
-                                <div className="player-cell-details">
-                                    <span className="team">{short_name}</span>
-                                    <span className="position">{short_pos}</span>
-                                </div>
-                            </div>
-                        </button>
-                    </td>
-                    <td><span className="price">{(defender.now_cost/10).toFixed(1)}</span></td>
-                    <td><span className="points">{sort === 'event_points' ? defender.event_points : defender.total_points}</span></td>
-                </tr>)
+                        let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
+                        news === 50 ? 'orange' : news === 75 ? 'yellow' : 'white'
+                        let color = news === 0 ? 'white' : news === 25 ? 'white' :
+                        news === 50 ? 'white' : 'black'    
+                        return (<PlayerCard 
+                            idx={idx}
+                            backgroundColor={backgroundColor}
+                            color={color}
+                            forwardImage={forwardImage}
+                            playerPos={defender}
+                            shortName={short_name}
+                            shortPos={short_pos}
+                            sort={sort}></PlayerCard>)
                 })}
             </tbody>
         </table>): ''}
@@ -280,36 +247,19 @@ function Players(props) {
                     let pos_name = positionObj.singular_name
                     let forwardImage = positionObj.id === 1 ? `${teamObj.code}_1-66`:
 			            `${teamObj.code}-66`
-                        let backgroundColor = news == 0 ? 'darkred' : news == 25 ? 'darkorange' :
-                        news == 50 ? 'orange' : news == 75 ? 'yellow' : 'white'
-                        let color = news == 0 ? 'white' : news == 25 ? 'white' :
-                        news == 50 ? 'white' : 'black'    
-                        return (<tr key={idx} className="player-tbh">
-                        <td className="info">
-                            <button style={{backgroundColor: backgroundColor, color: color}} className="player-info-button-table">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-square" viewBox="0 0 16 16">
-								  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-								  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-								 </svg>
-                        </button>
-                    </td>
-                    <td className="player">
-                        <button className="player-cell btn-table">
-                            <div className="images">
-                            <img src={require(`../static/shirt_${forwardImage}.webp`)} />
-                            </div>
-                            <div className="player-cell-info small">
-                                <span className="name">{midfielder.web_name}</span>
-                                <div className="player-cell-details">
-                                    <span className="team">{short_name}</span>
-                                    <span className="position">{short_pos}</span>
-                                </div>
-                            </div>
-                        </button>
-                    </td>
-                    <td><span className="price">{(midfielder.now_cost/10).toFixed(1)}</span></td>
-                    <td><span className="points">{sort === 'event_points' ? midfielder.event_points : midfielder.total_points}</span></td>
-                </tr>)
+                        let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
+                        news === 50 ? 'orange' : news === 75 ? 'yellow' : 'white'
+                        let color = news === 0 ? 'white' : news === 25 ? 'white' :
+                        news === 50 ? 'white' : 'black'    
+                        return (<PlayerCard 
+                            idx={idx}
+                            backgroundColor={backgroundColor}
+                            color={color}
+                            forwardImage={forwardImage}
+                            playerPos={midfielder}
+                            shortName={short_name}
+                            shortPos={short_pos}
+                            sort={sort}></PlayerCard>)
                 })}
             </tbody>
         </table>): ''}
@@ -333,36 +283,19 @@ function Players(props) {
                     let pos_name = positionObj.singular_name
                     let forwardImage = positionObj.id === 1 ? `${teamObj.code}_1-66`:
 			            `${teamObj.code}-66`
-                        let backgroundColor = news == 0 ? 'darkred' : news == 25 ? 'darkorange' :
-                        news == 50 ? 'orange' : news == 75 ? 'yellow' : 'white'
-                        let color = news == 0 ? 'white' : news == 25 ? 'white' :
-                        news == 50 ? 'white' : 'black'    
-                        return (<tr key={idx} className="player-tbh">
-                        <td className="info">
-                            <button style={{backgroundColor: backgroundColor, color: color}} className="player-info-button-table">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-square" viewBox="0 0 16 16">
-								  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-								  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-								 </svg>
-                        </button>
-                    </td>
-                    <td className="player">
-                        <button className="player-cell btn-table">
-                            <div className="images">
-                            <img src={require(`../static/shirt_${forwardImage}.webp`)} />
-                            </div>
-                            <div className="player-cell-info small">
-                                <span className="name">{forward.web_name}</span>
-                                <div className="player-cell-details">
-                                    <span className="team">{short_name}</span>
-                                    <span className="position">{short_pos}</span>
-                                </div>
-                            </div>
-                        </button>
-                    </td>
-                    <td><span className="price">{(forward.now_cost/10).toFixed(1)}</span></td>
-                    <td><span className="points">{sort === 'event_points' ? forward.event_points : forward.total_points}</span></td>
-                </tr>)
+                        let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
+                        news === 50 ? 'orange' : news === 75 ? 'yellow' : 'white'
+                        let color = news === 0 ? 'white' : news === 25 ? 'white' :
+                        news === 50 ? 'white' : 'black'    
+                        return (<PlayerCard 
+                            idx={idx}
+                            backgroundColor={backgroundColor}
+                            color={color}
+                            forwardImage={forwardImage}
+                            playerPos={forward}
+                            shortName={short_name}
+                            shortPos={short_pos}
+                            sort={sort}></PlayerCard>)
                 })}
             </tbody>
         </table>): ''}
