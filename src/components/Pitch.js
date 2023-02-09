@@ -41,7 +41,8 @@ function Pitch() {
 		tcap: false
 	})*/
 
-	const forWildcard = () => {
+	const forWildcard = (curPage) => {
+		console.log(curPage)
 		if(+chips.wildcard.event < +eventId+curPage) {
 			setBboost(false)
 			setFreehit(false)
@@ -55,9 +56,9 @@ function Pitch() {
 		
 	}
 	
-	const viewNextPage = () => {
+	const viewNextPage = (curPage) => {
         setCurPage((curPage) => curPage+1)
-		forWildcard()
+		forWildcard(curPage)
 
 		/*if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage) {
 			setDisableChips({
@@ -68,9 +69,9 @@ function Pitch() {
 			})
 		}*/
     }
-    const viewPreviousPage = () => {
+    const viewPreviousPage = (curPage) => {
         setCurPage((curPage) => curPage-1)
-		forWildcard()
+		forWildcard(curPage)
 		/*if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage){
 			setDisableChips({
 				...disableChips,
@@ -132,7 +133,7 @@ function Pitch() {
 				<div className="details-one">
 					<div className="gw-buttonswrapper">
 						<div className="gw-buttons">
-							<button style={{visibility: pageOneVisible}} onClick={viewPreviousPage} className="btn btn-fpl small prev_next" id="prevGameweek">
+							<button style={{visibility: pageOneVisible}} onClick={() => viewPreviousPage(curPage)} className="btn btn-fpl small prev_next" id="prevGameweek">
 								<img src={prevPage} alt="prev_page" />
 							</button>
 							<div id="deadline">
@@ -168,7 +169,7 @@ function Pitch() {
 										})}
 								</div>
 							</div>
-							<button style={{visibility: lastPageVisible}} onClick={viewNextPage} className="btn btn-fpl small prev_next" id="nextGameweek">
+							<button style={{visibility: lastPageVisible}} onClick={() => viewNextPage(curPage)} className="btn btn-fpl small prev_next" id="nextGameweek">
 								<img src={nextPage}  alt="next_page" />
 							</button>
 						</div>
@@ -286,7 +287,7 @@ function Pitch() {
 							{getPicks(players, picks, curPage, curSize).goalkeeper.map((playerPos, idx)=>{
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
-								let inTemp = fplElements.playersOut.some(x => x.element === playerPos.element)
+								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66`
@@ -314,7 +315,7 @@ function Pitch() {
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
-								let inTemp = fplElements.playersOut.some(x => x.element === playerPos.element)
+								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66` 
 								let news = player.chance_of_playing_next_round
@@ -341,7 +342,7 @@ function Pitch() {
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
-								let inTemp = fplElements.playersOut.some(x => x.element === playerPos.element)
+								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66`  
 								let news = player.chance_of_playing_next_round
@@ -368,7 +369,7 @@ function Pitch() {
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
-								let inTemp = fplElements.playersOut.some(x => x.element === playerPos.element)
+								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66` 
 								let news = player.chance_of_playing_next_round

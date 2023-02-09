@@ -25,7 +25,7 @@ function PlayerCard(props) {
         </button>
     </td>
     <td className="player">
-        <button onClick={() => transferIn(playerPos)} className="player-cell btn-table">
+        <button onClick={() => transferIn(playerPos.id)} className="player-cell btn-table">
             <div className="images">
             <img src={require(`../static/shirt_${forwardImage}.webp`)} alt={forwardImage} />
             </div>
