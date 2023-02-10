@@ -147,6 +147,7 @@ select:focus, input:focus {
 }
 .position-table {
   font-style: italic;
+  font-weight: 700;
   overflow: hidden;
 }
 #goalkeepers thead {
@@ -206,7 +207,7 @@ select:focus, input:focus {
   text-align: left;
   text-align: -webkit-left;
   font-weight: 700;
-  font-family: 'Montserrat Alternates', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .player-cell-details  {

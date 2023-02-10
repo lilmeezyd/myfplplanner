@@ -29,7 +29,7 @@
 		text-decoration: none;
 	}
 	h4 {
-		font-family: 'Montserrat Alternates', sans-serif;
+		font-family: 'Montserrat', sans-serif;
 	}
 	nav {
 		overflow: hidden;
@@ -418,8 +418,8 @@
 	}
 	.details-cont, .data_fixtures, .next-fix, .up-fix {
 		width: 100%;
-		font-weight: bolder;
-		font-family: 'Montserrat Alternates', sans-serif;
+		font-weight: 700;
+		font-family: 'Montserrat', sans-serif;
 	}
 	.next-fix {
 		background: #fff;
@@ -1027,11 +1027,13 @@
 		font-size: 0.9rem;
 	}
 	table td span:first-child {
-		font-family: 'Montserrat Alternates', sans-serif;
+		font-family: 'Montserrat', sans-serif;
 	}
 	span.opponent {
 		display:block;
+		font-weight: 700;
 		min-height: 15px;
+		border: 1px solid black;
 	}
 	.diff-2 {
 		background: darkgreen;
@@ -1322,7 +1324,7 @@
 		/*margin: auto;
 		table-layout: fixed;
 		white-space: nowrap;*/
-		font-family: 'Montserrat Alternates', sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		border-collapse: collapse;
 		margin-top: 2rem;
 		display: block;
@@ -1560,6 +1562,8 @@
 	.next-fix  {
 		background: #fff;
 		padding: 0.1rem 0;
+		border-left: 1px solid black;
+		border-right: 1px solid black;
 	}
 	.next-fix > span, .up-fix > span {
 		font-weight: bolder;
@@ -1580,7 +1584,7 @@
 
 	.up-fix div {
 		flex: 1 1 0%;
-		font-size: small;
+		/*font-size: small;*/
 		display: flex;
 	}
 	@media(max-width: 600px) {

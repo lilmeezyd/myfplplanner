@@ -159,7 +159,7 @@ function Players(props) {
             <thead>
                 <tr>
                     <th></th>
-                    <th className='positiion-table'>Goalkeepers</th>
+                    <th className='position-table'>Goalkeepers</th>
                     <th>£</th>
                     <th>Points</th>
                 </tr>
@@ -187,6 +187,8 @@ function Players(props) {
                                 playerPos={goalkeeper}
                                 shortName={short_name}
                                 shortPos={short_pos}
+                                position={positionObj.id}
+                                team={teamObj.id}
                                 sort={sort}></PlayerCard>)
                 })}
             </tbody>
@@ -195,7 +197,7 @@ function Players(props) {
             <thead>
                 <tr>
                     <th></th>
-                    <th className='positiion-table'>Defenders</th>
+                    <th className='position-table'>Defenders</th>
                     <th>£</th>
                     <th>Points</th>
                 </tr>
@@ -223,6 +225,8 @@ function Players(props) {
                             playerPos={defender}
                             shortName={short_name}
                             shortPos={short_pos}
+                            position={positionObj.id}
+                            team={teamObj.id}
                             sort={sort}></PlayerCard>)
                 })}
             </tbody>
@@ -231,7 +235,7 @@ function Players(props) {
             <thead>
                 <tr>
                     <th></th>
-                    <th className='positiion-table'>Midfielders</th>
+                    <th className='position-table'>Midfielders</th>
                     <th>£</th>
                     <th>Points</th>
                 </tr>
@@ -259,6 +263,8 @@ function Players(props) {
                             playerPos={midfielder}
                             shortName={short_name}
                             shortPos={short_pos}
+                            position={positionObj.id}
+                            team={teamObj.id}
                             sort={sort}></PlayerCard>)
                 })}
             </tbody>
@@ -267,7 +273,7 @@ function Players(props) {
             <thead>
                 <tr>
                     <th></th>
-                    <th className='positiion-table'>Forwards</th>
+                    <th className='position-table'>Forwards</th>
                     <th>£</th>
                     <th>Points</th>
                 </tr>
@@ -295,6 +301,8 @@ function Players(props) {
                             playerPos={forward}
                             shortName={short_name}
                             shortPos={short_pos}
+                            position={positionObj.id}
+                            team={teamObj.id}
                             sort={sort}></PlayerCard>)
                 })}
             </tbody>

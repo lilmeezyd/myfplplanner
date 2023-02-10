@@ -25,7 +25,8 @@ export const BootstrapstaticContext = createContext({
     getManagerInfo: () => {},
     updateWildcard: () => {},
     addToTransfersOut: () => {},
-    addToTransfersIn: () => {}
+    addToTransfersIn: () => {},
+    getPickIndex: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -66,6 +67,7 @@ function BootstrapstaticProvider({children}) {
     const [ tempPlayersIn, setTempPlayersIn ] = useState([])
     const [ outplayer, setOutPlayer ] = useState({})
     const [ inplayer, setInPlayer ] = useState({})
+    const [ pickIndex, setPickIndex ] = useState(1)
 
   
 
@@ -392,20 +394,25 @@ function BootstrapstaticProvider({children}) {
         setManagerId(id)
     }
 
+    const getPickIndex = (id) => {
+        setPickIndex(id)
+    } 
+
     const updateWildcard = (isUsed, eventPlayed) => {
         setChips({
             ...chips, wildcard: {used: isUsed, event: eventPlayed}
         })
     }
 
-    const addToTransfersOut = (player, curPage) => {
+    const addToTransfersOut = (player) => {
 
+        
         //Add player to playersOut or remove player from playersOut
-        let totalBudget = +picks[curPage-1].totalBudget
-        let spent = picks[curPage-1].newPicks.reduce((x,y) => x+(+y.selling_price),0) - playersOut.reduce((x,y) => x+(+y.selling_price),0) 
+        let totalBudget = +picks[pickIndex-1].totalBudget
+        let spent = picks[pickIndex-1].newPicks.reduce((x,y) => x+(+y.selling_price),0) - playersOut.reduce((x,y) => x+(+y.selling_price),0) 
         let isFoundOut = playersOut.some(x => x.element === player.element)
         let isFoundIn = playersIn.some(x => x.element === player.element)
-        let sellingPrice = +picks[curPage-1].newPicks.find(x => x.element === player.element).selling_price
+        let sellingPrice = +picks[pickIndex-1].newPicks.find(x => x.element === player.element).selling_price
         let remainder = (+totalBudget-spent).toFixed(1)
         if(isFoundOut) {
             let isFoundOutIndex = playersOut.findIndex(x => x.element === player.element)
@@ -420,8 +427,182 @@ function BootstrapstaticProvider({children}) {
         }
         
     }
-    const addToTransfersIn = (id) => {
+    const addToTransfersIn = (id, elementType, teamId) => {
         const player = {}
+        let playersOutG = tempPlayersOut.filter(x => x.element_type === 1).length
+        let playersOutD = tempPlayersOut.filter(x => x.element_type === 2).length
+        let playersOutM = tempPlayersOut.filter(x => x.element_type === 3).length
+        let playersOutF = tempPlayersOut.filter(x => x.element_type === 4).length
+
+        let goalkeepers = picks[pickIndex-1].newPicks.filter(x => x.element_type === 1).length - playersOutG
+        let defenders = picks[pickIndex-1].newPicks.filter(x => x.element_type === 2).length - playersOutD
+        let midfielders = picks[pickIndex-1].newPicks.filter(x => x.element_type === 3).length - playersOutM
+        let forwards = picks[pickIndex-1].newPicks.filter(x => x.element_type === 4).length - playersOutF
+
+        let playersOutCap = tempPlayersOut.some(x => x.is_captain)
+        let playersOutvCap = tempPlayersOut.some(x => x.is_vice_captain)
+
+        let isCaptain = picks[pickIndex-1].newPicks.some(x => x.is_captain)
+        let isViceCaptain = picks[pickIndex-1].newPicks.some(x => x.is_vice_captain)
+
+        
+        //let price_change = (players.find(x => x.id === id).price_change/10).toFixed(1)
+        let element_in_cost = (players.find(x => x.id === id).now_cost/10).toFixed(1)
+        let selling_price = (players.find(x => x.id === id).now_cost/10).toFixed(1)
+
+        player.element_type = elementType
+        player.element = id
+        player.team = teamId
+        player.disabled = true
+        player.position = 0
+        player.multiplier = 1
+        //player.price_change = price_change
+        player.element_in_cost = element_in_cost
+        player.selling_price = selling_price
+
+        let playersOutBenchG = tempPlayersOut.filter(x => x.multiplier === 0 && x.element_type === 1).length
+        let playersOutnonB = tempPlayersOut.filter(x => x.multiplier !== 0).length
+        let playersOutPG =  tempPlayersOut.filter(x => x.multiplier !== 0 && x.element_type === 1).length
+        let playersOutPD = tempPlayersOut.filter(x => x.multiplier !== 0 && x.element_type === 2).length
+        let playersOutPM = tempPlayersOut.filter(x => x.multiplier !== 0 && x.element_type === 3).length
+        let playersOutPF = tempPlayersOut.filter(x => x.multiplier !==0 && x.element_type === 4).length
+
+        let benchGoalie = picks[pickIndex-1].newPicks.filter(x => x.multiplier === 0 && x.element_type === 1).length - playersOutBenchG
+        let	nonBench = picks[pickIndex-1].newPicks.filter(x => x.multiplier !== 0).length - playersOutnonB
+        let playingGoalie = picks[pickIndex-1].newPicks.filter(x => x.multiplier !== 0 && x.element_type === 1).length - playersOutPG
+        let playingDef = picks[pickIndex-1].newPicks.filter(x => x.multiplier !== 0 && x.element_type === 2).length - playersOutPD
+        let playingMid = picks[pickIndex-1].newPicks.filter(x => x.multiplier !== 0 && x.element_type === 3).length - playersOutPM
+        let playingFwd = picks[pickIndex-1].newPicks.filter(x => x.multiplier !==0 && x.element_type === 4).length - playersOutPF
+
+        let num = elementType === 1 ? 2 : elementType === 2 ? 5 : 
+					elementType === 3 ? 5 : 3
+		let fieldnum = elementType === 1 ? 'Goalkeepers' : 
+					elementType === 2 ?	'Defenders' : elementType === 3 ? 'Midfielder' : 'Forwards'	
+
+        let teamCountPicksObj = picks.reduce((a,b) => {
+						a[b.teamId] = a[b.teamId] ? ++a[b.teamId] : 1
+						return a
+					},{})     
+        let tempCountObj = tempPlayersOut.reduce((a,b) => {
+            a[b.teamId] = a[b.teamId] ? ++a[b.teamId] : 1
+            return a
+        }, {})      
+        
+        let picksCount = teamCountPicksObj[teamId] === undefined ? 0 : teamCountPicksObj[teamId]
+        let tempCount = tempCountObj[teamId] === undefined ? 0 : tempCountObj[teamId]
+        let teamCount = picksCount - tempCount
+
+        if(picks[pickIndex-1].newPicks.length < 15 || tempPlayersOut.length > 0) {
+            let orderOne = picks[pickIndex-1].newPicks.some(x => x.position === 13)
+            let orderTwo = picks[pickIndex-1].newPicks.some(x => x.position === 14)
+            let orderThree = picks[pickIndex-1].newPicks.some(x => x.position === 15)
+
+            if(elementType === 1 && playingGoalie === 1) {
+                player.position = 12
+                player.multiplier = 0
+            } else {
+                player.position = 1
+                player.multiplier = 1
+            }
+
+            if((elementType === 2 && nonBench === 11) ||
+                (elementType === 2 && nonBench === 9 && playingDef === 4 && playingMid === 5) || 
+                (elementType === 2 && nonBench === 10 && playingGoalie === 0)||
+                (elementType === 2 && nonBench === 10 && playingFwd === 0)) {
+                player.multiplier = 0
+                player.position = (!orderOne && !orderTwo && !orderThree) ? 13 :
+                (orderOne && !orderTwo && !orderThree) ? 14 : 
+                (orderOne && orderTwo && !orderThree) ? 15 :
+                (!orderOne && orderTwo && orderThree) ? 13 :
+                (orderOne && !orderTwo && orderThree) ? 14 : 15 
+            }
+
+            if((elementType === 3 && nonBench === 11) ||
+                (elementType === 3 && nonBench === 9 && playingMid === 4 && playingDef === 5) || 
+                (elementType === 3 && nonBench === 10 && playingGoalie === 0)||
+                (elementType === 3 && nonBench === 10 && playingFwd === 0) ||
+                (elementType === 3 && nonBench === 10 && playingDef === 2)) {
+                player.multiplier = 0
+                player.position = (!orderOne && !orderTwo && !orderThree) ? 13 :
+                (orderOne && !orderTwo && !orderThree) ? 14 : 
+                (orderOne && orderTwo && !orderThree) ? 15 :
+                (!orderOne && orderTwo && orderThree) ? 13 :
+                (orderOne && !orderTwo && orderThree) ? 14 : 15
+            }
+
+            if((elementType === 4 && nonBench === 11) ||
+                (elementType === 4 && nonBench === 10 && playingGoalie === 0)||
+                (elementType === 4 && nonBench === 10 && playingDef === 2)) {
+                player.multiplier = 0
+                player.position = (!orderOne && !orderTwo && !orderThree) ? 13 :
+                (orderOne && !orderTwo && !orderThree) ? 14 : 
+                (orderOne && orderTwo && !orderThree) ? 15 :
+                (!orderOne && orderTwo && orderThree) ? 13 :
+                (orderOne && !orderTwo && orderThree) ? 14 : 15
+            }
+            if((elementType === 1 && goalkeepers < 2) ||
+                (elementType === 2 && defenders < 5) || 
+                (elementType === 3 && midfielders < 5) ||
+                (elementType === 4 && forwards < 3)) {
+                if(teamCount !== 3) {
+                    let repeatedPlayer = []
+                    let playerOut = tempPlayersOut.find(x => x.element_type === player.element_type)
+                    let playerOutIndex = picks[pickIndex-1].newPicks.findIndex(x => x.element === playerOut.element)
+                    //switching captaincy
+                    player.is_captain = playerOut.is_captain
+                    player.is_vice_captain = playerOut.is_vice_captain
+                    player.multiplier = playerOut.multiplier
+                    player.element_out = playerOut.element
+                    player.position = playerOut.position
+                    //x.setAttribute('disabled', true)
+                    for(let j = 0; j < playersOut.length; j++) {
+                        if(player.element === playersOut[j].element) {
+                            repeatedPlayer.push(...playersOut.splice(j,1))
+                        }
+                    }
+                    if(repeatedPlayer.length === 1) {
+                        playersIn.push()
+                        let likelyReplaced = tempPlayersOut.find(x => x.element_type === player.element_type)
+                        let isOut =  picks[pickIndex-1].newPicks.some(x => x.element_out === repeatedPlayer[0].element)
+                        //console.log(likelyReplaced.element)
+                        //console.log(repeatedPlayer[0].element)
+                        if(isOut) {
+                            let withIsOut = picks[pickIndex-1].newPicks.find(x => x.element_out === repeatedPlayer[0].element)
+                            withIsOut.element_out = likelyReplaced.element
+                            let inIndex = playersIn.findIndex(x => x.element === withIsOut.element)
+                            //playersIn.splice(inIndex,1, withIsOut)
+                            setPlayersIn(x => [...x.filter((y, idx) => idx !== inIndex), withIsOut])
+                            repeatedPlayer[0].is_captain = likelyReplaced.is_captain
+                            repeatedPlayer[0].is_vice_captain = likelyReplaced.is_vice_captain
+                            //picks.splice(picks.findIndex(x => x.element === likelyReplaced.element),1)
+                            //picks.push(repeatedPlayer[0])
+                            let repeatedIndex = picks[pickIndex-1].newPicks.findIndex(x=>x.element===likelyReplaced.element)
+                            setPicks((x) => [...x, x[pickIndex-1].newPicks.splice(repeatedIndex,1,repeatedPlayer[0])])
+
+                        } else {
+                            picks[pickIndex-1].newPicks.map((x, key) => {
+                                if(x.element === repeatedPlayer[0].element) {
+                                    //picks.splice(key, 1, repeatedPlayer[0])
+                                    setPicks((y) => [...y, y[pickIndex-1].splice(key,1, repeatedPlayer[0])])
+                                }
+                            })
+                        }
+                        let pIndex = tempPlayersOut.findIndex(x => x.element_type === player.element_type && x.element === likelyReplaced.element)
+                        
+                        setTempPlayersOut(x => [...x.filter((y, idx) => idx !== pIndex)])
+                    }
+                    else {
+                        setPlayersIn((x) => [...x, player])
+                        //removedPlayers = picks.splice(playerOutIndex,1, player)
+                        setPicks(x=> [...x.filter((y,idx) => idx !== playerOutIndex), player])
+                        let pIndex = tempPlayersOut.findIndex(x => x.element_type === player.element_type)
+                        setTempPlayersOut(x => [...x.filter((y, idx) => idx !== pIndex)])
+                    }
+                }
+                }
+        }
+
+        console.log(player)
     }
     
 
@@ -452,7 +633,8 @@ function BootstrapstaticProvider({children}) {
         getManagerInfo,
         updateWildcard,
         addToTransfersIn,
-        addToTransfersOut
+        addToTransfersOut,
+        getPickIndex
     }
 
     return (

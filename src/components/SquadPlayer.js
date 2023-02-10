@@ -30,7 +30,7 @@ function SquadPlayer(props) {
     }*/
 
     const transferOut = (player) => {
-        fplElements.addToTransfersOut(player, curPage)
+        fplElements.addToTransfersOut(player)
         handleClose()
     }
 

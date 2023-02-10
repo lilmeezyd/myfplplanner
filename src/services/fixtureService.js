@@ -38,6 +38,9 @@ export const loadOpponents = (fixtures, events, teamId, gws) => {
             if(y === 'team_h_difficulty') {
                 arrObj.difficulty = x['team_h_difficulty']
             }
+            if(y === 'kickoff_time') {
+                teamHomeObjt.kickoff = x['kickoff_time']
+            }
         })
         arr.push(arrObj)
         teamHomeObjt.arr = arr
@@ -60,6 +63,9 @@ export const loadOpponents = (fixtures, events, teamId, gws) => {
             }
             if(y === 'team_a_difficulty') {
                 arrObj.difficulty = x['team_a_difficulty']
+            }
+            if(y === 'kickoff_time') {
+                teamAwayObjt.kickoff = x['kickoff_time']
             }
         })
         arr.push(arrObj)
@@ -92,6 +98,9 @@ export const loadOpponents = (fixtures, events, teamId, gws) => {
     teamAandH.sort((x,y) => {
         if(x['event'] > y['event']) return 1
         if(x['event'] < y['event']) return -1
+    }).sort((x,y) => {
+        if(x['kickoff'] > y['kickoff']) return 1
+        if(x['kickoff'] < y['kickoff']) return -1
     })
 
     function final(a,b) {

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import { getGameweeks } from "../services/timeService"
 import { getPicks } from "../services/picksService"
 import { loadOpponents, loadPlayerOpponents } from "../services/fixtureService"
@@ -41,8 +41,13 @@ function Pitch() {
 		tcap: false
 	})*/
 
+	useEffect(() => {
+		fplElements.getPickIndex(curPage)
+	
+	}, [curPage, fplElements])
+	
+
 	const forWildcard = (curPage) => {
-		console.log(curPage)
 		if(+chips.wildcard.event < +eventId+curPage) {
 			setBboost(false)
 			setFreehit(false)
@@ -56,7 +61,7 @@ function Pitch() {
 		
 	}
 	
-	const viewNextPage = (curPage) => {
+	const viewNextPage = () => {
         setCurPage((curPage) => curPage+1)
 		forWildcard(curPage)
 
@@ -69,7 +74,7 @@ function Pitch() {
 			})
 		}*/
     }
-    const viewPreviousPage = (curPage) => {
+    const viewPreviousPage = () => {
         setCurPage((curPage) => curPage-1)
 		forWildcard(curPage)
 		/*if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage){
@@ -133,7 +138,7 @@ function Pitch() {
 				<div className="details-one">
 					<div className="gw-buttonswrapper">
 						<div className="gw-buttons">
-							<button style={{visibility: pageOneVisible}} onClick={() => viewPreviousPage(curPage)} className="btn btn-fpl small prev_next" id="prevGameweek">
+							<button style={{visibility: pageOneVisible}} onClick={viewPreviousPage} className="btn btn-fpl small prev_next" id="prevGameweek">
 								<img src={prevPage} alt="prev_page" />
 							</button>
 							<div id="deadline">
@@ -169,7 +174,7 @@ function Pitch() {
 										})}
 								</div>
 							</div>
-							<button style={{visibility: lastPageVisible}} onClick={() => viewNextPage(curPage)} className="btn btn-fpl small prev_next" id="nextGameweek">
+							<button style={{visibility: lastPageVisible}} onClick={viewNextPage} className="btn btn-fpl small prev_next" id="nextGameweek">
 								<img src={nextPage}  alt="next_page" />
 							</button>
 						</div>

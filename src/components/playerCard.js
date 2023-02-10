@@ -4,14 +4,14 @@ import { BootstrapstaticContext } from '../BootstrapstaticContext'
 function PlayerCard(props) {
 
   const { 
-    idx, backgroundColor, color, forwardImage, playerPos, shortName, shortPos, sort 
+    idx, backgroundColor, color, forwardImage, playerPos, shortName, shortPos,
+    position, team, sort
    } = props
     const fplElements = useContext(BootstrapstaticContext)
     const players = fplElements.players
 
-    const transferIn = (player) => {
-      //fplElements.addToTransfersOut(player)
-      console.log(player)
+    const transferIn = (player, positiion, team) => {
+      fplElements.addToTransfersIn(player, positiion, team)
   }
   return (
     
@@ -25,7 +25,7 @@ function PlayerCard(props) {
         </button>
     </td>
     <td className="player">
-        <button onClick={() => transferIn(playerPos.id)} className="player-cell btn-table">
+        <button onClick={() => transferIn(playerPos.id, position, team)} className="player-cell btn-table">
             <div className="images">
             <img src={require(`../static/shirt_${forwardImage}.webp`)} alt={forwardImage} />
             </div>
