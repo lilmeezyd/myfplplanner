@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
 import { numberOfFixtures, loadOpponents } from '../services/fixtureService'
+import Loader from './Loader'
 
 function Fixtures() {
 
@@ -15,6 +16,7 @@ function Fixtures() {
   return (
     <div className="fixtures-col">
 			<h4 className="large fixture-heading">Fixture Ticker</h4>
+			{(events.length && teams.length && fixtures.length) ?
 			<div className="fixture-ticker">
             <div className="next-fixtures">
 					<label className="small">Next:</label>
@@ -68,7 +70,7 @@ function Fixtures() {
 						})}
 					</tbody>
 				</table>
-			</div>
+			</div> : <Loader />}
 		</div>
   )
 }

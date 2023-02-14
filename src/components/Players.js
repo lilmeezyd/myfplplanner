@@ -6,6 +6,7 @@ import lastPage from '../static/last_page.png'
 import firstPage from '../static/first_page.png'
 import prevPage from "../static/chevron_left.png"
 import nextPage from "../static/chevron_right.png"
+import Loader from './Loader'
 
 function Players(props) {
     
@@ -149,6 +150,7 @@ function Players(props) {
     </div>
 </div>
 
+{(players.length) ? 
 <div className="player-info">
     <div className="player-numbers">
         <span className="number">{players.length}</span>
@@ -327,7 +329,7 @@ function Players(props) {
             <img src={lastPage} alt="last_page"/>
         </button>
     </div>
-</div>
+</div> : <Loader />}
     </div>
   )
 }
