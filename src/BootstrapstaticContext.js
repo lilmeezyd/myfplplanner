@@ -560,41 +560,38 @@ function BootstrapstaticProvider({children}) {
                             repeatedPlayer.push(...playersOut.splice(j,1))
                         }
                     }
-                    if(repeatedPlayer.length === 1) {
+                    if(repeatedPlayer.length === 1) { 
+                        // player already transferred out
                         playersIn.push()
                         let likelyReplaced = tempPlayersOut.find(x => x.element_type === player.element_type)
                         let isOut =  picks[pickIndex-1].newPicks.some(x => x.element_out === repeatedPlayer[0].element)
-                        //console.log(likelyReplaced.element)
-                        //console.log(repeatedPlayer[0].element)
                         if(isOut) {
                             let withIsOut = picks[pickIndex-1].newPicks.find(x => x.element_out === repeatedPlayer[0].element)
                             withIsOut.element_out = likelyReplaced.element
                             let inIndex = playersIn.findIndex(x => x.element === withIsOut.element)
-                            //playersIn.splice(inIndex,1, withIsOut)
                             setPlayersIn(x => [...x.filter((y, idx) => idx !== inIndex), withIsOut])
                             repeatedPlayer[0].is_captain = likelyReplaced.is_captain
                             repeatedPlayer[0].is_vice_captain = likelyReplaced.is_vice_captain
-                            //picks.splice(picks.findIndex(x => x.element === likelyReplaced.element),1)
-                            //picks.push(repeatedPlayer[0])
                             let repeatedIndex = picks[pickIndex-1].newPicks.findIndex(x=>x.element===likelyReplaced.element)
-                            setPicks((x) => [...x, x[pickIndex-1].newPicks.splice(repeatedIndex,1,repeatedPlayer[0])])
+                            setPicks([...picks.map((pick, key) => 
+                                key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
+                                    idx === repeatedIndex ? repeatedPlayer[0] : newPick )} : pick)])
 
                         } else {
-                            picks[pickIndex-1].newPicks.map((x, key) => {
-                                if(x.element === repeatedPlayer[0].element) {
-                                    //picks.splice(key, 1, repeatedPlayer[0])
-                                    setPicks((y) => [...y, y[pickIndex-1].splice(key,1, repeatedPlayer[0])])
-                                }
-                            })
+                            setPicks([...picks.map((pick, key) => 
+                                key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
+                                    newPick.element === repeatedPlayer[0].element ? repeatedPlayer[0] : newPick )} : pick)])
+                            
                         }
                         let pIndex = tempPlayersOut.findIndex(x => x.element_type === player.element_type && x.element === likelyReplaced.element)
                         
                         setTempPlayersOut(x => [...x.filter((y, idx) => idx !== pIndex)])
                     }
-                    else {
+                    else { // Normal player addition
                         setPlayersIn((x) => [...x, player])
-                        //removedPlayers = picks.splice(playerOutIndex,1, player)
-                        setPicks(x=> [...x.filter((y,idx) => idx !== playerOutIndex), player])
+                        setPicks([...picks.map((pick, key) => 
+                                key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
+                                    idx === playerOutIndex ? player : newPick )} : pick)])
                         let pIndex = tempPlayersOut.findIndex(x => x.element_type === player.element_type)
                         setTempPlayersOut(x => [...x.filter((y, idx) => idx !== pIndex)])
                     }

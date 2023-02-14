@@ -31,7 +31,7 @@ function Fixtures() {
 				<table className="ticker-table">
 					<thead className="small">
 						<tr>
-							<th></th>
+							<th>Team</th>
 							{fixHeader.map((header, idx) => {
 								return (
 									<th key={idx}>GW{header.id}</th>
@@ -51,7 +51,7 @@ function Fixtures() {
 									<span className="ticker-team">{team.name}</span>
 								</td>
 								{opponents.map((cell, idx) => {
-									return (<td key={idx}>
+									return (<td><div className="oppfix" key={idx}>
 										{cell.arr.map((x, idx) => {
 											let color = x.difficulty === 4 || x.difficulty === 5 ? 
 											'rgb(255,255,255)': 'rgb(0,0,0)'
@@ -62,7 +62,7 @@ function Fixtures() {
 											return (
 											<span className='opponent' style={{color: color, backgroundColor: backgroundColor}} key={idx}>{name}{x.venue}</span>)
 										})}
-									</td>)
+									</div></td>)
 								})}
 							</tr>)
 						})}

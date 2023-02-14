@@ -1029,6 +1029,12 @@
 	table td span:first-child {
 		font-family: 'Montserrat', sans-serif;
 	}
+	.oppfix {
+		display: flex;
+	}
+	.oppfix span.opponent {
+		flex: 1 1 0%;
+	}
 	span.opponent {
 		display:block;
 		font-weight: 700;
@@ -1355,8 +1361,8 @@
 	}
 	.ticker-table thead th {
 		padding: 0.5rem;
-		border: 0;
-		/*position: sticky;
+		/*border: 0;
+		position: sticky;
 		top: 0;
 		z-index: 2;*/
 		background: #fff;
@@ -1369,9 +1375,9 @@
 		z-index: 4;
 		box-shadow: 1px 0;
 	}
-	.ticker-table tbody td:nth-child(2) {
-		/*font-size: 0.9rem;*/
-	}
+	/*.ticker-table tbody td:nth-child(2) {
+		font-size: 0.9rem;
+	}*/
 	.table tbody td:first-child {
 		position: sticky;
 		left: 0;
@@ -1411,11 +1417,11 @@
 		left: 0;
 		background: rgba(255, 255, 255, 1);
 		z-index: 1;
-		box-shadow: 1px 0px;
+		border: 1px solid rgba(0, 0, 0, 0.1);
 	}
-	.ticker-table tbody td:first-child span {
-		/*display: block;*/
-	}
+	/*.ticker-table tbody td:first-child span {
+		display: block;
+	}*/
 	.ticker-image {
 		padding: 0.2rem;
 	}
@@ -1477,11 +1483,11 @@
 			font-size: 0.7rem;
 		}
 	}
-	@media(max-width: 620px) {
+	/*@media(max-width: 620px) {
 		.ticker-table tbody td:first-child {
 			box-shadow: 0px 0px 2px;
 		}
-	}
+	}*/
 	@media(max-width: 575px) {
 
 		.ticker-team {		
