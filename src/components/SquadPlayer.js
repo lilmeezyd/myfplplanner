@@ -4,6 +4,8 @@ import { BootstrapstaticContext } from '../BootstrapstaticContext'
 function SquadPlayer(props) {
 
     const fplElements = useContext(BootstrapstaticContext)
+    const outplayer = fplElements.outplayer
+    const inplayer = fplElements.inplayer
     const { image, 
         backgroundColor, 
         color,playerOpps,  idx, player, teams , playerPos, curPage } = props
@@ -44,7 +46,16 @@ function SquadPlayer(props) {
         handleClose()
     }
 
-    const switchPlayer = (id) => {}
+    const setSwitchPlayer = (player) => {
+        player.multiplier === 0 ? fplElements.getInPlayer(player) :
+        fplElements.getOutPlayer(player)
+        handleClose()
+    }
+
+    const cancelPlayer = (player) => {
+        fplElements.cancelPlayer(player)
+        handleClose()
+    }
 
 
     let fromTop = (top-175)/2
@@ -95,7 +106,9 @@ function SquadPlayer(props) {
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
                         </svg>
                 </button>
-                <button onClick={() => switchPlayer(playerPos.element)} className="swap-button-out swap-button">
+                <button 
+                onClick={(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayer.element)
+                    ? () => cancelPlayer(playerPos) : () => setSwitchPlayer(playerPos)} className="swap-button-out swap-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="darkred" className="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
                         </svg> 
@@ -129,7 +142,8 @@ function SquadPlayer(props) {
             <button className={`btn-info btn-info-block 
             ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'} btn-warn substitute`}
-                onClick={() => switchPlayer(playerPos.element)}>
+                onClick={(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayer.element)
+                    ? () => cancelPlayer(playerPos) : () => setSwitchPlayer(playerPos)}>
                     {(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayer.element)
                      ? 'Cancel' : 'Switch'}
                 </button>

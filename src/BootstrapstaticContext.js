@@ -30,7 +30,10 @@ export const BootstrapstaticContext = createContext({
     addToTransfersIn: () => {},
     getPickIndex: () => {},
     changeCaptain: () => {},
-    changeViceCaptain: () => {}
+    changeViceCaptain: () => {},
+    getOutPlayer: () => {},
+    getInPlayer: () => {},
+    cancelPlayer: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -642,6 +645,32 @@ function BootstrapstaticProvider({children}) {
                 multiplier: 1} : newPick )} : pick)])
     }
     
+    const getOutPlayer = (outplayer) => {
+        setOutPlayer(outplayer)
+        Object.keys(inplayer).length > 0 && switchPlayers()
+    }
+    const getInPlayer = (inplayer) => {
+        setInPlayer(inplayer)
+        Object.keys(outplayer).length > 0 && switchPlayers()
+    }
+    const switchPlayers = () => {
+        setPicks([...picks.map((pick, key) => 
+            key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
+                newPick.element === outplayer.element ? 
+                {...newPick, is_captain:false, is_vice_captain:false,
+                multiplier:0, position:inplayer.position} :
+                newPick.element === inplayer.element ? 
+                {...newPick, is_captain:outplayer.is_captain,
+                is_vice_captain:outplayer.is_vice_captain,
+                multiplier: outplayer.multiplier,
+                position: outplayer.position} : newPick )} : pick)])
+        
+        setOutPlayer({})
+        setInPlayer({})
+    }
+    const cancelPlayer = (player) => {
+        player.multiplier === 0 ? setInPlayer({}) : setOutPlayer({})
+    }
 
     
 
@@ -675,7 +704,10 @@ function BootstrapstaticProvider({children}) {
         addToTransfersOut,
         getPickIndex,
         changeCaptain,
-        changeViceCaptain
+        changeViceCaptain,
+        getInPlayer,
+        getOutPlayer,
+        cancelPlayer
     }
 
     return (
