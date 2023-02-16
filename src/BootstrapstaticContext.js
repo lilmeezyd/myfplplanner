@@ -17,6 +17,8 @@ export const BootstrapstaticContext = createContext({
     transfers: [],
     playersOut: [],
     playersIn: [],
+    outplayer: {},
+    inplayer: {},
     tempPlayersOut: [],
     tempPlayersIn: [],
     managerId: 0,
@@ -26,7 +28,9 @@ export const BootstrapstaticContext = createContext({
     updateWildcard: () => {},
     addToTransfersOut: () => {},
     addToTransfersIn: () => {},
-    getPickIndex: () => {}
+    getPickIndex: () => {},
+    changeCaptain: () => {},
+    changeViceCaptain: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -601,6 +605,42 @@ function BootstrapstaticProvider({children}) {
 
         console.log(player)
     }
+
+    const changeCaptain = (id) => {
+        const old = picks[pickIndex-1].newPicks.find(x => x.is_captain)
+        const player = picks[pickIndex-1].newPicks.find(x => x.element === id)
+        let oldCap = false
+        let oldMultiplier = 1
+        let oldVc = player.is_vice_captain === true ? true : false 
+        let playerCap = true
+        let playerMultiplier = 2
+        let playerVc = false
+        setPicks(picks.map((pick, key) => 
+            key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
+                newPick.element === old.element ? 
+                {...newPick, is_captain:oldCap, is_vice_captain:oldVc,
+                multiplier:oldMultiplier} :
+                newPick.element === player.element ? 
+                {...newPick, is_captain:playerCap, is_vice_captain:playerVc,
+                multiplier:playerMultiplier} : newPick )} : pick))
+    }
+    const changeViceCaptain = (id) => {
+        const old = picks[pickIndex-1].newPicks.find(x => x.is_vice_captain)
+		const player = picks[pickIndex-1].newPicks.find(x => x.element === id)
+        let oldVc = false
+        let oldMultiplier = player.multiplier >= 2 ? 2 : 1 
+        let oldCap = player.is_captain === true ? true : false
+        let playerCap = false
+        let playerVc = true
+        setPicks([...picks.map((pick, key) => 
+            key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
+                newPick.element === old.element ? 
+                {...newPick, is_captain:oldCap, is_vice_captain:oldVc,
+                multiplier:oldMultiplier} :
+                newPick.element === player.element ? 
+                {...newPick, is_captain:playerCap, is_vice_captain:playerVc,
+                multiplier: 1} : newPick )} : pick)])
+    }
     
 
     
@@ -622,6 +662,8 @@ function BootstrapstaticProvider({children}) {
         playersIn: playersIn,
         tempPlayersOut: tempPlayersOut,
         tempPlayersIn: tempPlayersIn,
+        outplayer: outplayer,
+        inplayer: inplayer,
         transferLogic: transferLogic,
         managerHistory: managerHistory,
         managerPicks: managerPicks,
@@ -631,7 +673,9 @@ function BootstrapstaticProvider({children}) {
         updateWildcard,
         addToTransfersIn,
         addToTransfersOut,
-        getPickIndex
+        getPickIndex,
+        changeCaptain,
+        changeViceCaptain
     }
 
     return (

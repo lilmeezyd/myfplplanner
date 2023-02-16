@@ -288,6 +288,9 @@
 	.trans-wrapper:not(.trans-wrapper:last-child) {
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	}
+	.oppfix span.opponent:not(span.opponent:nth-of-type(1)) {
+		border-left: none;
+	}
 	.players-col {
 		background: #fff;
 	}
