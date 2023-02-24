@@ -20,9 +20,9 @@ export const BootstrapstaticContext = createContext({
     outplayer: {},
     inplayer: {},
     tempPlayersOut: [],
-    tempPlayersIn: [],
     managerId: 0,
     eventId: 1,
+    pickIndex: 1,
     remainingBudget: null,
     getManagerInfo: () => {},
     updateWildcard: () => {},
@@ -33,7 +33,8 @@ export const BootstrapstaticContext = createContext({
     changeViceCaptain: () => {},
     getOutPlayer: () => {},
     getInPlayer: () => {},
-    cancelPlayer: () => {}
+    cancelPlayer: () => {},
+    getInTheBank: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -71,7 +72,6 @@ function BootstrapstaticProvider({children}) {
     const [ playersOut, setPlayersOut ] = useState([])
     const [ playersIn, setPlayersIn ] = useState([])
     const [ tempPlayersOut, setTempPlayersOut ] = useState([])
-    const [ tempPlayersIn, setTempPlayersIn ] = useState([])
     const [ outplayer, setOutPlayer ] = useState({})
     const [ inplayer, setInPlayer ] = useState({})
     const [ pickIndex, setPickIndex ] = useState(1)
@@ -428,9 +428,32 @@ function BootstrapstaticProvider({children}) {
             setTempPlayersOut(x => [...x.filter((y, idx) => idx !== isFoundOutTempIndex)])
             setRemainingBudget(+remainder-sellingPrice)
         } else {
-            setPlayersOut(x => [...x, player])
-            setTempPlayersOut(x => [...x, player])
-            setRemainingBudget(+remainder+sellingPrice)
+            if(!isFoundIn) {
+                setPlayersOut(x => [...x, player])
+                setTempPlayersOut(x => [...x, player])}
+        }
+
+        if(isFoundIn) {
+
+            //In PlayersIn Array
+            let isFoundInIndex = playersIn.findIndex(x => x.element === player.element)
+            let isFoundInPicksIndex = picks[pickIndex-1].newPicks.findIndex(x => x.element === player.element)
+            let replacedElement = playersIn[isFoundInIndex].element_out
+            let replacedElementObj = playersOut.find(x => x.element === replacedElement)
+            replacedElementObj.is_captain = playersIn[isFoundInIndex].is_captain
+            replacedElementObj.is_vice_captain = playersIn[isFoundInIndex].is_vice_captain
+            replacedElementObj.multiplier = playersIn[isFoundInIndex].multiplier
+            replacedElementObj.position = playersIn[isFoundInIndex].position
+            setPlayersIn(x => [...x.filter((y, idx) => idx !== isFoundInIndex)])
+            setPicks([...picks.map((pick, key) => 
+                                key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
+                                    idx === isFoundInPicksIndex ? replacedElementObj : newPick )} : pick)])
+            
+            //In PlayersOut Array
+			let	isFoundOutIndex = playersOut.findIndex(x => x.element === player.element)
+            let isFoundOutTempIndex = tempPlayersOut.findIndex(x => x.element === player.element)
+            setPlayersOut(x => [...x.filter((y, idx) => idx !== isFoundOutIndex)])
+            setTempPlayersOut(x => [...x, replacedElementObj])
         }
         
     }
@@ -606,7 +629,6 @@ function BootstrapstaticProvider({children}) {
                 }
         }
 
-        console.log(player)
     }
 
     const changeCaptain = (id) => {
@@ -651,7 +673,7 @@ function BootstrapstaticProvider({children}) {
     }
     const getInPlayer = (inplayer) => {
         setInPlayer(inplayer)
-        Object.keys(outplayer).length > 0 && switchPlayers()
+        Object.keys(outplayer).length > 0 ? switchPlayers() : changeBenchOrder()
     }
     const switchPlayers = () => {
         setPicks([...picks.map((pick, key) => 
@@ -668,10 +690,17 @@ function BootstrapstaticProvider({children}) {
         setOutPlayer({})
         setInPlayer({})
     }
+    const changeBenchOrder = () => {}
     const cancelPlayer = (player) => {
         player.multiplier === 0 ? setInPlayer({}) : setOutPlayer({})
     }
-
+    const getInTheBank = () => {
+        let totalBudget = +picks[pickIndex-1].totalBudget
+        let spent = picks[pickIndex-1].newPicks.reduce((x,y) => x+(+y.selling_price),0)-
+        tempPlayersOut.reduce((x,y) => x+(+y.selling_price),0)
+        let inBank = (totalBudget-spent).toFixed(1)
+        return inBank
+    }
     
 
     const contextValue = {
@@ -690,7 +719,6 @@ function BootstrapstaticProvider({children}) {
         playersOut: playersOut,
         playersIn: playersIn,
         tempPlayersOut: tempPlayersOut,
-        tempPlayersIn: tempPlayersIn,
         outplayer: outplayer,
         inplayer: inplayer,
         transferLogic: transferLogic,
@@ -698,6 +726,7 @@ function BootstrapstaticProvider({children}) {
         managerPicks: managerPicks,
         transferHistory: transferHistory,
         remainingBudget: remainingBudget,
+        pickIndex: pickIndex,
         getManagerInfo,
         updateWildcard,
         addToTransfersIn,
@@ -707,7 +736,8 @@ function BootstrapstaticProvider({children}) {
         changeViceCaptain,
         getInPlayer,
         getOutPlayer,
-        cancelPlayer
+        cancelPlayer,
+        getInTheBank
     }
 
     return (

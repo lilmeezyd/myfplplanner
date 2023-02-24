@@ -6,12 +6,16 @@ function SquadPlayer(props) {
     const fplElements = useContext(BootstrapstaticContext)
     const outplayer = fplElements.outplayer
     const inplayer = fplElements.inplayer
+    const picks = fplElements.picks
+    const pickIndex = fplElements.pickIndex
     const { image, 
         backgroundColor, 
-        color,playerOpps,  idx, player, teams , playerPos, curPage } = props
+        color,playerOpps, idx, player, teams , playerPos,positionObj,
+        playerInClass, newPlayer, newPadding, curPage } = props
     const [ show, setShow ] = useState(false)
 	const [ top, setTop ] = useState(window.innerHeight)
 	const [ left, setleft ] = useState(window.innerWidth)
+    const [ playerElement, setPlayerElement ] = useState(null)
 
     const handleShow = () => setShow(true)
 	const handleClose = () => setShow(false)
@@ -21,11 +25,23 @@ function SquadPlayer(props) {
 	}
 
     useEffect(() => {
+        let goal = document.getElementById('goal')
+        let forw = document.getElementById('forw')
+        let forwLength = forw.getElementsByClassName('pitch_unit').length
+        let goalLength = goal.getElementsByClassName('pitch_unit').length
 		window.addEventListener('resize', setDimensions)
+        if(forwLength === 1) {
+            forw.getElementsByClassName('pitch_unit')[0].style.flexGrow = 0
+        }
+        if(goalLength === 1) {
+            goal.getElementsByClassName('pitch_unit')[0].style.flexGrow = 0
+        }
+
+
 		return () => {
 			window.removeEventListener('resize', setDimensions)
 		}
-	},[])
+	}, [])
 
    /* const onTransferOut = (player) => {
         fplElements.addToTransfersOut(player)
@@ -49,6 +65,7 @@ function SquadPlayer(props) {
     const setSwitchPlayer = (player) => {
         player.multiplier === 0 ? fplElements.getInPlayer(player) :
         fplElements.getOutPlayer(player)
+        setPlayerElement(player.element_type)
         handleClose()
     }
 
@@ -57,16 +74,20 @@ function SquadPlayer(props) {
         handleClose()
     }
 
+    
 
     let fromTop = (top-175)/2
 	let fromLeft = (left-320)/2
 
   return (
     <>
-    <div key={idx} className="pitch_unit">
-        <div className="element_container">
-            <div className="element_container_1 element_container-two">
-                <button onClick={handleShow} type="button" className="btn-details">
+    <div key={idx} className={ `${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayer.element)
+                     ? 'player-active' : ''} pitch_unit`}>
+        <div className={`element_container ${playerInClass}`}>
+            <div className="element_container_1 element_container-two"
+            id={playerPos.element} position={positionObj?.id}>
+                <button 
+                onClick={handleShow} type="button" className="btn-details">
                     <img src={require(`../static/shirt_${image}.webp`)} className="image_pic" alt={player.web_name}/>
                         <div className="details-cont">
                             <div className="data_name"
@@ -113,6 +134,8 @@ function SquadPlayer(props) {
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
                         </svg> 
                 </button>
+                <div className="new"
+										style={{padding: `${newPadding}px`}}>{newPlayer}</div>
                 <div className="captain">
                     {playerPos.is_captain ? 
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" role="img" focusable="false" className="captain">
@@ -136,9 +159,10 @@ function SquadPlayer(props) {
             <button onClick={() => transferOut(playerPos)} 
             className={`btn-info btn-info-block 
             ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
-                'btn-green':'btn-danger'} transfer`}>
+                'btn-green':'btn-danger'}
+                ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayer.element) ? 'hide-btn':'show-btn'}  transfer`}>
                 {fplElements.playersOut.some(x => x.element === playerPos.element) ?
-                    'Restore':'Transfer'}</button>
+                    'Restore':'Remove'}</button>
             <button className={`btn-info btn-info-block 
             ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'} btn-warn substitute`}
@@ -150,16 +174,19 @@ function SquadPlayer(props) {
             <button className={`btn-info btn-info-block
             ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'} 
-                ${playerPos.multiplier > 0 ? 'show-btn':'hide-btn'} btn-cap `}
+                ${playerPos.multiplier > 0 ? 'show-btn':'hide-btn'} 
+                ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayer.element) ? 'hide-btn':'show-btn'} btn-cap `}
                 onClick={() => captain(playerPos.element)}>Make Captain</button>
             <button className={`btn-info btn-info-block 
             ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'}
-                ${playerPos.multiplier > 0 ? 'show-btn':'hide-btn'} btn-vcap `} 
+                ${playerPos.multiplier > 0 ? 'show-btn':'hide-btn'} 
+                ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayer.element) ? 'hide-btn':'show-btn'} btn-vcap `} 
                 onClick={() => viceCaptain(playerPos.element)}>Make Vice Captain</button>
             <button className={`btn-info btn-info-block btn-light
             ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
-                'hide-btn':'show-btn'} btn-player-info`}>View Information</button>
+                'hide-btn':'show-btn'} 
+            ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayer.element) ? 'hide-btn':'show-btn'} btn-player-info`}>View Information</button>
         </div> 
     </div>  }
 </>

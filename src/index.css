@@ -288,7 +288,8 @@
 	.trans-wrapper:not(.trans-wrapper:last-child) {
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	}
-	.oppfix span.opponent:not(span.opponent:nth-of-type(1)) {
+	.oppfix span.opponent:not(span.opponent:nth-of-type(1)),
+	.up-fix > div > span.opponent:not(span.opponent:nth-of-type(1)){
 		border-left: none;
 	}
 	.players-col {
@@ -1687,12 +1688,10 @@
             width: 50px;
             height: 50px;
 			margin-top: 3rem;
-            border-left: 5px solid black;
-            border-top: 5px solid black;
-            border-right: 5px solid rgba(0, 0, 0, 0.3);
-            border-bottom: 5px solid rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(0, 255, 255, 0.5);
+            border-left-color: rgba(22, 22, 68, 1.0);
             border-radius: 50%;
-            animation: spin 2s infinite;
+            animation: spin 2s linear infinite;
         }
 
         @keyframes spin {

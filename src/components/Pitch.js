@@ -198,8 +198,7 @@ function Pitch() {
 								<h4 className="large">Remaining Budget</h4>
 								{players.length && picks.length && fixtures.length && events.length && 
 								<span className="remain-budget">
-									{fplElements.remainingBudget === null ?
-									 getPicks(players, picks, curPage, curSize).itb : fplElements.remainingBudget.toFixed(1)}
+									{fplElements.getInTheBank()}
 								</span>}
 							</div>
 						</div>
@@ -293,6 +292,10 @@ function Pitch() {
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
+								let inplayersIn = fplElements.playersIn.some(x => x.element == playerPos.element)
+								let newPlayer = inplayersIn ? 'NEW' : ''
+								let newPadding = inplayersIn ? 2 : 0
+								let playerInClass = inplayersIn ? 'player_in' : ''
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66`
@@ -311,6 +314,10 @@ function Pitch() {
 									player={player} 
 									teams={teams}
 									playerPos={playerPos}
+									positionObj={positionObj}
+									playerInClass={playerInClass}
+									newPlayer={newPlayer}
+									newPadding={newPadding}
 									curPage={curPage}></SquadPlayer>)
 							})}
 						</div>
@@ -321,6 +328,10 @@ function Pitch() {
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
+								let inplayersIn = fplElements.playersIn.some(x => x.element == playerPos.element)
+								let newPlayer = inplayersIn ? 'NEW' : ''
+								let newPadding = inplayersIn ? 2 : 0
+								let playerInClass = inplayersIn ? 'player_in' : ''
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66` 
 								let news = player.chance_of_playing_next_round
@@ -338,6 +349,10 @@ function Pitch() {
 										player={player} 
 										teams={teams}
 										playerPos={playerPos}
+										positionObj={positionObj}
+										playerInClass={playerInClass}
+										newPlayer={newPlayer}
+										newPadding={newPadding}
 										curPage={curPage}></SquadPlayer>)
 							})}
 						</div>
@@ -348,6 +363,10 @@ function Pitch() {
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
+								let inplayersIn = fplElements.playersIn.some(x => x.element == playerPos.element)
+								let newPlayer = inplayersIn ? 'NEW' : ''
+								let newPadding = inplayersIn ? 2 : 0
+								let playerInClass = inplayersIn ? 'player_in' : ''
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66`  
 								let news = player.chance_of_playing_next_round
@@ -365,6 +384,10 @@ function Pitch() {
 										player={player} 
 										teams={teams}
 										playerPos={playerPos}
+										positionObj={positionObj}
+										playerInClass={playerInClass}
+										newPlayer={newPlayer}
+										newPadding={newPadding}
 										curPage={curPage}></SquadPlayer>
 										)						})}
 						</div>
@@ -375,6 +398,10 @@ function Pitch() {
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
+								let inplayersIn = fplElements.playersIn.some(x => x.element == playerPos.element)
+								let newPlayer = inplayersIn ? 'NEW' : ''
+								let newPadding = inplayersIn ? 2 : 0
+								let playerInClass = inplayersIn ? 'player_in' : ''
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66` 
 								let news = player.chance_of_playing_next_round
@@ -392,6 +419,10 @@ function Pitch() {
 									player={player} 
 									teams={teams}
 									playerPos={playerPos}
+									positionObj={positionObj}
+									playerInClass={playerInClass}
+									newPlayer={newPlayer}
+									newPadding={newPadding}
 									curPage={curPage}></SquadPlayer>)
 							})}
 						</div>
@@ -405,6 +436,10 @@ function Pitch() {
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 								let inTemp = fplElements.playersOut.some(x => x.element === playerPos.element)
+								let inplayersIn = fplElements.playersIn.some(x => x.element == playerPos.element)
+								let newPlayer = inplayersIn ? 'NEW' : ''
+								let newPadding = inplayersIn ? 2 : 0
+								let playerInClass = inplayersIn ? 'player_in' : ''
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66` 
 								let news = player.chance_of_playing_next_round
@@ -422,6 +457,9 @@ function Pitch() {
 									player={player} 
 									teams={teams}
 									playerPos={playerPos}
+									playerInClass={playerInClass}
+									newPadding={newPadding}
+									newPlayer={newPlayer}
 									curPage={curPage}></SquadPlayer>)
 							})}
 					</div>}
