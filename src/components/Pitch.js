@@ -4,6 +4,7 @@ import { getPicks } from "../services/picksService"
 import { loadOpponents, loadPlayerOpponents } from "../services/fixtureService"
 import { BootstrapstaticContext } from "../BootstrapstaticContext"
 import  SquadPlayer  from './SquadPlayer'
+import TransferRows from './TransferRows'
 import Loader from "./Loader"
 import prevPage from "../static/chevron_left.png"
 import nextPage from "../static/chevron_right.png"
@@ -183,7 +184,7 @@ function Pitch() {
 						<div className="budget">
 							<div className="budget-players large">
 								<h4 className="large">Player Selection</h4>
-								<div><span className="player-num" ></span>&nbsp;<span>/</span>&nbsp;<span>15</span></div>
+								<div><span className="player-num" >{fplElements.playersSelected()}</span>&nbsp;<span>/</span>&nbsp;<span>15</span></div>
 							</div>
 							<div className="free-transfers large">
 								<h4 title="Free Transfers large">FT</h4>
@@ -258,16 +259,7 @@ function Pitch() {
 							</div>}
 						</button>
 					</div>}
-					{showTransfersMade && <div className="transfer-rows">
-						<div className="transfer-out-wrapper">
-							<h4 className="small">Transfer Out</h4>
-							<div className="transfer-out"></div>
-						</div>
-						<div className="transfer-in-wrapper">
-							<h4 className="small">Transfer In</h4>
-							<div className="transfer-in"></div>
-						</div>
-					</div>}
+					{showTransfersMade && <TransferRows />}
 					<div className="message small"></div>
 				</div>
 				<div className="field">

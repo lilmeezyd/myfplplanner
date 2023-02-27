@@ -9,10 +9,16 @@ function PlayerCard(props) {
    } = props
     const fplElements = useContext(BootstrapstaticContext)
     const players = fplElements.players
+    const pickIndex = fplElements.pickIndex
+    const picks = fplElements.picks
 
     const transferIn = (player, positiion, team) => {
       fplElements.addToTransfersIn(player, positiion, team)
   }
+    const playerIds = () => {
+      let ids = picks[pickIndex-1].newPicks.map(x => x.element)
+      return ids
+    }
   return (
     
     <tr key={idx} className="player-tbh">
@@ -25,7 +31,9 @@ function PlayerCard(props) {
         </button>
     </td>
     <td className="player">
-        <button onClick={() => transferIn(playerPos.id, position, team)} className="player-cell btn-table">
+        <button
+          disabled={playerIds().includes(playerPos.id)}
+         onClick={() => transferIn(playerPos.id, position, team)} className="player-cell btn-table">
             <div className="images">
             <img src={require(`../static/shirt_${forwardImage}.webp`)} alt={forwardImage} />
             </div>

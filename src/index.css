@@ -852,9 +852,9 @@
 	.playerpopup {
 		position: absolute;
 		width: 100%;
-		height: 100%;
+		height: 4620px;
 		content: '';
-		top: 0;
+		top: -600px;
 		left: 0;
 		background-color: rgba(23, 255, 23, 0.3);
 		z-index: 9;

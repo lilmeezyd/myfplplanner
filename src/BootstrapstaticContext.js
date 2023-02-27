@@ -18,7 +18,8 @@ export const BootstrapstaticContext = createContext({
     playersOut: [],
     playersIn: [],
     outplayer: {},
-    inplayer: {},
+    inplayerOne: {},
+    inplayerTwo: {},
     tempPlayersOut: [],
     managerId: 0,
     eventId: 1,
@@ -32,9 +33,13 @@ export const BootstrapstaticContext = createContext({
     changeCaptain: () => {},
     changeViceCaptain: () => {},
     getOutPlayer: () => {},
-    getInPlayer: () => {},
+    getInPlayerOne: () => {},
+    getInPlayerTwo: () => {},
     cancelPlayer: () => {},
-    getInTheBank: () => {}
+    getInTheBank: () => {},
+    switchPlayers: () => {},
+    changeBenchOrder: () => {},
+    playersSelected: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -73,7 +78,8 @@ function BootstrapstaticProvider({children}) {
     const [ playersIn, setPlayersIn ] = useState([])
     const [ tempPlayersOut, setTempPlayersOut ] = useState([])
     const [ outplayer, setOutPlayer ] = useState({})
-    const [ inplayer, setInPlayer ] = useState({})
+    const [ inplayerOne, setInPlayerOne ] = useState({})
+    const [ inplayerTwo, setInPlayerTwo ] = useState({})
     const [ pickIndex, setPickIndex ] = useState(1)
 
   
@@ -669,30 +675,41 @@ function BootstrapstaticProvider({children}) {
     
     const getOutPlayer = (outplayer) => {
         setOutPlayer(outplayer)
-        Object.keys(inplayer).length > 0 && switchPlayers()
     }
-    const getInPlayer = (inplayer) => {
-        setInPlayer(inplayer)
-        Object.keys(outplayer).length > 0 ? switchPlayers() : changeBenchOrder()
+    const getInPlayerOne = (inplayerOne) => {
+        setInPlayerOne(inplayerOne)
+    }
+    const getInPlayerTwo = (inplayerTwo) => {
+        setInPlayerTwo(inplayerTwo)
     }
     const switchPlayers = () => {
         setPicks([...picks.map((pick, key) => 
             key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
                 newPick.element === outplayer.element ? 
                 {...newPick, is_captain:false, is_vice_captain:false,
-                multiplier:0, position:inplayer.position} :
-                newPick.element === inplayer.element ? 
+                multiplier:0, position:inplayerOne.position} :
+                newPick.element === inplayerOne.element ? 
                 {...newPick, is_captain:outplayer.is_captain,
                 is_vice_captain:outplayer.is_vice_captain,
                 multiplier: outplayer.multiplier,
                 position: outplayer.position} : newPick )} : pick)])
         
         setOutPlayer({})
-        setInPlayer({})
+        setInPlayerOne({})
     }
-    const changeBenchOrder = () => {}
+    const changeBenchOrder = () => {
+        setPicks([...picks.map((pick, key) => 
+            key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
+                newPick.element === inplayerOne.element ? 
+                {...newPick, position:inplayerTwo.position} :
+                newPick.element === inplayerTwo.element ? 
+                {...newPick,position:inplayerOne.position} : newPick )} : pick)])
+        
+        setInPlayerOne({})
+        setInPlayerTwo({})
+    }
     const cancelPlayer = (player) => {
-        player.multiplier === 0 ? setInPlayer({}) : setOutPlayer({})
+        player.multiplier === 0 ? setInPlayerOne({}) : setOutPlayer({})
     }
     const getInTheBank = () => {
         let totalBudget = +picks[pickIndex-1].totalBudget
@@ -700,6 +717,11 @@ function BootstrapstaticProvider({children}) {
         tempPlayersOut.reduce((x,y) => x+(+y.selling_price),0)
         let inBank = (totalBudget-spent).toFixed(1)
         return inBank
+    }
+
+    const playersSelected = () => {
+        let firstXV = picks[pickIndex-1].newPicks.length - tempPlayersOut.length
+        return firstXV
     }
     
 
@@ -720,7 +742,8 @@ function BootstrapstaticProvider({children}) {
         playersIn: playersIn,
         tempPlayersOut: tempPlayersOut,
         outplayer: outplayer,
-        inplayer: inplayer,
+        inplayerOne: inplayerOne,
+        inplayerTwo: inplayerTwo,
         transferLogic: transferLogic,
         managerHistory: managerHistory,
         managerPicks: managerPicks,
@@ -734,10 +757,14 @@ function BootstrapstaticProvider({children}) {
         getPickIndex,
         changeCaptain,
         changeViceCaptain,
-        getInPlayer,
+        getInPlayerOne,
+        getInPlayerTwo,
         getOutPlayer,
         cancelPlayer,
-        getInTheBank
+        getInTheBank,
+        switchPlayers,
+        changeBenchOrder,
+        playersSelected
     }
 
     return (
