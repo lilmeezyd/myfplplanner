@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useCallback } from 'react'
+import { useEffect, useState, useContext, useCallback, useRef } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
 import PlayerInfo from './PlayerInfo'
 
@@ -8,6 +8,7 @@ function SquadPlayer(props) {
     const outplayer = fplElements.outplayer
     const inplayerOne = fplElements.inplayerOne
     const inplayerTwo = fplElements.inplayerTwo
+    const playersSelected = fplElements.playersSelected()
     const picks = fplElements.picks
     const pickIndex = fplElements.pickIndex
     const { image, 
@@ -20,6 +21,7 @@ function SquadPlayer(props) {
 	const [ left, setleft ] = useState(window.innerWidth)
     const [ playerElement, setPlayerElement ] = useState(null)
     const [ playerMultiplier, setPlayerMultiplier ] = useState(null)
+    const ref = useRef(null)
 
     const handleShow = () => setShow(true)
 	const handleClose = () => setShow(false)
@@ -49,39 +51,140 @@ function SquadPlayer(props) {
 
         Object.keys(outplayer).length === 0 && Object.keys(inplayerOne).length > 0 && Object.keys(inplayerTwo).length > 0 && fplElements.changeBenchOrder()
 
-        if(Object.keys(outplayer).length > 0) {
-            let swapout = document.querySelectorAll('.swap-button-out')
-            Array.from(swapout).forEach(x => {
-            x.onclick = function () {
-                if(playerElement===1) {
-                    const tgoal1 = picks[pickIndex-1].newPicks
-                                    .filter(x => x.element_type !== 1)
-                                    .map(x => x.element)
-
-                    Array.from(document.querySelectorAll('.swap-button')).forEach(x => {
-                        let playerId = +x.parentElement.id
-                        //playerposition = x.parentElement.getAttribute('position')
-                
-                        tgoal1.forEach(y => {
-                            if(y.element === playerId) {
-                                x.style.display = 'none'
-                                x.parentElement.querySelector('.btn-details').disabled = true
-                                x.parentElement.querySelector('.btn-details').style.opacity = 0.5
-                            }
-                        })
-                    })                
-                }
-                }
+        const hideallswapbtn = () => {
+            Array.from(document.querySelectorAll('.swap-button')).forEach(x => {
+                x.style.display = 'none'
             })
         }
 
+        const showallswapbtn = () => {
+            Array.from(document.querySelectorAll('.swap-button')).forEach(x => {
+                x.style.display = 'block'
+            })
+        }
+
+        //playersSelected < 15 ? hideallswapbtn() : showallswapbtn()
+
+        const element = ref.current
         
+
+        const swapButtonOut = () => {
+            console.log(element)
+            let playerId = +element.parentElement.id
+            let playerposition = +element.parentElement.getAttribute('position')
+			let playerContainer = element.parentElement.parentElement.parentElement
+			playerContainer.classList.toggle('player-active')
+            if(playerposition === 1){
+                const tgoal = picks[pickIndex-1].newPicks.filter(x => x.element_type === 1 && x.multiplier === 0)
+                const tgoal1 = picks[pickIndex-1].newPicks.filter(x => x.element_type !== 1)
+                addSwap(tgoal)
+                hideswapbtn(tgoal1)
+                hidetransferbtn()
+            }
+            if(playerposition === 2){
+                /*if(positonnumber === 3) {
+                    tgoal = picks.filter(x => x.element_type === 2 && x.multiplier === 0)
+                    tgoal1 = picks.filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type  !== 2))
+                    addSwap(tgoal)
+                    hidetransferbtn()
+                    return hideswapbtn(tgoal1)
+                    
+                } else {
+                    tgoal = picks.filter(x => x.element_type !== 1 && x.multiplier === 0)
+                    tgoal1 = picks.filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
+                    addSwap(tgoal)
+                    hidetransferbtn()
+                    return hideswapbtn(tgoal1)
+                    
+                }*/
+            }
+            if(playerposition === 3){
+                /*if(positonnumber === 2) {
+                    tgoal = picks.filter(x => x.element_type === 3 && x.multiplier === 0)
+                    tgoal1 = picks.filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type !== 3))
+                    addSwap(tgoal)
+                    hideswapbtn(tgoal1)
+                    hidetransferbtn()
+                } else {
+                    tgoal = picks.filter(x => x.element_type !== 1 && x.multiplier === 0)
+                    tgoal1 = picks.filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
+                    addSwap(tgoal)
+                    hideswapbtn(tgoal1)
+                    hidetransferbtn()
+                }*/
+            }
+            if(playerposition === 4){
+               /* if(positonnumber === 1) {
+                    tgoal = picks.filter(x => x.element_type === 4 && x.multiplier === 0)
+                    tgoal1 = picks.filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type !== 4))
+                    addSwap(tgoal)
+                    hideswapbtn(tgoal1)
+                    hidetransferbtn()
+                } else {
+                    tgoal = picks.filter(x => x.element_type !== 1 && x.multiplier === 0)
+                    tgoal1 = picks.filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
+                    addSwap(tgoal)
+                    hideswapbtn(tgoal1)
+                    hidetransferbtn()
+                }*/
+            }
+        }
+
+        const swapButtonIn = () => {}
+
+        const addSwap = (arr) => {
+            let forwardElem = arr.filter(x => x.element_type === 4 && x.multiplier !== 0).length
+            let goalkeeperElem = arr.filter(x => x.element_type === 1 && x.multiplier !== 0).length
+            Array.from(document.querySelectorAll('.btn-details')).forEach(x => {
+                            let playerId = +x.parentElement.id
+                            let position = +x.parentElement.getAttribute('position')
+                            arr.forEach(a => {
+                                let elementWrapper = x.parentElement.parentElement.parentElement.parentElement
+                                if(a.element === playerId && a.element_type === position) {
+                                    x.parentElement.
+                                    parentElement.style.backgroundColor = 'rgba(255, 100, 0, 0.6)'
+                                    x.parentElement.
+                                    parentElement.style.borderRadius = '5px'
+                                }
+                            })
+                        })
+        }
+
+        const hideswapbtn = (a) => {
+            Array.from(document.querySelectorAll('.swap-button')).forEach(x => {
+                let playerId = +x.parentElement.id
+                let playerposition = x.parentElement.getAttribute('position')
+        
+                a.forEach(y => {
+                    if(y.element === playerId) {
+                        x.style.display = 'none'
+                        x.parentElement.querySelector('.btn-details').setAttribute('disabled', '')
+                        x.parentElement.querySelector('.btn-details').style.opacity = 0.5
+                    }
+                })
+            })
+        }
+
+        const hidetransferbtn = () => {
+            Array.from(document.querySelectorAll('.transfer-button')).forEach(x => {
+                x.style.display = 'none'
+            })
+        }
+
+        element.classList.contains('swap-button-out') &&
+        element.addEventListener('click', swapButtonOut)
+
+        element.classList.contains('swap-button-in') &&
+        element.addEventListener('click', swapButtonIn)
 
 
 		return () => {
 			window.removeEventListener('resize', setDimensions)
+            element.removeEventListener('click', swapButtonOut)
+            element.removeEventListener('click', swapButtonIn)
 		}
-	}, [outplayer, inplayerOne, inplayerTwo, picks, pickIndex, playerElement, fplElements])
+	}, [outplayer, inplayerOne, inplayerTwo, picks, pickIndex, playerElement,
+        fplElements, playersSelected])
 
     const transferOut = (player) => {
         fplElements.addToTransfersOut(player)
@@ -131,29 +234,6 @@ function SquadPlayer(props) {
     }
 
     
-
-   const controlField = useCallback((a, b) => {
-        
-        // let pitchUnits = document.querySelectorAll('.pitch_unit')
-        const tgoal1 = []
-        if(a === 1) {
-            if(b > 0) {
-				/*const tgoal = picks[pickIndex-1].newPicks
-                                .filter(x => x.element_type === 1 && x.multiplier === 0)
-                                .map(x => x.element)*/
-				tgoal1.push(...picks[pickIndex-1].newPicks
-                                .filter(x => x.element_type !== 1 || x.element !== outplayer.element)
-                                .map(x => x.element))
-                //Array.from(pitchUnits).forEach(x => {
-                  //  let id = +x.querySelector('.element_container-two').getAttribute('id')
-                  //  let btn = x.querySelector('.btn-details')
-                  // tgoal1.includes(id) ? disabledBtn = true : disabledBtn = false
-                    //tgoal1.includes(id) ? btn.style.opacity = 0.5 : btn.style.opacity = 1
-                //})                
-            } 
-        } else if(a === 2) {}
-        return tgoal1
-      }, [picks, pickIndex, outplayer ])
     
 
     
@@ -176,8 +256,7 @@ function SquadPlayer(props) {
         <div className={`element_container ${playerInClass}`}>
             <div className="element_container_1 element_container-two"
             id={playerPos.element} position={positionObj?.id}>
-                <button 
-                disabled={!(()=>controlField(playerElement, playerMultiplier).includes(playerPos.element))}
+                <button
                 onClick={handleShow} type="button" className="btn-details">
                     <img src={require(`../static/shirt_${image}.webp`)} className="image_pic" alt={player.web_name}/>
                         <div className="details-cont">
@@ -220,7 +299,8 @@ function SquadPlayer(props) {
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
                         </svg>
                 </button>
-                <button 
+                <button
+                    ref={ref}
                 onClick={(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)
                     ? () => cancelPlayer(playerPos) : () => setSwitchPlayer(playerPos)} 
                     className={`${playerPos.multiplier === 0 ? 'swap-button-in' : 'swap-button-out'} swap-button`}>
@@ -246,6 +326,10 @@ function SquadPlayer(props) {
                                 </div> 
     </div>
 
+    
+
+    {(show || showInfo) && <div onClick={handleClose} className="playerpopup">
+    
     {show && 
     <div className="playerpop" style={{top: fromTop, left: fromLeft}}>
         <div className="namesection small">
@@ -255,13 +339,13 @@ function SquadPlayer(props) {
         <div className="infobuttons">
             <button onClick={() => transferOut(playerPos)} 
             className={`btn-info btn-info-block 
-            ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
+            ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'btn-green':'btn-danger'}
                 ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element) ? 'hide-btn':'show-btn'}  transfer`}>
-                {fplElements.playersOut.some(x => x.element === playerPos.element) ?
+                {fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                     'Restore':'Remove'}</button>
             <button className={`btn-info btn-info-block 
-            ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
+            ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'} btn-warn substitute`}
                 onClick={(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)
                     ? () => cancelPlayer(playerPos) : () => setSwitchPlayer(playerPos)}>
@@ -269,13 +353,13 @@ function SquadPlayer(props) {
                      ? 'Cancel' : 'Switch'}
                 </button>
             <button className={`btn-info btn-info-block
-            ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
+            ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'} 
                 ${playerPos.multiplier > 0 ? 'show-btn':'hide-btn'} 
                 ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element) ? 'hide-btn':'show-btn'} btn-cap `}
                 onClick={() => captain(playerPos.element)}>Make Captain</button>
             <button className={`btn-info btn-info-block 
-            ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
+            ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'}
                 ${playerPos.multiplier > 0 ? 'show-btn':'hide-btn'} 
                 ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element) ? 'hide-btn':'show-btn'} btn-vcap `} 
@@ -283,14 +367,11 @@ function SquadPlayer(props) {
             <button 
             onClick={clickInfo}
             className={`btn-info btn-info-block btn-light
-            ${fplElements.playersOut.some(x => x.element === playerPos.element) ?
+            ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'} 
             ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element) ? 'hide-btn':'show-btn'} btn-player-info`}>View Information</button>
         </div> 
     </div>  }
-
-    {(show || showInfo) && <div onClick={handleClose} className="playerpopup">
-    
     
      {showInfo && 
     <PlayerInfo

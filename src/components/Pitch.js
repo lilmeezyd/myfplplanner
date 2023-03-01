@@ -17,6 +17,7 @@ function Pitch() {
 	const fixtures = fplElements.fixtures
 	const players = fplElements.players
 	const picks = fplElements.picks
+	const pickIndex = fplElements.pickIndex
 	const transferLogic = fplElements.transferLogic
 	const playerPosition = fplElements.playerPosition
 	const chips = fplElements.chips
@@ -284,7 +285,7 @@ function Pitch() {
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
-								let inplayersIn = fplElements.playersIn.some(x => x.element == playerPos.element)
+								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element == playerPos.element)
 								let newPlayer = inplayersIn ? 'NEW' : ''
 								let newPadding = inplayersIn ? 2 : 0
 								let playerInClass = inplayersIn ? 'player_in' : ''
@@ -320,7 +321,7 @@ function Pitch() {
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
-								let inplayersIn = fplElements.playersIn.some(x => x.element == playerPos.element)
+								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element == playerPos.element)
 								let newPlayer = inplayersIn ? 'NEW' : ''
 								let newPadding = inplayersIn ? 2 : 0
 								let playerInClass = inplayersIn ? 'player_in' : ''
@@ -355,7 +356,7 @@ function Pitch() {
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
-								let inplayersIn = fplElements.playersIn.some(x => x.element == playerPos.element)
+								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element == playerPos.element)
 								let newPlayer = inplayersIn ? 'NEW' : ''
 								let newPadding = inplayersIn ? 2 : 0
 								let playerInClass = inplayersIn ? 'player_in' : ''
@@ -390,7 +391,7 @@ function Pitch() {
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
-								let inplayersIn = fplElements.playersIn.some(x => x.element == playerPos.element)
+								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element == playerPos.element)
 								let newPlayer = inplayersIn ? 'NEW' : ''
 								let newPadding = inplayersIn ? 2 : 0
 								let playerInClass = inplayersIn ? 'player_in' : ''
@@ -427,8 +428,8 @@ function Pitch() {
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
-								let inTemp = fplElements.playersOut.some(x => x.element === playerPos.element)
-								let inplayersIn = fplElements.playersIn.some(x => x.element == playerPos.element)
+								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
+								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element == playerPos.element)
 								let newPlayer = inplayersIn ? 'NEW' : ''
 								let newPadding = inplayersIn ? 2 : 0
 								let playerInClass = inplayersIn ? 'player_in' : ''

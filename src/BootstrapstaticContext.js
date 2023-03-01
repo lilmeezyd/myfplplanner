@@ -182,7 +182,8 @@ function BootstrapstaticProvider({children}) {
    				const newPicksHyp = []
    				const realPicksHyp = []
                 const gameweekPicks = []
-                const gameweekTransfers = []
+                const gameweekTransfersOut = []
+                const gameweekTransfersIn = []
 				const transferPlayers = []
 				let bank, value
 
@@ -336,11 +337,13 @@ function BootstrapstaticProvider({children}) {
 
                 for(let i = eventId+1; i <= 38; i++) {
                     gameweekPicks.push({event:i, newPicks, totalBudget, bank, value})
-                    gameweekTransfers.push({event:i, transfers: []})
+                    gameweekTransfersOut.push({event:i, arr: []})
+                    gameweekTransfersIn.push({event:i, arr: []})
                 }
                 setPicks(gameweekPicks)
                 setReal(realPicks)
-                setTransfers(gameweekTransfers)
+                setPlayersOut(gameweekTransfersOut)
+                setPlayersIn(gameweekTransfersIn)
                 localStorage.removeItem('picks')
                 localStorage.setItem('picks', JSON.stringify(gameweekPicks))
 
@@ -423,34 +426,37 @@ function BootstrapstaticProvider({children}) {
         //Add player to playersOut or remove player from playersOut
         let totalBudget = +picks[pickIndex-1].totalBudget
         let spent = picks[pickIndex-1].newPicks.reduce((x,y) => x+(+y.selling_price),0) - playersOut.reduce((x,y) => x+(+y.selling_price),0) 
-        let isFoundOut = playersOut.some(x => x.element === player.element)
-        let isFoundIn = playersIn.some(x => x.element === player.element)
+        let isFoundOut = playersOut[pickIndex-1].arr.some(x => x.element === player.element)
+        let isFoundIn = playersIn[pickIndex-1].arr .some(x => x.element === player.element)
         let sellingPrice = +picks[pickIndex-1].newPicks.find(x => x.element === player.element).selling_price
         let remainder = (+totalBudget-spent).toFixed(1)
         if(isFoundOut) {
-            let isFoundOutIndex = playersOut.findIndex(x => x.element === player.element)
+            let isFoundOutIndex = playersOut[pickIndex-1].arr.findIndex(x => x.element === player.element)
             let isFoundOutTempIndex = tempPlayersOut.findIndex(x => x.element === player.element)
-            setPlayersOut(x => [...x.filter((y, idx) => idx !== isFoundOutIndex)])
+            setPlayersOut(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
+                {...gw, arr: gw.arr.filter((y, key) => key !==  isFoundOutIndex)} : gw )])
             setTempPlayersOut(x => [...x.filter((y, idx) => idx !== isFoundOutTempIndex)])
             setRemainingBudget(+remainder-sellingPrice)
         } else {
             if(!isFoundIn) {
-                setPlayersOut(x => [...x, player])
+                setPlayersOut(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
+                    {...gw, arr: [...gw.arr, player]} : gw )])
                 setTempPlayersOut(x => [...x, player])}
         }
 
         if(isFoundIn) {
 
             //In PlayersIn Array
-            let isFoundInIndex = playersIn.findIndex(x => x.element === player.element)
+            let isFoundInIndex = playersIn[pickIndex-1].arr.findIndex(x => x.element === player.element)
             let isFoundInPicksIndex = picks[pickIndex-1].newPicks.findIndex(x => x.element === player.element)
-            let replacedElement = playersIn[isFoundInIndex].element_out
-            let replacedElementObj = playersOut.find(x => x.element === replacedElement)
-            replacedElementObj.is_captain = playersIn[isFoundInIndex].is_captain
-            replacedElementObj.is_vice_captain = playersIn[isFoundInIndex].is_vice_captain
-            replacedElementObj.multiplier = playersIn[isFoundInIndex].multiplier
-            replacedElementObj.position = playersIn[isFoundInIndex].position
-            setPlayersIn(x => [...x.filter((y, idx) => idx !== isFoundInIndex)])
+            let replacedElement = playersIn[pickIndex-1].arr[isFoundInIndex].element_out
+            let replacedElementObj = playersOut[pickIndex-1].arr.find(x => x.element === replacedElement)
+            replacedElementObj.is_captain = playersIn[pickIndex-1].arr[isFoundInIndex].is_captain
+            replacedElementObj.is_vice_captain = playersIn[pickIndex-1].arr[isFoundInIndex].is_vice_captain
+            replacedElementObj.multiplier = playersIn[pickIndex-1].arr[isFoundInIndex].multiplier
+            replacedElementObj.position = playersIn[pickIndex-1].arr[isFoundInIndex].position
+            setPlayersIn(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
+                {...gw, arr: gw.arr.filter((y, key) => key !==  isFoundInIndex)} : gw )])
             setPicks([...picks.map((pick, key) => 
                                 key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
                                     idx === isFoundInPicksIndex ? replacedElementObj : newPick )} : pick)])
@@ -458,7 +464,8 @@ function BootstrapstaticProvider({children}) {
             //In PlayersOut Array
 			let	isFoundOutIndex = playersOut.findIndex(x => x.element === player.element)
             let isFoundOutTempIndex = tempPlayersOut.findIndex(x => x.element === player.element)
-            setPlayersOut(x => [...x.filter((y, idx) => idx !== isFoundOutIndex)])
+            setPlayersOut(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
+                {...gw, arr: gw.arr.filter((y, key) => key !==  isFoundOutIndex)} : gw )])
             setTempPlayersOut(x => [...x, replacedElementObj])
         }
         
@@ -591,9 +598,9 @@ function BootstrapstaticProvider({children}) {
                     player.element_out = playerOut.element
                     player.position = playerOut.position
                     //x.setAttribute('disabled', true)
-                    for(let j = 0; j < playersOut.length; j++) {
-                        if(player.element === playersOut[j].element) {
-                            repeatedPlayer.push(...playersOut.splice(j,1))
+                    for(let j = 0; j < playersOut[pickIndex-1].arr.length; j++) {
+                        if(player.element === playersOut[pickIndex-1].arr[j].element) {
+                            repeatedPlayer.push(...playersOut[pickIndex-1].arr.splice(j,1))
                         }
                     }
                     if(repeatedPlayer.length === 1) { 
@@ -604,8 +611,9 @@ function BootstrapstaticProvider({children}) {
                         if(isOut) {
                             let withIsOut = picks[pickIndex-1].newPicks.find(x => x.element_out === repeatedPlayer[0].element)
                             withIsOut.element_out = likelyReplaced.element
-                            let inIndex = playersIn.findIndex(x => x.element === withIsOut.element)
-                            setPlayersIn(x => [...x.filter((y, idx) => idx !== inIndex), withIsOut])
+                            let inIndex = playersIn[pickIndex-1].arr.findIndex(x => x.element === withIsOut.element)
+                            setPlayersIn(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
+                                {...gw, arr: [...gw.arr.filter((y, key) => key !==  inIndex), withIsOut]} : gw )])
                             repeatedPlayer[0].is_captain = likelyReplaced.is_captain
                             repeatedPlayer[0].is_vice_captain = likelyReplaced.is_vice_captain
                             let repeatedIndex = picks[pickIndex-1].newPicks.findIndex(x=>x.element===likelyReplaced.element)
@@ -624,7 +632,8 @@ function BootstrapstaticProvider({children}) {
                         setTempPlayersOut(x => [...x.filter((y, idx) => idx !== pIndex)])
                     }
                     else { // Normal player addition
-                        setPlayersIn((x) => [...x, player])
+                        setPlayersIn(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
+                            {...gw, arr: [...gw.arr, player]} : gw )])
                         setPicks([...picks.map((pick, key) => 
                                 key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
                                     idx === playerOutIndex ? player : newPick )} : pick)])

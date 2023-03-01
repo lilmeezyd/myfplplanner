@@ -12,7 +12,7 @@ export const numberOfFixtures = (events, gws) => {
     return { fixOptions, fixHeader }
 }
 
-export const loadOpponents = (fixtures, events, teamId, gws) => {
+export const loadOpponents = (fixtures, events, teamId, gws=38) => {
 
     const eventIds = events.filter(event => new Date(event.deadline_time) > new Date()).map(x => x.id)
 
@@ -20,6 +20,7 @@ export const loadOpponents = (fixtures, events, teamId, gws) => {
     const teamH = fixtures.filter(fix => fix.team_h === teamId && !fix.finished && fix.event !== null && eventIds.includes(fix.event))
     const teamHome = []
     const teamAway = []
+    const playerInfoOpp = []
 
     teamH.forEach(x => {
         const teamHomeObjt = {}
@@ -84,9 +85,10 @@ export const loadOpponents = (fixtures, events, teamId, gws) => {
         const obj1 = {}
         const arr = []
         obj.event = x
-        obj1.opponent = 0
+        obj1.opponent = 'None'
         obj1.venue = ''
         obj1.difficulty = ''
+        obj1.kickoff = `${events.find(event => event.id === x).deadline_time}`
         arr.push(obj1)
         obj.arr = arr
         blankEvents.push(obj)
@@ -102,6 +104,8 @@ export const loadOpponents = (fixtures, events, teamId, gws) => {
         if(x['kickoff'] > y['kickoff']) return 1
         if(x['kickoff'] < y['kickoff']) return -1
     })
+
+    playerInfoOpp.push(...teamAandH)
 
     function final(a,b) {
         return a.findLastIndex(x => x.event===b)
@@ -125,7 +129,7 @@ export const loadOpponents = (fixtures, events, teamId, gws) => {
 
     const newTeamAandH = teamAandH.slice(0,gws)
 
-    return {newTeamAandH}
+    return {newTeamAandH, playerInfoOpp}
 }
 
 const fixtureHeader = (events, fix, gws) => {

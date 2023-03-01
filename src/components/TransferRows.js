@@ -5,11 +5,12 @@ import TransferBodyIn from './TransferBodyIn'
 
 function TransferRows() {
     const fplElements = useContext(BootstrapstaticContext)
+    let pickIndex = fplElements.pickIndex
 
     const loadTransfers = () => {
         const newPlayersOut = []
         const newPlayersIn = []
-        fplElements.playersOut.forEach(x => {
+        fplElements.playersOut[pickIndex-1].arr.forEach(x => {
             fplElements.players.forEach(y => { 
                 if(y.id === x.element) {
                     newPlayersOut
@@ -22,7 +23,7 @@ function TransferRows() {
 		    if(a.element_type > b.element_type) return -1
         })
 
-        fplElements.playersIn.forEach(x => {
+        fplElements.playersIn[pickIndex-1].arr.forEach(x => {
             fplElements.players.forEach(y => { 
                 if(y.id === x.element) {
                     newPlayersIn
