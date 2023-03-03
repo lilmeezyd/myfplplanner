@@ -39,7 +39,10 @@ export const BootstrapstaticContext = createContext({
     getInTheBank: () => {},
     switchPlayers: () => {},
     changeBenchOrder: () => {},
-    playersSelected: () => {}
+    playersSelected: () => {},
+    getTransferLogic: () => {},
+    transferCost: () => {},
+    freeTransfers: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -363,10 +366,10 @@ function BootstrapstaticProvider({children}) {
                 console.log(error)
             }
         }
-         {managerId > 0 && fetchManagerInfo()}
-         {managerId > 0 && fetchManagerHistory()}
-         {managerId > 0 && fetchManagerPicks()}
-         {managerId > 0 && fetchTransferHistory()}
+         fetchManagerInfo()
+         fetchManagerHistory()
+         fetchManagerPicks()
+         fetchTransferHistory()
 
     }, [managerId, eventId ])
 
@@ -732,6 +735,35 @@ function BootstrapstaticProvider({children}) {
         let firstXV = picks[pickIndex-1].newPicks.length - tempPlayersOut.length
         return firstXV
     }
+
+    const getTransferLogic = () => {
+        if(pickIndex > 1) {
+            playersOut[pickIndex-2].arr.length === 0 && (setTransferLogic({...transferLogic, rolledFt:true}))
+            playersOut[pickIndex-2].arr.length > 1 && (setTransferLogic({...transferLogic, rolledFt:false}))
+            playersOut[pickIndex-2].arr.length === 1 && transferLogic.rolledFt && (setTransferLogic({...transferLogic, rolledFt:true}))
+            playersOut[pickIndex-2].arr.length === 1 && !transferLogic.rolledFt && (setTransferLogic({...transferLogic, rolledFt:false}))
+        }
+    } 
+
+    const freeTransfers = () => {
+        let fts
+        if(pickIndex > 1) {
+            playersOut[pickIndex-2].arr.length === 0 && (fts=2)
+            playersOut[pickIndex-2].arr.length > 1 && (fts=1)
+            playersOut[pickIndex-2].arr.length === 1 && transferLogic.rolledFt && (fts=2)
+            playersOut[pickIndex-2].arr.length === 1 && !transferLogic.rolledFt && (fts=1)
+        } else {
+            fts = transferLogic.fts
+        }
+        return fts
+    }
+
+    const transferCost = () => {
+        let fts = freeTransfers()
+        let playerLength = playersOut[pickIndex-1]?.arr.length
+        let cost = playerLength <= fts ? 0 : (fts-playerLength)*4
+        return cost
+    }
     
 
     const contextValue = {
@@ -773,7 +805,10 @@ function BootstrapstaticProvider({children}) {
         getInTheBank,
         switchPlayers,
         changeBenchOrder,
-        playersSelected
+        playersSelected,
+        getTransferLogic,
+        transferCost,
+        freeTransfers
     }
 
     return (

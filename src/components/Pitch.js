@@ -43,12 +43,16 @@ function Pitch() {
 		tcap: false
 	})*/
 
-	useEffect(() => {
+	const pickAndTransfer = () => {
 		fplElements.getPickIndex(curPage)
-	
-	}, [curPage, fplElements])
-	
+		fplElements.getTransferLogic()
+	}
 
+	useEffect(() => {
+		pickAndTransfer()
+	
+	}, [pickAndTransfer])
+	
 	const forWildcard = (curPage) => {
 		if(+chips.wildcard.event < +eventId+curPage) {
 			setBboost(false)
@@ -189,12 +193,11 @@ function Pitch() {
 							</div>
 							<div className="free-transfers large">
 								<h4 title="Free Transfers large">FT</h4>
-								{transferLogic && 
-								<span className="transfer-number">{transferLogic.fts}</span>}
+								<span className="transfer-number">{fplElements.freeTransfers()}</span>
 							</div>
 							<div className="cost-transfers large">
 								<h4 title="Transfer Cost large">TC</h4>
-								<span className="points-lost">0</span>
+								<span className="points-lost">{fplElements.transferCost()}</span>
 							</div>
 							<div className="remain large">
 								<h4 className="large">Remaining Budget</h4>
