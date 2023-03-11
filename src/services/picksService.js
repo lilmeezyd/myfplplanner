@@ -4,6 +4,9 @@ export const getPicks = (players, picks, curPage, curSize) => {
                                 let start = (curPage-1)*curSize
                                 let end = curPage*curSize
                                 if(idx >= start && idx < end) return true
+                            }).sort((a,b) => {
+                                if(a.position < b.position) return -1
+                                if(a.position > b.position) return 1
                             })
     
     const goalkeeper = returnedPicks[0].newPicks.filter((goalie => {

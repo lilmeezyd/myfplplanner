@@ -71,9 +71,9 @@ function BootstrapstaticProvider({children}) {
         tc: 0,
         fts: 1
     })
-
-    const [ picks, setPicks ] = 
-    useState(localStorage.getItem('managerId') === null ? [] : JSON.parse(localStorage.getItem('picks')) )
+    const [ picks, setPicks ] = useState([])
+    //const [ picks, setPicks ] = 
+    //useState(+(localStorage.getItem('managerId')) === managerId ? [] : JSON.parse(localStorage.getItem('picks')) )
     const [ real, setReal ] = useState([])
     const [ transfers, setTransfers ] = useState([])
     const [ remainingBudget, setRemainingBudget ] = useState(null)
@@ -86,7 +86,6 @@ function BootstrapstaticProvider({children}) {
     const [ pickIndex, setPickIndex ] = useState(1)
 
   
-
     useEffect(() => {
         const fetchManagerInfo = async () => {
             const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/`
@@ -98,7 +97,6 @@ function BootstrapstaticProvider({children}) {
                 console.log(error)
             }
         }
-
         const fetchManagerHistory = async () => {
             const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/history/`
             try {
@@ -123,7 +121,7 @@ function BootstrapstaticProvider({children}) {
                 let fEvent = freehit === true ? data.chips.filter(x => x.name === 'freehit')[0].event : null
                 let tEvent = tcap === true ? data.chips.filter(x => x.name === '3xc')[0].event : null
         
-                setChips({...chips, 
+                setChips({ 
                     wildcard: {used: wildcard, event: wEvent},
                     bboost: {used: bboost, event: bEvent},
                     freehit: {used: freehit, event: fEvent},
@@ -140,8 +138,7 @@ function BootstrapstaticProvider({children}) {
                 function returnFt(a, b, c) {
                     if(a === b) {
                         fts = c
-                        setTransferLogic({
-                            ...transferLogic, fts:fts,
+                        setTransferLogic({fts:fts,
                             rolledFt: fts === 1 ? false : true
                         })
                         return;
@@ -171,6 +168,13 @@ function BootstrapstaticProvider({children}) {
                 console.log(error)
             }
         }
+        fetchManagerInfo()
+        fetchManagerHistory()
+    }, [managerId, chips])
+    
+
+    useEffect(() => {
+        
 
         const fetchManagerPicks = async () => {
             const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/${eventId}/picks/`
@@ -178,6 +182,7 @@ function BootstrapstaticProvider({children}) {
                 const response = await fetch(url)
                 const data = await response.json()
                 setManagerPicks(data)
+                console.log('i am fetching')
 
                 //let buyingPrice
                 const newPicks = []
@@ -366,12 +371,10 @@ function BootstrapstaticProvider({children}) {
                 console.log(error)
             }
         }
-         fetchManagerInfo()
-         fetchManagerHistory()
          fetchManagerPicks()
          fetchTransferHistory()
 
-    }, [managerId, eventId ])
+    }, [managerId, eventId])
 
     useEffect(() => {
         fetchData()
@@ -430,7 +433,7 @@ function BootstrapstaticProvider({children}) {
         let totalBudget = +picks[pickIndex-1].totalBudget
         let spent = picks[pickIndex-1].newPicks.reduce((x,y) => x+(+y.selling_price),0) - playersOut.reduce((x,y) => x+(+y.selling_price),0) 
         let isFoundOut = playersOut[pickIndex-1].arr.some(x => x.element === player.element)
-        let isFoundIn = playersIn[pickIndex-1].arr .some(x => x.element === player.element)
+        let isFoundIn = playersIn[pickIndex-1].arr.some(x => x.element === player.element)
         let sellingPrice = +picks[pickIndex-1].newPicks.find(x => x.element === player.element).selling_price
         let remainder = (+totalBudget-spent).toFixed(1)
         if(isFoundOut) {
@@ -453,11 +456,22 @@ function BootstrapstaticProvider({children}) {
             let isFoundInIndex = playersIn[pickIndex-1].arr.findIndex(x => x.element === player.element)
             let isFoundInPicksIndex = picks[pickIndex-1].newPicks.findIndex(x => x.element === player.element)
             let replacedElement = playersIn[pickIndex-1].arr[isFoundInIndex].element_out
-            let replacedElementObj = playersOut[pickIndex-1].arr.find(x => x.element === replacedElement)
-            replacedElementObj.is_captain = playersIn[pickIndex-1].arr[isFoundInIndex].is_captain
-            replacedElementObj.is_vice_captain = playersIn[pickIndex-1].arr[isFoundInIndex].is_vice_captain
-            replacedElementObj.multiplier = playersIn[pickIndex-1].arr[isFoundInIndex].multiplier
-            replacedElementObj.position = playersIn[pickIndex-1].arr[isFoundInIndex].position
+            const replacedObj = playersOut[pickIndex-1].arr.find(x => x.element === replacedElement)
+            //let isCaptain = playersIn[pickIndex-1].arr[isFoundInIndex].is_captain
+            //let isViceCaptain = playersIn[pickIndex-1].arr[isFoundInIndex].is_vice_captain
+            //let multiplier = playersIn[pickIndex-1].arr[isFoundInIndex].multiplier
+            //let position = playersIn[pickIndex-1].arr[isFoundInIndex].position
+            let isCaptain = picks[pickIndex-1].newPicks[isFoundInPicksIndex].is_captain
+            let isViceCaptain = picks[pickIndex-1].newPicks[isFoundInPicksIndex].is_vice_captain
+            let multiplier = picks[pickIndex-1].newPicks[isFoundInPicksIndex].multiplier
+            let position = picks[pickIndex-1].newPicks[isFoundInPicksIndex].position
+            const replacedElementObj = 
+            {...replacedObj, 
+                is_captain:isCaptain, 
+                is_vice_captain:isViceCaptain,
+                multiplier:multiplier,
+                position:position
+            }
             setPlayersIn(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
                 {...gw, arr: gw.arr.filter((y, key) => key !==  isFoundInIndex)} : gw )])
             setPicks([...picks.map((pick, key) => 
@@ -732,8 +746,10 @@ function BootstrapstaticProvider({children}) {
     }
 
     const playersSelected = () => {
-        let firstXV = picks[pickIndex-1].newPicks.length - tempPlayersOut.length
-        return firstXV
+        if(picks.length) {
+            let firstXV = picks[pickIndex-1].newPicks.length - tempPlayersOut.length
+            return firstXV
+        }
     }
 
     const getTransferLogic = () => {

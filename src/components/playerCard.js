@@ -32,7 +32,7 @@ function PlayerCard(props) {
     </td>
     <td className="player">
         <button
-          disabled={playerIds().includes(playerPos.id)}
+          disabled={picks.length && playerIds().includes(playerPos.id)}
          onClick={() => transferIn(playerPos.id, position, team)} className="player-cell btn-table">
             <div className="images">
             <img src={require(`../static/shirt_${forwardImage}.webp`)} alt={forwardImage} />

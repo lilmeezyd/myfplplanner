@@ -233,11 +233,6 @@ function SquadPlayer(props) {
         handleShowInfo()
     }
 
-    
-    
-
-    
-
     let fromTop = (top-175)/2
 	let fromLeft = (left-320)/2
     //let fromTopInfo

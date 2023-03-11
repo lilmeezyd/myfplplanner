@@ -18,7 +18,7 @@ function Pitch() {
 	const players = fplElements.players
 	const picks = fplElements.picks
 	const pickIndex = fplElements.pickIndex
-	const transferLogic = fplElements.transferLogic
+	//const transferLogic = fplElements.transferLogic
 	const playerPosition = fplElements.playerPosition
 	const chips = fplElements.chips
 	const eventId = fplElements.eventId
@@ -29,6 +29,8 @@ function Pitch() {
 	const gameweeks = getGameweeks(events, curPage, curSize).gameweeks
 	const length = getGameweeks(events, curPage, curSize).length
 	const countdowns = getGameweeks(events, curPage, curSize).countdowns
+	//const getTransferLogic = fplElements.getTransferLogic
+	const getPickIndex = fplElements.getPickIndex
 	const [ showTransfers, setShowTransfers ] = useState(true)
 	const [ showTransfersMade, setShowTransfersMade ] = useState(false)
 	const [ showChips, setShowChips ] = useState(false)
@@ -43,15 +45,11 @@ function Pitch() {
 		tcap: false
 	})*/
 
-	const pickAndTransfer = () => {
-		fplElements.getPickIndex(curPage)
-		fplElements.getTransferLogic()
-	}
-
 	useEffect(() => {
-		pickAndTransfer()
+		getPickIndex(curPage)
 	
-	}, [pickAndTransfer])
+	}, [curPage, getPickIndex])
+	
 	
 	const forWildcard = (curPage) => {
 		if(+chips.wildcard.event < +eventId+curPage) {
@@ -68,7 +66,7 @@ function Pitch() {
 	}
 	
 	const viewNextPage = () => {
-        setCurPage((curPage) => curPage+1)
+        setCurPage(v => v+1)
 		forWildcard(curPage)
 
 		/*if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage) {
@@ -81,7 +79,7 @@ function Pitch() {
 		}*/
     }
     const viewPreviousPage = () => {
-        setCurPage((curPage) => curPage-1)
+        setCurPage(v => v-1)
 		forWildcard(curPage)
 		/*if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage){
 			setDisableChips({
@@ -288,7 +286,7 @@ function Pitch() {
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
-								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element == playerPos.element)
+								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element === playerPos.element)
 								let newPlayer = inplayersIn ? 'NEW' : ''
 								let newPadding = inplayersIn ? 2 : 0
 								let playerInClass = inplayersIn ? 'player_in' : ''
