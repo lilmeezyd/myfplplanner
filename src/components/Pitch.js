@@ -18,11 +18,10 @@ function Pitch(props) {
 	const players = fplElements.players
 	const picks = fplElements.picks
 	const pickIndex = fplElements.pickIndex
-	//const transferLogic = fplElements.transferLogic
+    const playersSelected = fplElements.playersSelected()
 	const playerPosition = fplElements.playerPosition
 	const chips = fplElements.chips
 	const eventId = fplElements.eventId
-	//const history = fplElements.managerHistory
 	const curSize = 1
 	const [ curPage, setCurPage ] = useState(1)
 	const [ gws, setGws ] = useState(38)
@@ -50,6 +49,18 @@ function Pitch(props) {
 		getPickIndex(curPage)
 	
 	}, [curPage, getPickIndex])
+
+	useEffect(() => {
+		let prevBtn = document.getElementById('prevGameweek')
+		let nextBtn = document.getElementById('nextGameweek')
+		if(playersSelected === 15) {
+			nextBtn.removeAttribute('disabled')
+			prevBtn.removeAttribute('disabled')
+		} else {
+			nextBtn.setAttribute('disabled', true)
+			prevBtn.setAttribute('disabled', true)
+		}
+	},[playersSelected]) 
 	
 	
 	const forWildcard = (curPage) => {
@@ -464,6 +475,7 @@ function Pitch(props) {
 									player={player} 
 									teams={teams}
 									playerPos={playerPos}
+									positionObj={positionObj}
 									playerInClass={playerInClass}
 									newPadding={newPadding}
 									newPlayer={newPlayer}

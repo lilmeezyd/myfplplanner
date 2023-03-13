@@ -64,140 +64,56 @@ function SquadPlayer(props) {
 
         Object.keys(outplayer).length === 0 && Object.keys(inplayerOne).length > 0 && Object.keys(inplayerTwo).length > 0 && fplElements.changeBenchOrder()
 
-        const hideallswapbtn = () => {
-            Array.from(document.querySelectorAll('.swap-button')).forEach(x => {
-                x.style.display = 'none'
-            })
-        }
+      
 
-        const showallswapbtn = () => {
-            Array.from(document.querySelectorAll('.swap-button')).forEach(x => {
-                x.style.display = 'block'
-            })
-        }
-
-        //playersSelected < 15 ? hideallswapbtn() : showallswapbtn()
-
-        const element = ref.current
-        
-
-        const swapButtonOut = () => {
-            console.log(element)
-            let playerId = +element.parentElement.id
-            let playerposition = +element.parentElement.getAttribute('position')
-			let playerContainer = element.parentElement.parentElement.parentElement
-			playerContainer.classList.toggle('player-active')
-            if(playerposition === 1){
-                const tgoal = picks[pickIndex-1].newPicks.filter(x => x.element_type === 1 && x.multiplier === 0)
-                const tgoal1 = picks[pickIndex-1].newPicks.filter(x => x.element_type !== 1)
-                //addSwap(tgoal)
-                //hideswapbtn(tgoal1)
-                //hidetransferbtn()
-            }
-            if(playerposition === 2){
-                /*if(positonnumber === 3) {
-                    tgoal = picks.filter(x => x.element_type === 2 && x.multiplier === 0)
-                    tgoal1 = picks.filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type  !== 2))
-                    addSwap(tgoal)
-                    hidetransferbtn()
-                    return hideswapbtn(tgoal1)
-                    
-                } else {
-                    tgoal = picks.filter(x => x.element_type !== 1 && x.multiplier === 0)
-                    tgoal1 = picks.filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
-                    addSwap(tgoal)
-                    hidetransferbtn()
-                    return hideswapbtn(tgoal1)
-                    
-                }*/
-            }
-            if(playerposition === 3){
-                /*if(positonnumber === 2) {
-                    tgoal = picks.filter(x => x.element_type === 3 && x.multiplier === 0)
-                    tgoal1 = picks.filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type !== 3))
-                    addSwap(tgoal)
-                    hideswapbtn(tgoal1)
-                    hidetransferbtn()
-                } else {
-                    tgoal = picks.filter(x => x.element_type !== 1 && x.multiplier === 0)
-                    tgoal1 = picks.filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
-                    addSwap(tgoal)
-                    hideswapbtn(tgoal1)
-                    hidetransferbtn()
-                }*/
-            }
-            if(playerposition === 4){
-               /* if(positonnumber === 1) {
-                    tgoal = picks.filter(x => x.element_type === 4 && x.multiplier === 0)
-                    tgoal1 = picks.filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type !== 4))
-                    addSwap(tgoal)
-                    hideswapbtn(tgoal1)
-                    hidetransferbtn()
-                } else {
-                    tgoal = picks.filter(x => x.element_type !== 1 && x.multiplier === 0)
-                    tgoal1 = picks.filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
-                    addSwap(tgoal)
-                    hideswapbtn(tgoal1)
-                    hidetransferbtn()
-                }*/
-            }
-        }
-
-        const swapButtonIn = () => {}
-
-        const addSwap = (arr) => {
-            let forwardElem = arr.filter(x => x.element_type === 4 && x.multiplier !== 0).length
-            let goalkeeperElem = arr.filter(x => x.element_type === 1 && x.multiplier !== 0).length
-            Array.from(document.querySelectorAll('.btn-details')).forEach(x => {
-                            let playerId = +x.parentElement.id
-                            let position = +x.parentElement.getAttribute('position')
-                            arr.forEach(a => {
-                                let elementWrapper = x.parentElement.parentElement.parentElement.parentElement
-                                if(a.element === playerId && a.element_type === position) {
-                                    x.parentElement.
-                                    parentElement.style.backgroundColor = 'rgba(255, 100, 0, 0.6)'
-                                    x.parentElement.
-                                    parentElement.style.borderRadius = '5px'
-                                }
-                            })
-                        })
-        }
-
-        const hideswapbtn = (a) => {
-            Array.from(document.querySelectorAll('.swap-button')).forEach(x => {
-                let playerId = +x.parentElement.id
-                let playerposition = x.parentElement.getAttribute('position')
-        
-                a.forEach(y => {
-                    if(y.element === playerId) {
-                        x.style.display = 'none'
-                        x.parentElement.querySelector('.btn-details').setAttribute('disabled', '')
-                        x.parentElement.querySelector('.btn-details').style.opacity = 0.5
-                    }
-                })
-            })
-        }
-
-        const hidetransferbtn = () => {
-            Array.from(document.querySelectorAll('.transfer-button')).forEach(x => {
-                x.style.display = 'none'
-            })
-        }
-
-        element.classList.contains('swap-button-out') &&
-        element.addEventListener('click', swapButtonOut)
-
-        element.classList.contains('swap-button-in') &&
-        element.addEventListener('click', swapButtonIn)
-
-
-		return () => {
-            element.removeEventListener('click', swapButtonOut)
-            element.removeEventListener('click', swapButtonIn)
-		}
 	}, [outplayer, inplayerOne, inplayerTwo, picks, pickIndex, playerElement,
         fplElements, playersSelected])
-       
+
+    useEffect(() => {
+        let pPicks = document.querySelectorAll('.element_container_1')
+        if(Object.keys(outplayer).length > 0) {
+            Array.from(pPicks).forEach(x => {
+                if(+x.id !== +outplayer.element) {
+                    Array.from(x.getElementsByTagName('button'))
+                        .forEach(y => {
+                            y.setAttribute('disabled', true)
+                            y.style.opacity = 0.7
+                        })
+                }
+            })
+        } else {
+            Array.from(pPicks).forEach(x => {
+                Array.from(x.getElementsByTagName('button'))
+                        .forEach(y => {
+                            y.removeAttribute('disabled')
+                            y.style.opacity = 1
+                        })
+            })
+        }
+    },[outplayer])    
+    
+    useEffect(() => {
+        let pPicks = document.querySelectorAll('.element_container_1')
+        if(Object.keys(inplayerOne).length > 0) {
+            Array.from(pPicks).forEach(x => {
+                if(+x.id !== +inplayerOne.element) {
+                    Array.from(x.getElementsByTagName('button'))
+                        .forEach(y => {
+                            y.setAttribute('disabled', true)
+                            y.style.opacity = 0.7
+                        })
+                }
+            })
+        } else {
+            Array.from(pPicks).forEach(x => {
+                Array.from(x.getElementsByTagName('button'))
+                        .forEach(y => {
+                            y.removeAttribute('disabled')
+                            y.style.opacity = 1
+                        })
+            })
+        }
+    }, [inplayerOne])
     useEffect(() => {
            // const element1 = transferRef.current.nextElementSibling.classList[1]
            window.addEventListener('resize', setDimensions)
@@ -270,7 +186,7 @@ function SquadPlayer(props) {
     </h3> : ''}
         <div className={`element_container ${playerInClass}`}>
             <div className="element_container_1 element_container-two"
-            id={playerPos.element} position={positionObj?.id}>
+            id={playerPos.element} position={positionObj.id}>
                 <button
                 onClick={handleShowModal} type="button" className="btn-details">
                     <img src={require(`../static/shirt_${image}.webp`)} className="image_pic" alt={player.web_name}/>
