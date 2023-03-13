@@ -20,8 +20,13 @@ function SquadPlayer(props) {
     const [ showInfo, setShowInfo ] = useState(false)
     const [ playerElement, setPlayerElement ] = useState(null)
     const [ playerMultiplier, setPlayerMultiplier ] = useState(null)
+    const [ width, setWidth ] = useState(window.innerWidth)
     const ref = useRef(null)
     const transferRef = useRef(null)
+
+    const setDimensions = () => {
+        setWidth(window.innerWidth)
+    }
 
     const handleShowModal = () => {
         setShow(true)
@@ -195,7 +200,8 @@ function SquadPlayer(props) {
        
     useEffect(() => {
            // const element1 = transferRef.current.nextElementSibling.classList[1]
-            if(playersSelected === 15) {
+           window.addEventListener('resize', setDimensions)
+            if(playersSelected === 15 && width > 620) {
                 Array.from(document.querySelectorAll(`.swap-button`)).forEach(x => {
                     x.style.display = 'block'
                 })
@@ -204,7 +210,7 @@ function SquadPlayer(props) {
                     x.style.display = 'none'
                 })
             }
-        },[playersSelected])    
+        },[playersSelected, width])    
     const transferOut = (player) => {
         fplElements.addToTransfersOut(player)
         handleCloseModal()

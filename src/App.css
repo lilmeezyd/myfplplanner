@@ -206,7 +206,7 @@ select:focus, input:focus {
 .player-cell-info .name {
   text-align: left;
   text-align: -webkit-left;
-  font-weight: 700;
+  font-weight: 600;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -235,7 +235,7 @@ select:focus, input:focus {
   padding-left: 0.3rem;
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.8rem;
 }
 .price {
