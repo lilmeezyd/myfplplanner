@@ -85,10 +85,10 @@ export const loadOpponents = (fixtures, events, teamId, gws=38) => {
         const obj1 = {}
         const arr = []
         obj.event = x
-        obj1.opponent = 'None'
+        obj.kickoff = ''
+        obj1.opponent = 0
         obj1.venue = ''
         obj1.difficulty = ''
-        obj1.kickoff = `${events.find(event => event.id === x).deadline_time}`
         arr.push(obj1)
         obj.arr = arr
         blankEvents.push(obj)

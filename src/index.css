@@ -863,12 +863,12 @@
 	}
 	.playerpop {
 		position: fixed;
-		/*top: 25%;
-		left: 25%;
-		transform: translate(-5%, 25%);
-		border: 1px solid rgba(0, 0, 0, 0.2);*/
-		/*transform: translate(-50%, -50%);*/
-		width: 320px;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 70vw;
+		height: fit-content;
 		margin: auto;
 		padding: 0.4rem;
 		background: rgba(13, 122, 86, 1);
@@ -880,41 +880,18 @@
 	.playerpop1 {
 		border: 1px solid rgba(0, 0, 0, 0.2);
 		margin: auto;
-		margin-top: 50%;
 		max-width: min-content;
 		height: min-content;
 		padding: 0.4rem;
 		background: rgba(13, 122, 86, 1);
 		text-transform: capitalize;
-		position: relative;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 99;
 	}
-	/*@media(max-width: 1000px) {
-		.playerpop {
-			transform: translate(-22.5%, 25%);
-		}
-	}
-	@media(max-width: 965px) {
-		.playerpop {
-			transform: translate(25%, 25%);
-		}
-	}
-	@media(max-width: 910px) {
-		.playerpop {
-			transform: translate(15%, 25%);
-		}
-	}
-	@media(max-width: 750px) {
-		.playerpop {
-			transform: translate(10%, 25%);
-		}
-	}
-	@media(max-width: 620px) {
-		.playerpop{
-			left: 2.5%;
-			width: 90%;
-			transform: translate(0%, 25%);
-		}
-	} */
 
 	.info-details span.small {
 		display: block;
@@ -1396,13 +1373,13 @@
 		background: white;
 		z-index: 2;
 	}
-	.table tbody td:nth-child(2), .table thead th:nth-child(2) {
+	.table tbody td:nth-child(2) {
 		position: sticky;
 		left: 30px;
 		background: whitesmoke;
 		z-index: 1;
 	}
-	.table tbody td:nth-child(1), .table thead th:nth-child(1) {
+	.table tbody td:nth-child(1) {
 		position: sticky;
 		left: 0;
 		background: whitesmoke;
@@ -1620,14 +1597,18 @@
 		display: none;
 	}
 	#modal {
-		width: 320px;
+		width: 70vw;
 		position: fixed;
-		/*transform: translate(-50%, 0%);*/
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
 		z-index: 10;
-		border-radius: 10px;
 		background: rgba(255, 255, 255, 1.0);
-		box-shadow: 0px 0px 10px darkgreen;
+		box-shadow: 0px 0px 20px rgb(16, 16, 16);
 		padding: 1rem;
+		height: fit-content;
+		margin: auto;
 		/*animation-name: modal-animate;
 		animation-duration: 0.5s;*/
 	}
@@ -1706,3 +1687,4 @@
                 transform: rotate(360deg);
             }
         }
+		

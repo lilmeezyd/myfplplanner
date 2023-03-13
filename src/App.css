@@ -105,7 +105,7 @@ select:after {
 }
 label {
   display: block;
-  font-weight: bolder;
+  font-weight: 600;
   margin: .2rem 0;
 }
 

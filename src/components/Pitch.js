@@ -9,7 +9,7 @@ import Loader from "./Loader"
 import prevPage from "../static/chevron_left.png"
 import nextPage from "../static/chevron_right.png"
 
-function Pitch() {
+function Pitch(props) {
 
 	const fplElements = useContext(BootstrapstaticContext)
 	const events = fplElements.events
@@ -38,6 +38,7 @@ function Pitch() {
 	const [ bboost, setBboost ] = useState(false)
 	const [ tcap, setTcap ] = useState(false)
 	const [ freehit, setFreehit ] = useState(false)
+	const {handleShow, handleClose, showPop} = props
 	/*const [ disableChips, setDisableChips ] = useState({
 		wildcard: false,
 		bboost: false,
@@ -312,7 +313,10 @@ function Pitch() {
 									playerInClass={playerInClass}
 									newPlayer={newPlayer}
 									newPadding={newPadding}
-									curPage={curPage}></SquadPlayer>)
+									curPage={curPage}
+									handleShow={handleShow}
+									handleClose={handleClose}
+									showPop={showPop}></SquadPlayer>)
 							})}
 						</div>
                         
@@ -347,7 +351,10 @@ function Pitch() {
 										playerInClass={playerInClass}
 										newPlayer={newPlayer}
 										newPadding={newPadding}
-										curPage={curPage}></SquadPlayer>)
+										curPage={curPage}
+										handleShow={handleShow}
+										handleClose={handleClose}
+										showPop={showPop}></SquadPlayer>)
 							})}
 						</div>
 
@@ -382,7 +389,10 @@ function Pitch() {
 										playerInClass={playerInClass}
 										newPlayer={newPlayer}
 										newPadding={newPadding}
-										curPage={curPage}></SquadPlayer>
+										curPage={curPage}
+										handleShow={handleShow}
+										handleClose={handleClose}
+										showPop={showPop}></SquadPlayer>
 										)						})}
 						</div>
 
@@ -417,7 +427,10 @@ function Pitch() {
 									playerInClass={playerInClass}
 									newPlayer={newPlayer}
 									newPadding={newPadding}
-									curPage={curPage}></SquadPlayer>)
+									curPage={curPage}
+									handleShow={handleShow}
+									handleClose={handleClose}
+									showPop={showPop}></SquadPlayer>)
 							})}
 						</div>
 						</> : <Loader />}
@@ -454,7 +467,10 @@ function Pitch() {
 									playerInClass={playerInClass}
 									newPadding={newPadding}
 									newPlayer={newPlayer}
-									curPage={curPage}></SquadPlayer>)
+									curPage={curPage}
+									handleShow={handleShow}
+									handleClose={handleClose}
+									showPop={showPop}></SquadPlayer>)
 							})}
 					</div>}
 				</div>

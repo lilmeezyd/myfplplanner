@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useCallback, useRef } from 'react'
+import { useEffect, useState, useContext, useRef, useCallback } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
 import PlayerInfo from './PlayerInfo'
 
@@ -11,33 +11,41 @@ function SquadPlayer(props) {
     const playersSelected = fplElements.playersSelected()
     const picks = fplElements.picks
     const pickIndex = fplElements.pickIndex
-    const { image, 
+    const { 
+        handleShow, handleClose, showPop, image, 
         backgroundColor, 
         color,playerOpps, idx, player, teams , playerPos,positionObj,
         playerInClass, newPlayer, newPadding, curPage } = props
     const [ show, setShow ] = useState(false)
     const [ showInfo, setShowInfo ] = useState(false)
-	const [ top, setTop ] = useState(window.innerHeight)
-	const [ left, setleft ] = useState(window.innerWidth)
     const [ playerElement, setPlayerElement ] = useState(null)
     const [ playerMultiplier, setPlayerMultiplier ] = useState(null)
     const ref = useRef(null)
+    const transferRef = useRef(null)
 
-    const handleShow = () => setShow(true)
-	const handleClose = () => setShow(false)
-    const handleShowInfo = () => setShowInfo(true)
-	const handleCloseInfo = () => setShowInfo(false)
-	const setDimensions = () => {
-		setTop(window.innerHeight)
-		setleft(window.innerWidth)
-	}
+    const handleShowModal = () => {
+        setShow(true)
+        handleShow()
+    }
+	const handleCloseModal = () => {
+        setShow(false)
+        handleClose()
+    }
+    const handleShowInfo = () => {
+        setShow(false)
+        setShowInfo(true)
+        handleShow()
+    }
+	const handleCloseInfo = () => {
+        setShowInfo(false)
+        handleClose()
+    }
 
     useEffect(() => {
         let goal = document.getElementById('goal')
         let forw = document.getElementById('forw')
         let forwLength = forw.getElementsByClassName('pitch_unit').length
         let goalLength = goal.getElementsByClassName('pitch_unit').length
-		window.addEventListener('resize', setDimensions)
         if(forwLength === 1) {
             forw.getElementsByClassName('pitch_unit')[0].style.flexGrow = 0
         } else {
@@ -77,9 +85,9 @@ function SquadPlayer(props) {
             if(playerposition === 1){
                 const tgoal = picks[pickIndex-1].newPicks.filter(x => x.element_type === 1 && x.multiplier === 0)
                 const tgoal1 = picks[pickIndex-1].newPicks.filter(x => x.element_type !== 1)
-                addSwap(tgoal)
-                hideswapbtn(tgoal1)
-                hidetransferbtn()
+                //addSwap(tgoal)
+                //hideswapbtn(tgoal1)
+                //hidetransferbtn()
             }
             if(playerposition === 2){
                 /*if(positonnumber === 3) {
@@ -179,25 +187,36 @@ function SquadPlayer(props) {
 
 
 		return () => {
-			window.removeEventListener('resize', setDimensions)
             element.removeEventListener('click', swapButtonOut)
             element.removeEventListener('click', swapButtonIn)
 		}
 	}, [outplayer, inplayerOne, inplayerTwo, picks, pickIndex, playerElement,
         fplElements, playersSelected])
-
+       
+    useEffect(() => {
+           // const element1 = transferRef.current.nextElementSibling.classList[1]
+            if(playersSelected === 15) {
+                Array.from(document.querySelectorAll(`.swap-button`)).forEach(x => {
+                    x.style.display = 'block'
+                })
+            } else {
+                Array.from(document.querySelectorAll(`.swap-button`)).forEach(x => {
+                    x.style.display = 'none'
+                })
+            }
+        },[playersSelected])    
     const transferOut = (player) => {
         fplElements.addToTransfersOut(player)
-        handleClose()
+        handleCloseModal()
     }
     const captain = (id) => {
         fplElements.changeCaptain(id)
-        handleClose()
+        handleCloseModal()
     }
 
     const viceCaptain = (id) => {
         fplElements.changeViceCaptain(id)
-        handleClose()
+        handleCloseModal()
     }
 
     const setSwitchPlayer = (player) => {
@@ -207,16 +226,16 @@ function SquadPlayer(props) {
 
         if(player.multiplier <= 0) {
             if(Object.keys(inplayerOne).length > 0) {
-                handleClose()
+                handleCloseModal()
                 return fplElements.getInPlayerTwo(player)
             }
             if(Object.keys(outplayer).length >= 0) {
-                handleClose()
+                handleCloseModal()
                 return fplElements.getInPlayerOne(player)
             }
         } else {
             fplElements.getOutPlayer(player)
-            handleClose()
+            handleCloseModal()
         }
         
     }
@@ -225,18 +244,13 @@ function SquadPlayer(props) {
         setPlayerElement(player.element_type)
         setPlayerMultiplier(player.multiplier)
         fplElements.cancelPlayer(player)
-        handleClose()
+        handleCloseModal()
     }
 
     const clickInfo = () => {
-        handleClose()
+        handleCloseModal()
         handleShowInfo()
     }
-
-    let fromTop = (top-175)/2
-	let fromLeft = (left-320)/2
-    //let fromTopInfo
-    //let fromLeftInfo
 
   return (
     <>
@@ -252,7 +266,7 @@ function SquadPlayer(props) {
             <div className="element_container_1 element_container-two"
             id={playerPos.element} position={positionObj?.id}>
                 <button
-                onClick={handleShow} type="button" className="btn-details">
+                onClick={handleShowModal} type="button" className="btn-details">
                     <img src={require(`../static/shirt_${image}.webp`)} className="image_pic" alt={player.web_name}/>
                         <div className="details-cont">
                             <div className="data_name"
@@ -289,7 +303,9 @@ function SquadPlayer(props) {
                     <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                     </svg>
                 </button>
-                <button onClick={() => transferOut(playerPos)} className="transfer-button">
+                <button
+                ref={transferRef}
+                 onClick={() => transferOut(playerPos)} className="transfer-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
                         </svg>
@@ -323,13 +339,13 @@ function SquadPlayer(props) {
 
     
 
-    {(show || showInfo) && <div onClick={handleClose} className="playerpopup">
     
-    {show && 
-    <div className="playerpop" style={{top: fromTop, left: fromLeft}}>
+    
+    {show && showPop &&
+    <div className="playerpop">
         <div className="namesection small">
             <span>{player.first_name}&nbsp;{player.second_name}</span>
-            <button onClick={handleClose} className="btn-info btn-close btn-danger"><svg style={{color: 'white'}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="white"></path> </svg></button>
+            <button onClick={handleCloseModal} className="btn-info btn-close btn-danger"><svg style={{color: 'white'}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="white"></path> </svg></button>
         </div>
         <div className="infobuttons">
             <button onClick={() => transferOut(playerPos)} 
@@ -368,13 +384,13 @@ function SquadPlayer(props) {
         </div> 
     </div>  }
     
-     {showInfo && 
+     {showInfo && showPop &&
     <PlayerInfo
-        playerPos={playerPos}
+        playerPos={playerPos.element}
+        bgColor={playerPos.element_type}
         onClick={handleCloseInfo}>
     </PlayerInfo>
     }
-        </div>}
 
     
     

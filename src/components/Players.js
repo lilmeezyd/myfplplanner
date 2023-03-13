@@ -13,6 +13,7 @@ function Players(props) {
     const fplElements = useContext(BootstrapstaticContext)
     const teams = fplElements.teams
     const playerPosition = fplElements.playerPosition
+    const { handleShow, handleClose, showPop } = props
     const [ sort, setSort ] = useState('total_points')
     const [ view, setView ] = useState('allPlayers')
     const [ word, setWord ] = useState('')
@@ -191,7 +192,10 @@ function Players(props) {
                                 shortPos={short_pos}
                                 position={positionObj.id}
                                 team={teamObj.id}
-                                sort={sort}></PlayerCard>)
+                                sort={sort}
+                                handleShow={handleShow}
+                                handleClose={handleClose}
+                                showPop={showPop}></PlayerCard>)
                 })}
             </tbody>
         </table>): ''}
@@ -229,7 +233,10 @@ function Players(props) {
                             shortPos={short_pos}
                             position={positionObj.id}
                             team={teamObj.id}
-                            sort={sort}></PlayerCard>)
+                            sort={sort}
+                            handleShow={handleShow}
+                            handleClose={handleClose}
+                            showPop={showPop}></PlayerCard>)
                 })}
             </tbody>
         </table>): ''}
@@ -267,7 +274,10 @@ function Players(props) {
                             shortPos={short_pos}
                             position={positionObj.id}
                             team={teamObj.id}
-                            sort={sort}></PlayerCard>)
+                            sort={sort}
+                            handleShow={handleShow}
+                            handleClose={handleClose}
+                            showPop={showPop}></PlayerCard>)
                 })}
             </tbody>
         </table>): ''}
@@ -305,7 +315,10 @@ function Players(props) {
                             shortPos={short_pos}
                             position={positionObj.id}
                             team={teamObj.id}
-                            sort={sort}></PlayerCard>)
+                            sort={sort}
+                            handleShow={handleShow}
+                            handleClose={handleClose}
+                            showPop={showPop}></PlayerCard>)
                 })}
             </tbody>
         </table>): ''}

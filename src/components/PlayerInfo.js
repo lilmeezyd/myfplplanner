@@ -8,10 +8,10 @@ function PlayerInfo(props) {
     const events = fplElements.events
     const fixtures = fplElements.fixtures
     const teams = fplElements.teams
-    const { playerPos, onClick } = props
+    const { playerPos, bgColor, onClick } = props
 
     const playerDetails = () => {
-        const player = fplElements.players.find(x => x.id === playerPos.element)
+        const player = fplElements.players.find(x => x.id === playerPos)
         let name = `${player.first_name} ${player.second_name}`
         let team = fplElements.teams.find(x => x.id === player.team).name
         let teamId = fplElements.teams.find(x => x.id === player.team).id
@@ -40,7 +40,8 @@ function PlayerInfo(props) {
         <div className="games-info-fixtures">
           <table className="table" style={{width: '100%'}}>
             <thead>
-              <tr>
+              <tr style={{background: bgColor === 1 ? `#ebff00` :
+               bgColor === 2 ? '#00ff87' : bgColor === 3 ? '#05f0ff':'#e90052'}}>
                 <th>Date</th>
                 <th>GW</th>
                 <th>Fixture</th>
@@ -51,7 +52,8 @@ function PlayerInfo(props) {
               {loadOpponents(fixtures, events, playerDetails().teamId)
               .playerInfoOpp
               .map((x, idx) => {
-                let teamName = teams.find(tname => tname.id === x.arr[0].opponent)?.name
+                let teamName = x.arr[0].opponent === 0 ? 'None' : 
+                teams.find(tname => tname.id === x.arr[0].opponent).name
                 let color = x.arr[0].difficulty === 4 || x.arr[0].difficulty === 5 ? 
 											'rgb(255,255,255)': 'rgb(0,0,0)'
                 let backgroundColor = x.arr[0].difficulty === 2 ? 'rgb(1, 252, 122)' : 
@@ -60,7 +62,7 @@ function PlayerInfo(props) {
                 return(
                   <tr key={idx}>
                     <td style={{fontWeight: 500}}>
-                      {new Date(x.kickoff).toDateString()}
+                      {x.kickoff === '' ? '' : new Date(x.kickoff).toDateString()}
                     </td>
                     <td style={{fontWeight: 500}}>
                       {x.event}
