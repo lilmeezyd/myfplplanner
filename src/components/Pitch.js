@@ -293,7 +293,7 @@ function Pitch(props) {
 						</div>
                         {(players.length && picks.length && fixtures.length && events.length) ? 
 						<>
-						<div className="pitch_row" id="goal"  size="pitch">
+						<div className="pitch_row" id="goal" width="pitch">
 							{getPicks(players, picks, curPage, curSize).goalkeeper.map((playerPos, idx)=>{
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
@@ -331,7 +331,7 @@ function Pitch(props) {
 							})}
 						</div>
                         
-                        <div className="pitch_row" id="defend"  size="pitch">
+                        <div className="pitch_row" id="defend" width="pitch">
 						{getPicks(players, picks, curPage, curSize).defenders.map((playerPos, idx)=>{
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
@@ -369,7 +369,7 @@ function Pitch(props) {
 							})}
 						</div>
 
-						<div className="pitch_row" id="mid"   size="pitch">
+						<div className="pitch_row" id="mid" width="pitch">
 						{getPicks(players, picks, curPage, curSize).midfielders.map((playerPos, idx)=>{
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
@@ -407,7 +407,7 @@ function Pitch(props) {
 										)						})}
 						</div>
 
-						<div className="pitch_row" id="forw"   size="pitch">
+						<div className="pitch_row" id="forw" width="pitch">
 						{getPicks(players, picks, curPage, curSize).forwards.map((playerPos, idx)=>{
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)

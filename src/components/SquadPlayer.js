@@ -6,6 +6,7 @@ function SquadPlayer(props) {
 
     const fplElements = useContext(BootstrapstaticContext)
     const outplayer = fplElements.outplayer
+    const tempPlayersOut = fplElements.tempPlayersOut
     const inplayerOne = fplElements.inplayerOne
     const inplayerTwo = fplElements.inplayerTwo
     const playersSelected = fplElements.playersSelected()
@@ -75,36 +76,55 @@ function SquadPlayer(props) {
                             .filter(x => x.element_type === 2 && x.multiplier !== 0).length
         let noForwards = picks[pickIndex-1].newPicks
                             .filter(x => x.element_type === 4 && x.multiplier !== 0).length
+        const disablePlayers = (arr) => {
+            Array.from(pPicks).forEach(x => {
+                if(arr.includes(+x.id)) {
+                    Array.from(x.getElementsByTagName('button'))
+                    .forEach(y => {
+                        y.setAttribute('disabled', true)
+                        y.style.opacity = 0.7
+                })
+                }
+            }) }
         if(Object.keys(outplayer).length > 0) {
             let playerType = outplayer.element_type
             let playerId = outplayer.element
+            if(playerType === 1) {
+                const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => x.element_type !== 1)
+                                        .map(x => x.element)
+                disablePlayers(toDisable)                         
+            }
+            if(playerType === 2) {
+                if(noDefenders === 3) {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type !== 2))
+                                        .map(x => x.element)
+                    disablePlayers(toDisable)               
+                } else {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
+                                        .map(x => x.element)
+                    disablePlayers(toDisable) 
+                }
+            }
+            if(playerType === 3) {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
+                                        .map(x => x.element)
+                    disablePlayers(toDisable)  
+            }
             if(playerType === 4) {
                 if(noForwards === 1) {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type !== 4))
                                         .map(x => x.element)
-                    Array.from(pPicks).forEach(x => {
-                        if(toDisable.includes(+x.id)) {
-                            Array.from(x.getElementsByTagName('button'))
-                            .forEach(y => {
-                                y.setAttribute('disabled', true)
-                                y.style.opacity = 0.7
-                        })
-                        }
-                    })                
+                    disablePlayers(toDisable)               
                 } else {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
                                         .map(x => x.element)
-                    Array.from(pPicks).forEach(x => {
-                        if(toDisable.includes(+x.id)) {
-                            Array.from(x.getElementsByTagName('button'))
-                            .forEach(y => {
-                                y.setAttribute('disabled', true)
-                                y.style.opacity = 0.7
-                        })
-                        }
-                    }) 
+                    disablePlayers(toDisable) 
                 }
             }
             /*Array.from(pPicks).forEach(x => {
@@ -144,16 +164,73 @@ function SquadPlayer(props) {
     
     useEffect(() => {
         let pPicks = document.querySelectorAll('.element_container_1')
-        if(Object.keys(inplayerOne).length > 0) {
+        let noDefenders = picks[pickIndex-1].newPicks
+                            .filter(x => x.element_type === 2 && x.multiplier !== 0).length
+        let noForwards = picks[pickIndex-1].newPicks
+                            .filter(x => x.element_type === 4 && x.multiplier !== 0).length
+        const disablePlayers = (arr) => {
             Array.from(pPicks).forEach(x => {
-                if(+x.id !== +inplayerOne.element) {
+                if(arr.includes(+x.id)) {
                     Array.from(x.getElementsByTagName('button'))
-                        .forEach(y => {
-                            y.setAttribute('disabled', true)
-                            y.style.opacity = 0.7
-                        })
+                    .forEach(y => {
+                        y.setAttribute('disabled', true)
+                        y.style.opacity = 0.7
+                })
                 }
-            })
+            }) }
+        if(Object.keys(inplayerOne).length > 0) {
+            let playerType = inplayerOne.element_type
+            let playerId = inplayerOne.element
+            if(playerType === 1) {
+                const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => (x.multiplier === 0 && x.element !== playerId) || (x.multiplier !== 0 && x.element_type !== 1))
+                                        .map(x => x.element)
+                disablePlayers(toDisable) 
+            }
+            if(playerType === 2) {
+                if(noForwards === 1) {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => ((x.element_type === 4 && x.multiplier !== 0) || x.element_type === 1))
+                                        .map(x => x.element)
+                    disablePlayers(toDisable)
+                } else {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => x.element_type === 1)
+                                        .map(x => x.element)
+                    disablePlayers(toDisable)
+                }
+            }
+            if(playerType === 3) {
+                if(noForwards === 1) {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => (x.element_type === 4 && x.multiplier !== 0) || x.element_type === 1)
+                                        .map(x => x.element)
+                    disablePlayers(toDisable)
+                } else if(noDefenders === 3) {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => (x.element_type === 2 && x.multiplier !== 0) || x.element_type === 1)
+                                        .map(x => x.element)
+                    disablePlayers(toDisable)
+                } else {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => x.element_type === 1)
+                                        .map(x => x.element)
+                    disablePlayers(toDisable)
+                }
+            }
+            if(playerType === 4) {
+                if(noDefenders === 3) {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => (x.element_type === 2 && x.multiplier !== 0) || x.element_type === 1)
+                                        .map(x => x.element)
+                    disablePlayers(toDisable)
+                } else {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => x.element_type === 1)
+                                        .map(x => x.element)
+                    disablePlayers(toDisable)
+                }
+            }
         } else {
             Array.from(pPicks).forEach(x => {
                 Array.from(x.getElementsByTagName('button'))
@@ -163,7 +240,7 @@ function SquadPlayer(props) {
                         })
             })
         }
-    }, [inplayerOne])
+    }, [inplayerOne, picks, pickIndex])
     useEffect(() => {
            // const element1 = transferRef.current.nextElementSibling.classList[1]
            window.addEventListener('resize', setDimensions)
@@ -275,13 +352,15 @@ function SquadPlayer(props) {
                     <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                     </svg>
                 </button>
+                {
+                (Object.keys(outplayer).length === 0 && Object.keys(inplayerOne).length === 0) && 
                 <button
                 ref={transferRef}
                  onClick={() => transferOut(playerPos)} className="transfer-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
                         </svg>
-                </button>
+                </button>}
                 <button
                     ref={ref}
                 onClick={(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)
@@ -320,33 +399,37 @@ function SquadPlayer(props) {
             <button onClick={handleCloseModal} className="btn-info btn-close btn-danger"><svg style={{color: 'white'}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="white"></path> </svg></button>
         </div>
         <div className="infobuttons">
-            <button onClick={() => transferOut(playerPos)} 
+            {
+                (Object.keys(outplayer).length === 0 && Object.keys(inplayerOne).length === 0) &&
+                 <button onClick={() => transferOut(playerPos)} 
             className={`btn-info btn-info-block 
             ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'btn-green':'btn-danger'}
                 ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element) ? 'hide-btn':'show-btn'}  transfer`}>
                 {fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
-                    'Restore':'Remove'}</button>
-            <button className={`btn-info btn-info-block 
+                    'Restore':'Remove'}</button>}
+            {tempPlayersOut.length === 0 && <button className={`btn-info btn-info-block 
             ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'} btn-warn substitute`}
                 onClick={(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)
                     ? () => cancelPlayer(playerPos) : () => setSwitchPlayer(playerPos)}>
                     {(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)
                      ? 'Cancel' : 'Switch'}
-                </button>
-            <button className={`btn-info btn-info-block
+                </button>}
+            {tempPlayersOut.length === 0 &&
+            (Object.keys(outplayer).length === 0 && Object.keys(inplayerOne).length === 0) && <button className={`btn-info btn-info-block
             ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'} 
                 ${playerPos.multiplier > 0 ? 'show-btn':'hide-btn'} 
                 ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element) ? 'hide-btn':'show-btn'} btn-cap `}
-                onClick={() => captain(playerPos.element)}>Make Captain</button>
-            <button className={`btn-info btn-info-block 
+                onClick={() => captain(playerPos.element)}>Make Captain</button>}
+            {tempPlayersOut.length === 0 &&
+            (Object.keys(outplayer).length === 0 && Object.keys(inplayerOne).length === 0) && <button className={`btn-info btn-info-block 
             ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'}
                 ${playerPos.multiplier > 0 ? 'show-btn':'hide-btn'} 
                 ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element) ? 'hide-btn':'show-btn'} btn-vcap `} 
-                onClick={() => viceCaptain(playerPos.element)}>Make Vice Captain</button>
+                onClick={() => viceCaptain(playerPos.element)}>Make Vice Captain</button>}
             <button 
             onClick={clickInfo}
             className={`btn-info btn-info-block btn-light
