@@ -71,16 +71,66 @@ function SquadPlayer(props) {
 
     useEffect(() => {
         let pPicks = document.querySelectorAll('.element_container_1')
+        let noDefenders = picks[pickIndex-1].newPicks
+                            .filter(x => x.element_type === 2 && x.multiplier !== 0).length
+        let noForwards = picks[pickIndex-1].newPicks
+                            .filter(x => x.element_type === 4 && x.multiplier !== 0).length
         if(Object.keys(outplayer).length > 0) {
-            Array.from(pPicks).forEach(x => {
-                if(+x.id !== +outplayer.element) {
+            let playerType = outplayer.element_type
+            let playerId = outplayer.element
+            if(playerType === 4) {
+                if(noForwards === 1) {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type !== 4))
+                                        .map(x => x.element)
+                    Array.from(pPicks).forEach(x => {
+                        if(toDisable.includes(+x.id)) {
+                            Array.from(x.getElementsByTagName('button'))
+                            .forEach(y => {
+                                y.setAttribute('disabled', true)
+                                y.style.opacity = 0.7
+                        })
+                        }
+                    })                
+                } else {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
+                                        .map(x => x.element)
+                    Array.from(pPicks).forEach(x => {
+                        if(toDisable.includes(+x.id)) {
+                            Array.from(x.getElementsByTagName('button'))
+                            .forEach(y => {
+                                y.setAttribute('disabled', true)
+                                y.style.opacity = 0.7
+                        })
+                        }
+                    }) 
+                }
+            }
+            /*Array.from(pPicks).forEach(x => {
+                let multi1 = +x.getAttribute('multiplier')
+                if(playerType === 2) {
+                    if(noDefenders === 3) {}
+                }
+                if(playerType === 4) {
+                    if(noForwards === 1) {
+                        if((+x.id !== +outplayer.element && multi1 !== 0) || (multi1 === 0 && +outplayer.element !== 4)) {
+                            Array.from(x.getElementsByTagName('button'))
+                            .forEach(y => {
+                                y.setAttribute('disabled', true)
+                                y.style.opacity = 0.7
+                        })
+                        }
+                    } else {}
+                }
+                if(+x.id !== +outplayer.element && multi1 !== 0) {
                     Array.from(x.getElementsByTagName('button'))
                         .forEach(y => {
                             y.setAttribute('disabled', true)
                             y.style.opacity = 0.7
                         })
                 }
-            })
+            })*/
         } else {
             Array.from(pPicks).forEach(x => {
                 Array.from(x.getElementsByTagName('button'))
@@ -90,7 +140,7 @@ function SquadPlayer(props) {
                         })
             })
         }
-    },[outplayer])    
+    },[outplayer, picks, pickIndex])    
     
     useEffect(() => {
         let pPicks = document.querySelectorAll('.element_container_1')
@@ -186,7 +236,7 @@ function SquadPlayer(props) {
     </h3> : ''}
         <div className={`element_container ${playerInClass}`}>
             <div className="element_container_1 element_container-two"
-            id={playerPos.element} position={positionObj.id}>
+            id={playerPos.element} position={positionObj.id} multiplier={playerPos.multiplier}>
                 <button
                 onClick={handleShowModal} type="button" className="btn-details">
                     <img src={require(`../static/shirt_${image}.webp`)} className="image_pic" alt={player.web_name}/>
