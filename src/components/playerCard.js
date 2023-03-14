@@ -12,7 +12,9 @@ function PlayerCard(props) {
     const players = fplElements.players
     const pickIndex = fplElements.pickIndex
     const picks = fplElements.picks
+    let playersSelected = fplElements.playersSelected()
     const [ showInfo, setShowInfo ] = useState(false)
+    const [ showTransfer, setShowTransfer ] = useState(false)
 
     const handleShowInfo = () => {
       setShowInfo(true)
@@ -24,8 +26,19 @@ function PlayerCard(props) {
       handleClose()
   }
 
+  const handleShowTransfer = () => {
+    setShowTransfer(true)
+    handleShow()
+  }
+  const handleCloseTransfer = () => {
+    setShowTransfer(false)
+    handleClose()
+  }
+  
+
     const transferIn = (player, positiion, team) => {
       fplElements.addToTransfersIn(player, positiion, team)
+      handleCloseTransfer()
   }
     const playerIds = () => {
       let ids = picks[pickIndex-1].newPicks.map(x => x.element)
@@ -47,7 +60,7 @@ function PlayerCard(props) {
     <td className="player">
         <button
           disabled={picks.length && playerIds().includes(playerPos.id)}
-         onClick={() => transferIn(playerPos.id, position, team)} className="player-cell btn-table">
+          onClick={handleShowTransfer} className="player-cell btn-table">
             <div className="images">
             <img src={require(`../static/shirt_${forwardImage}.webp`)} alt={forwardImage} />
             </div>
@@ -63,6 +76,21 @@ function PlayerCard(props) {
     <td><span className="price">{(playerPos.now_cost/10).toFixed(1)}</span></td>
     <td><span className="points">{sort === 'event_points' ? playerPos.event_points : playerPos.total_points}</span></td>
 </tr>
+
+{showTransfer && showPop && 
+  <div className="playerpop">
+    <div className="namesection small">
+        <span>{playerPos.first_name}&nbsp;{playerPos.second_name}</span>
+        <button onClick={handleCloseTransfer} className="btn-info btn-close btn-danger"><svg style={{color: 'white'}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="white"></path> </svg></button>
+    </div>
+    {playersSelected === 15 && <div className='message small danger'>
+        <span>Maximum Players Selected</span>
+      </div>}
+    <div className="infobuttons">
+      {playersSelected < 15 && <button
+         onClick={() => transferIn(playerPos.id, position, team)} className='btn-info btn-info-block btn-green'>Add Player</button>}
+    </div>
+  </div>}
 
 {showInfo && showPop &&
   <PlayerInfo
