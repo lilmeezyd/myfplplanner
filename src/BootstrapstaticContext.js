@@ -182,7 +182,6 @@ function BootstrapstaticProvider({children}) {
                 const response = await fetch(url)
                 const data = await response.json()
                 setManagerPicks(data)
-                console.log('i am fetching')
 
                 //let buyingPrice
                 const newPicks = []
@@ -212,9 +211,10 @@ function BootstrapstaticProvider({children}) {
 							autoOut.multiplier = autoInMultiplier
 
 						}
-					})
+					}).map(x => x.position > 11 ? x.multiplier = 0 : x.multiplier)
 				} else {
 					data.picks.map(x => x)
+                    .map(x => x.position > 11 ? x.multiplier = 0 : x.multiplier)
 				}
 
                 data.picks.forEach(x => {
