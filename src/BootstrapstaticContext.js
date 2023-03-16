@@ -40,6 +40,10 @@ export const BootstrapstaticContext = createContext({
     switchPlayers: () => {},
     changeBenchOrder: () => {},
     playersSelected: () => {},
+    goalkeepersSelected: () => {},
+    defendersSelected: () => {},
+    midfieldersSelected: () => {},
+    forwardsSelected: () => {},
     getTransferLogic: () => {},
     transferCost: () => {},
     freeTransfers: () => {}
@@ -673,7 +677,7 @@ function BootstrapstaticProvider({children}) {
         let playerMultiplier = 2
         let playerVc = false
         setPicks(picks.map((pick, key) => 
-            key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
+            key === pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
                 newPick.element === old.element ? 
                 {...newPick, is_captain:oldCap, is_vice_captain:oldVc,
                 multiplier:oldMultiplier} :
@@ -690,7 +694,7 @@ function BootstrapstaticProvider({children}) {
         let playerCap = false
         let playerVc = true
         setPicks([...picks.map((pick, key) => 
-            key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
+            key === pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
                 newPick.element === old.element ? 
                 {...newPick, is_captain:oldCap, is_vice_captain:oldVc,
                 multiplier:oldMultiplier} :
@@ -710,7 +714,7 @@ function BootstrapstaticProvider({children}) {
     }
     const switchPlayers = () => {
         setPicks([...picks.map((pick, key) => 
-            key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
+            key === pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
                 newPick.element === outplayer.element ? 
                 {...newPick, is_captain:false, is_vice_captain:false,
                 multiplier:0, position:inplayerOne.position} :
@@ -725,7 +729,7 @@ function BootstrapstaticProvider({children}) {
     }
     const changeBenchOrder = () => {
         setPicks([...picks.map((pick, key) => 
-            key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
+            key === pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick) =>
                 newPick.element === inplayerOne.element ? 
                 {...newPick, position:inplayerTwo.position} :
                 newPick.element === inplayerTwo.element ? 
@@ -749,6 +753,35 @@ function BootstrapstaticProvider({children}) {
         if(picks.length) {
             let firstXV = picks[pickIndex-1].newPicks.length - tempPlayersOut.length
             return firstXV
+        }
+    }
+
+    const goalkeepersSelected = () => {
+        if(picks.length) {
+            let goalies = picks[pickIndex-1].newPicks
+                            .filter(x => x.element_type === 1).length - tempPlayersOut.filter(x => x.element_type === 1).length
+            return goalies
+        }
+    }
+    const defendersSelected = () => {
+        if(picks.length) {
+            let defenders = picks[pickIndex-1].newPicks
+                            .filter(x => x.element_type === 2).length - tempPlayersOut.filter(x => x.element_type === 2).length
+            return defenders
+        }
+    }
+    const midfieldersSelected = () => {
+        if(picks.length) {
+            let mids = picks[pickIndex-1].newPicks
+                            .filter(x => x.element_type === 3).length - tempPlayersOut.filter(x => x.element_type === 3).length
+            return mids
+        }
+    }
+    const forwardsSelected = () => {
+        if(picks.length) {
+            let forwards = picks[pickIndex-1].newPicks
+                            .filter(x => x.element_type === 4).length - tempPlayersOut.filter(x => x.element_type === 4).length
+            return forwards
         }
     }
 
@@ -822,6 +855,10 @@ function BootstrapstaticProvider({children}) {
         switchPlayers,
         changeBenchOrder,
         playersSelected,
+        goalkeepersSelected,
+        defendersSelected,
+        midfieldersSelected,
+        forwardsSelected,
         getTransferLogic,
         transferCost,
         freeTransfers

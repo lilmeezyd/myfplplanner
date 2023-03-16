@@ -304,14 +304,14 @@ function SquadPlayer(props) {
   return (
     <>
    
-    <div key={idx} className={ `${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)
-                     ? 'player-active' : ''} pitch_unit`}>
+    <div key={idx} className={ ` pitch_unit`}>
                         {playerPos.multiplier === 0 ? <h3 className='bench_unit_heading'>
         <span className='bean tooltip'>{
         fplElements.playerPosition
                 .find(x => x.id === +playerPos.element_type).singular_name_short }</span>
     </h3> : ''}
-        <div className={`element_container ${playerInClass}`}>
+        <div className={`element_container ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)
+                     ? 'player-active' : ''} ${playerInClass}`}>
             <div className="element_container_1 element_container-two"
             id={playerPos.element} position={positionObj.id} multiplier={playerPos.multiplier}>
                 <button

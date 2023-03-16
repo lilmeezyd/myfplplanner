@@ -13,6 +13,10 @@ function PlayerCard(props) {
     const pickIndex = fplElements.pickIndex
     const picks = fplElements.picks
     let playersSelected = fplElements.playersSelected()
+    let goalkeepersSelected = fplElements.goalkeepersSelected()
+    let defendersSelected = fplElements.defendersSelected()
+    let midfieldersSelected = fplElements.midfieldersSelected()
+    let forwardsSelected = fplElements.forwardsSelected()
     const [ showInfo, setShowInfo ] = useState(false)
     const [ showTransfer, setShowTransfer ] = useState(false)
 
@@ -86,8 +90,35 @@ function PlayerCard(props) {
     {playersSelected === 15 && <div className='message small danger'>
         <span>Maximum Players Selected</span>
       </div>}
+      {playersSelected < 15 && 
+      playerPos.element_type === 1 && 
+      goalkeepersSelected === 2 && <div className='message small danger'>
+        <span>Maximum Goalkeepers Selected</span>
+        </div>}
+        {playersSelected < 15 && 
+      playerPos.element_type === 2 && 
+      defendersSelected === 5 && <div className='message small danger'>
+        <span>Maximum Defenders Selected</span>
+        </div>}
+        {playersSelected < 15 && 
+      playerPos.element_type === 3 && 
+      midfieldersSelected === 5 && <div className='message small danger'>
+        <span>Maximum Midfielders Selected</span>
+        </div>}
+        {playersSelected < 15 && 
+      playerPos.element_type === 4 && 
+      forwardsSelected === 3 && <div className='message small danger'>
+        <span>Maximum Forwards Selected</span>
+        </div>}
     <div className="infobuttons">
-      {playersSelected < 15 && <button
+      {((playersSelected < 15 &&
+      playerPos.element_type === 1 && goalkeepersSelected < 2) ||
+      (playersSelected < 15 &&
+        playerPos.element_type === 2 && defendersSelected < 5) ||
+        (playersSelected < 15 &&
+          playerPos.element_type === 3 && midfieldersSelected < 5) ||
+          (playersSelected < 15 &&
+            playerPos.element_type === 4 && forwardsSelected < 3))&& <button
          onClick={() => transferIn(playerPos.id, position, team)} className='btn-info btn-info-block btn-green'>Add Player</button>}
     </div>
   </div>}
