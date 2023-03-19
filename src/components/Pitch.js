@@ -38,12 +38,6 @@ function Pitch(props) {
 	const [ tcap, setTcap ] = useState(false)
 	const [ freehit, setFreehit ] = useState(false)
 	const {handleShow, handleClose, showPop} = props
-	/*const [ disableChips, setDisableChips ] = useState({
-		wildcard: false,
-		bboost: false,
-		freehit: false,
-		tcap: false
-	})*/
 
 	useEffect(() => {
 		getPickIndex(curPage)
@@ -115,9 +109,24 @@ function Pitch(props) {
 		setTcap(!tcap)
 		setBboost(!bboost)
 	}
-	const setBenchBoost = () => {}
-	const setTriple = () => {}
-	const setFreeHit = () => {}
+	const setBenchBoost = (x) => {
+		let eventPlayed = chips.bboost.event === x ? null : 
+						  chips.bboost.event === null ? x : +eventId+curPage
+		let isUsed = chips.bboost.event === x ? false : true
+		fplElements.updateBboost(isUsed, eventPlayed)
+	}
+	const setTriple = (x) => {
+		let eventPlayed = chips.tcap.event === x ? null : 
+						  chips.tcap.event === null ? x : +eventId+curPage
+		let isUsed = chips.tcap.event === x ? false : true
+		fplElements.updateTcap(isUsed, eventPlayed)
+	}
+	const setFreeHit = (x) => {
+		let eventPlayed = chips.freehit.event === x ? null : 
+						  chips.freehit.event === null ? x : +eventId+curPage
+		let isUsed = chips.freehit.event === x ? false : true
+		fplElements.updateFreehit(isUsed, eventPlayed)
+	}
 
 	
     
@@ -210,27 +219,41 @@ function Pitch(props) {
 								  GW&nbsp;{chips.wildcard.event}
 							</div>}
 						</button>
-						<button onClick={setBenchBoost} 
-						disabled={(chips.bboost.used && +chips.bboost.event < +eventId+curPage) || 
-							bboost === true ? true : false}  style={{opacity: chips.bboost.used && 0.7}} className="btn btn-block btn-chip small" id="bbench">
-							Bench Boost&nbsp;{chips.bboost.event === null ? '' : 'Played'} 
-							{chips.bboost.used && 
-								<div className="gw">
-								  GW&nbsp;{chips.bboost.event}
-							</div>}
+						<button onClick={() => setBenchBoost(+eventId+curPage)} 
+						disabled={chips.bboost.used && +chips.bboost.event < +eventId+curPage && true}	
+						style={{opacity: chips.bboost.used && +chips.bboost.event < +eventId+curPage && 0.7,
+							background: (+chips.bboost.event) === +eventId+curPage && "rgb(22, 22, 68)",
+							color: (+chips.bboost.event) === +eventId+curPage && 'white'}} className="btn btn-block btn-chip small" id="fhit">
+					  Bench Boost&nbsp;
+					  {+chips.bboost.event < +eventId+curPage && chips.bboost.event !== null ? 'Played' : 
+					  +chips.bboost.event === +eventId+curPage ? 'Active' : ''} 
+					  {chips.bboost.used && +chips.bboost.event < +eventId+curPage &&
+						  <div className="gw">
+							GW&nbsp;{chips.bboost.event}
+					  </div>}
 							</button>
-						<button onClick={setTriple} 
-						disabled={(chips.tcap.used && +chips.tcap.event < +eventId+curPage) || 
-							tcap === true ? true : false} style={{opacity: chips.tcap.used && 0.7}} className="btn btn-block btn-chip small" id="tcap">
-							Triple Captain&nbsp;{chips.tcap.event === null ? '' : 'Played'}
-							{chips.tcap.used && 
-								<div className="gw">
-								  GW&nbsp;{chips.tcap.event}
-							</div>} 
+						<button onClick={() => setTriple(+eventId+curPage)} 
+						disabled={chips.tcap.used && +chips.tcap.event < +eventId+curPage && true}	
+						style={{opacity: chips.tcap.used && +chips.tcap.event < +eventId+curPage && 0.7,
+							background: (+chips.tcap.event) === +eventId+curPage && "rgb(22, 22, 68)",
+							color: (+chips.tcap.event) === +eventId+curPage && 'white'}} className="btn btn-block btn-chip small" id="fhit">
+					 	 Triple Captain&nbsp;
+					  {+chips.tcap.event < +eventId+curPage && chips.tcap.event !== null ? 'Played' : 
+					  +chips.tcap.event === +eventId+curPage ? 'Active' : ''} 
+					  {chips.tcap.used && +chips.tcap.event < +eventId+curPage &&
+						  <div className="gw">
+							GW&nbsp;{chips.tcap.event}
+					  </div>}
 						</button>
-						<button onClick={setFreeHit} disabled={chips.freehit.used && true} style={{opacity: chips.freehit.used && 0.7}} className="btn btn-block btn-chip small" id="fhit">
-							Free Hit&nbsp;{chips.freehit.event === null ? '' : 'Played'} 
-							{chips.freehit.used && 
+						<button onClick={() => setFreeHit(+eventId+curPage)}
+							disabled={chips.freehit.used && +chips.freehit.event < +eventId+curPage && true}	
+						  	style={{opacity: chips.freehit.used && +chips.freehit.event < +eventId+curPage && 0.7,
+								background: (+chips.freehit.event) === +eventId+curPage && "rgb(22, 22, 68)",
+								color: (+chips.freehit.event) === +eventId+curPage && 'white'}} className="btn btn-block btn-chip small" id="fhit">
+							Free Hit&nbsp;
+							{+chips.freehit.event < +eventId+curPage && chips.freehit.event !== null ? 'Played' : 
+							+chips.freehit.event === +eventId+curPage ? 'Active' : ''} 
+							{chips.freehit.used && +chips.freehit.event < +eventId+curPage &&
 								<div className="gw">
 								  GW&nbsp;{chips.freehit.event}
 							</div>}

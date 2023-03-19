@@ -48,7 +48,10 @@ export const BootstrapstaticContext = createContext({
     addedPlayer: () => {},
     getTransferLogic: () => {},
     transferCost: () => {},
-    freeTransfers: () => {}
+    freeTransfers: () => {},
+    updateFreehit: () => {},
+    updateBboost: () => {},
+    updateTcap: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -431,6 +434,24 @@ function BootstrapstaticProvider({children}) {
     const updateWildcard = (isUsed, eventPlayed) => {
         setChips({
             ...chips, wildcard: {used: isUsed, event: eventPlayed}
+        })
+    }
+
+    const updateFreehit = (isUsed, eventPlayed) => {
+        setChips({
+            ...chips, freehit: {used: isUsed, event: eventPlayed}
+        })
+    }
+
+    const updateBboost = (isUsed, eventPlayed) => {
+        setChips({
+            ...chips, bboost: {used: isUsed, event: eventPlayed}
+        })
+    }
+
+    const updateTcap = (isUsed, eventPlayed) => {
+        setChips({
+            ...chips, tcap: {used: isUsed, event: eventPlayed}
         })
     }
 
@@ -899,7 +920,10 @@ function BootstrapstaticProvider({children}) {
         addedPlayer,
         getTransferLogic,
         transferCost,
-        freeTransfers
+        freeTransfers,
+        updateFreehit,
+        updateBboost,
+        updateTcap
     }
 
     return (
