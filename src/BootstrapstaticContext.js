@@ -24,6 +24,7 @@ export const BootstrapstaticContext = createContext({
     managerId: 0,
     eventId: 1,
     pickIndex: 1,
+    playerName: '',
     remainingBudget: null,
     getManagerInfo: () => {},
     updateWildcard: () => {},
@@ -44,7 +45,7 @@ export const BootstrapstaticContext = createContext({
     defendersSelected: () => {},
     midfieldersSelected: () => {},
     forwardsSelected: () => {},
-    playersFromTeam: () => {},
+    addedPlayer: () => {},
     getTransferLogic: () => {},
     transferCost: () => {},
     freeTransfers: () => {}
@@ -89,6 +90,7 @@ function BootstrapstaticProvider({children}) {
     const [ inplayerOne, setInPlayerOne ] = useState({})
     const [ inplayerTwo, setInPlayerTwo ] = useState({})
     const [ pickIndex, setPickIndex ] = useState(1)
+    const [ playerName, setPlayerName ] = useState('')
 
   
     useEffect(() => {
@@ -423,6 +425,7 @@ function BootstrapstaticProvider({children}) {
 
     const getPickIndex = (id) => {
         setPickIndex(id)
+        //setPlayerName('')
     } 
 
     const updateWildcard = (isUsed, eventPlayed) => {
@@ -456,7 +459,6 @@ function BootstrapstaticProvider({children}) {
         }
 
         if(isFoundIn) {
-
             //In PlayersIn Array
             let isFoundInIndex = playersIn[pickIndex-1].arr.findIndex(x => x.element === player.element)
             let isFoundInPicksIndex = picks[pickIndex-1].newPicks.findIndex(x => x.element === player.element)
@@ -477,11 +479,18 @@ function BootstrapstaticProvider({children}) {
                 multiplier:multiplier,
                 position:position
             }
+            
             setPlayersIn(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
                 {...gw, arr: gw.arr.filter((y, key) => key !==  isFoundInIndex)} : gw )])
+            setPlayersIn(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
+                {...gw, arr:[]} : gw))
+            setPlayersOut(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
+                {...gw, arr:[]} : gw))
             setPicks([...picks.map((pick, key) => 
-                                key >= pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
+                                key === pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
                                     idx === isFoundInPicksIndex ? replacedElementObj : newPick )} : pick)])
+            setPicks(prev => prev.map((pick, key) => 
+                    key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
             
             //In PlayersOut Array
 			let	isFoundOutIndex = playersOut.findIndex(x => x.element === player.element)
@@ -635,7 +644,6 @@ function BootstrapstaticProvider({children}) {
                             // set picks for later weeks
                             setPicks(prev => prev.map((pick, key) => 
                                 key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
-                                console.log('is out')
 
                         } else {
                             setPicks([...picks.map((pick, key) => 
@@ -644,7 +652,7 @@ function BootstrapstaticProvider({children}) {
                             // set picks for later weeks
                             setPicks(prev => prev.map((pick, key) => 
                             key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
-                            console.log('is out else')
+                            
                         }
                         let pIndex = tempPlayersOut.findIndex(x => x.element_type === player.element_type && x.element === likelyReplaced.element)
                         
@@ -808,21 +816,9 @@ function BootstrapstaticProvider({children}) {
         }
     }
 
-    const playersFromTeam = () => {
-       /* if(pickIndex.length) {
-            let teamCountPicksObj = picks[pickIndex-1].newPicks.reduce((a,b) => {
-                a[b.team] = a[b.team] ? ++a[b.team] : 1
-                return a
-            },{})
-        let tempCountObj = tempPlayersOut.reduce((a,b) => {
-            a[b.teamId] = a[b.team] ? ++a[b.team] : 1
-            return a
-        }, {})      */
-
-        //let picksCount = teamCountPicksObj[teamId] === undefined ? 0 : teamCountPicksObj[teamId]
-        //let tempCount = tempCountObj[teamId] === undefined ? 0 : tempCountObj[teamId]
-        //let teamCount = picksCount - tempCount
-        //}
+    const addedPlayer = (team, player) => {
+        let playerName = players.find(x => x.id === player).web_name
+        setPlayerName(playerName)
     }
 
     const getTransferLogic = () => {
@@ -880,6 +876,7 @@ function BootstrapstaticProvider({children}) {
         transferHistory: transferHistory,
         remainingBudget: remainingBudget,
         pickIndex: pickIndex,
+        playerName: playerName,
         getManagerInfo,
         updateWildcard,
         addToTransfersIn,
@@ -899,7 +896,7 @@ function BootstrapstaticProvider({children}) {
         defendersSelected,
         midfieldersSelected,
         forwardsSelected,
-        playersFromTeam,
+        addedPlayer,
         getTransferLogic,
         transferCost,
         freeTransfers

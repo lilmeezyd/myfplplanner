@@ -80,27 +80,10 @@ function Pitch(props) {
 	const viewNextPage = () => {
         setCurPage(v => v+1)
 		forWildcard(curPage)
-
-		/*if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage) {
-			setDisableChips({
-				...disableChips,
-				freehit: true,
-				bboost: true,
-				tcap: true
-			})
-		}*/
     }
     const viewPreviousPage = () => {
         setCurPage(v => v-1)
 		forWildcard(curPage)
-		/*if(chips.wildcard.used && +chips.wildcard.event === +eventId+curPage){
-			setDisableChips({
-				...disableChips,
-				freehit: true,
-				bboost: true,
-				tcap: true
-			})
-		}*/
     }
 
 	const showTransfersDiv = () => {
@@ -131,12 +114,6 @@ function Pitch(props) {
 		setFreehit(!freehit)
 		setTcap(!tcap)
 		setBboost(!bboost)
-		/*setDisableChips({
-			...disableChips,
-			freehit: !disableChips.freehit,
-			bboost: !disableChips.bboost,
-			tcap: !disableChips.tcap
-		})*/
 	}
 	const setBenchBoost = () => {}
 	const setTriple = () => {}
@@ -165,26 +142,12 @@ function Pitch(props) {
 									</h4>)
 								})}
 								<div className="large">
-									<h4 className="theading">Deadline In:</h4>
+									<h4 className="theading">Deadline:</h4>
 									{countdowns.map((countdown, idx) => {
 										return (
 											<div key={idx} className="ttime small">
-												<div>
-													<span id="day">{countdown.days}</span>
-													<span>Days</span>
-												</div>
-												<div>
-													<span id="hour">{countdown.hours}</span>
-													<span>Hrs</span>
-												</div>
-												<div>
-													<span id="minute">{countdown.minutes}</span>
-													<span>Mins</span>
-												</div>
-												<div>
-													<span id="second">{countdown.seconds}</span>
-													<span>Secs</span>
-												</div>
+												<span>{new Date(countdown).toDateString()},</span>
+												<span>{new Date(countdown).toLocaleTimeString().slice(0,5)}</span>
 											</div>
 											)
 										})}
@@ -274,7 +237,10 @@ function Pitch(props) {
 						</button>
 					</div>}
 					{showTransfersMade && <TransferRows />}
-					<div className="message small"></div>
+					{fplElements.playerName && 
+					<div className={`message small ${fplElements.playerName && 'success'}`}>
+						<span>{fplElements.playerName} has been added</span>
+					</div>}
 				</div>
 				<div className="field">
 					<div className="pitch">

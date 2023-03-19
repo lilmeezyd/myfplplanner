@@ -42,6 +42,7 @@ function PlayerCard(props) {
 
     const transferIn = (player, positiion, team) => {
       fplElements.addToTransfersIn(player, positiion, team)
+      fplElements.addedPlayer(team, player)
       handleCloseTransfer()
   }
     const playerIds = () => {
