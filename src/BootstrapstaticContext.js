@@ -51,7 +51,9 @@ export const BootstrapstaticContext = createContext({
     freeTransfers: () => {},
     updateFreehit: () => {},
     updateBboost: () => {},
-    updateTcap: () => {}
+    updateTcap: () => {},
+    actDeact: () =>{},
+    colorOfArrow: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -138,10 +140,10 @@ function BootstrapstaticProvider({children}) {
                     tcap: {used: tcap, event: tEvent}})
                 
                 
-                localStorage.removeItem('chips')
-                localStorage.setItem('chips', JSON.stringify(chips))    
+                //localStorage.removeItem('chips')
+               // localStorage.setItem('chips', JSON.stringify(chips))    
                 
-                const { current } = data
+                const { current, chips } = data
                 let fts = 1
                 returnFt(1, current.length, fts)
                 //rolledft = fts === 1 ? false : 2
@@ -153,13 +155,13 @@ function BootstrapstaticProvider({children}) {
                         })
                         return;
                     }
-                    if(current[a].event_transfers === 0 && current[a].event !== chips.wildcard.event) {
+                    if(current[a].event_transfers === 0 && current[a].event !== chips.filter(x => x.name === 'wildcard')[0]?.event) {
                         c = 2
                     }
-                    if(current[a].event_transfers === 0 && current[a].event === chips.wildcard.event) {
+                    if(current[a].event_transfers === 0 && current[a].event === chips.filter(x => x.name === 'wildcard')[0]?.event ) {
                         c = 1
                     }
-                    if(current[a].event_transfers === 0 && current[a].event === chips.freehit.event) {
+                    if(current[a].event_transfers === 0 && current[a].event === chips.filter(x => x.name === 'freehit')[0]?.event ) {
                         c = 1
                     }
                     if(current[a].event_transfers > 1) {
@@ -180,7 +182,7 @@ function BootstrapstaticProvider({children}) {
         }
         fetchManagerInfo()
         fetchManagerHistory()
-    }, [managerId, chips])
+    }, [managerId])
     
 
     useEffect(() => {
@@ -188,6 +190,11 @@ function BootstrapstaticProvider({children}) {
 
         const fetchManagerPicks = async () => {
             const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/${eventId}/picks/`
+            const url1 = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/transfers/`
+            try {
+                const response1 = await fetch(url1)
+                const data1 = await response1.json()
+                setTransferHistory(data1)
             try {
                 const response = await fetch(url)
                 const data = await response.json()
@@ -221,14 +228,15 @@ function BootstrapstaticProvider({children}) {
 							autoOut.multiplier = autoInMultiplier
 
 						}
-					}).map(x => x.position > 11 ? x.multiplier = 0 : x.multiplier)
+					})
+                    //.map(y => y.position > 11 ? y.multiplier = 0 : y.multiplier)
 				} else {
 					data.picks.map(x => x)
-                    .map(x => x.position > 11 ? x.multiplier = 0 : x.multiplier)
+                    //.map(y => y.position > 11 ? y.multiplier = 0 : y.multiplier)
 				}
 
                 data.picks.forEach(x => {
-					transferHistory.forEach(y => {
+					data1.forEach(y => {
 						if(x.element === y.element_in) {
 							//Removing duplicate entries
 							let isFound = transferPlayers.some(player => player.element === y.element_in)
@@ -368,23 +376,14 @@ function BootstrapstaticProvider({children}) {
 
             } catch (error) {
                 console.log(error)
-            }
-        }
-
-        const fetchTransferHistory = async () => {
-            const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/transfers/`
-            try {
-                const response = await fetch(url)
-                const data = await response.json()
-                setTransferHistory(data)
-            } catch (error) {
+            } } catch(error) {
                 console.log(error)
             }
         }
-         fetchManagerPicks()
-         fetchTransferHistory()
 
-    }, [managerId, eventId])
+         fetchManagerPicks()
+
+    }, [managerId, eventId, players])
 
     useEffect(() => {
         fetchData()
@@ -421,6 +420,19 @@ function BootstrapstaticProvider({children}) {
 
     } 
     
+    const colorOfArrow = () => {
+        let color
+        let gwCurrent = managerHistory.current[managerHistory.current.length -1].overall_rank
+		let gwPrevious = managerHistory.current[managerHistory.current.length -2].overall_rank
+        if(gwCurrent < gwPrevious) {
+            color = 'green'
+        } else if(gwCurrent > gwPrevious) {
+            color = 'red'
+        } else {
+            color = 'grey'
+        }
+        return color
+    }
 
     const getManagerInfo = (id) => {
         setManagerId(id)
@@ -441,6 +453,29 @@ function BootstrapstaticProvider({children}) {
         setChips({
             ...chips, freehit: {used: isUsed, event: eventPlayed}
         })
+    }
+
+    const actDeact = () => {
+        if(chips.freehit.event === (+eventId+pickIndex)) {
+            setPlayersIn(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
+                {...gw, arr:[]} : gw))
+            setPlayersOut(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
+                {...gw, arr:[]} : gw))
+            if(pickIndex === 1) {
+                setPicks(prev => prev.map((pick, key) => 
+                key > pickIndex-1 ? {...pick, newPicks:real} : pick))
+            } else {
+                setPicks(prev => prev.map((pick, key) => 
+                key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-2].newPicks} : pick))
+            }
+        } else {
+            setPicks(prev => prev.map((pick, key) => 
+            key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
+            setPlayersIn(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
+                {...gw, arr:[]} : gw))
+            setPlayersOut(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
+                {...gw, arr:[]} : gw))
+        } 
     }
 
     const updateBboost = (isUsed, eventPlayed) => {
@@ -510,8 +545,18 @@ function BootstrapstaticProvider({children}) {
             setPicks([...picks.map((pick, key) => 
                                 key === pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
                                     idx === isFoundInPicksIndex ? replacedElementObj : newPick )} : pick)])
-            setPicks(prev => prev.map((pick, key) => 
-                    key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
+            if(chips.freehit.event === (+eventId+pickIndex)) {
+                if(pickIndex === 1) {
+                    setPicks(prev => prev.map((pick, key) => 
+                    key > pickIndex-1 ? {...pick, newPicks:real} : pick))
+                } else {
+                    setPicks(prev => prev.map((pick, key) => 
+                    key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-2].newPicks} : pick))
+                }
+            } else {
+                setPicks(prev => prev.map((pick, key) => 
+                key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
+            }
             
             //In PlayersOut Array
 			let	isFoundOutIndex = playersOut.findIndex(x => x.element === player.element)
@@ -663,16 +708,36 @@ function BootstrapstaticProvider({children}) {
                                     idx === repeatedIndex ? repeatedPlayer[0] : newPick )} : pick)])
 
                             // set picks for later weeks
-                            setPicks(prev => prev.map((pick, key) => 
+                            if(chips.freehit.event === (+eventId+pickIndex)) {
+                                if(pickIndex === 1) {
+                                    setPicks(prev => prev.map((pick, key) => 
+                                    key > pickIndex-1 ? {...pick, newPicks:real} : pick))
+                                } else {
+                                    setPicks(prev => prev.map((pick, key) => 
+                                    key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-2].newPicks} : pick))
+                                }
+                            } else {
+                                setPicks(prev => prev.map((pick, key) => 
                                 key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
+                            }
 
                         } else {
                             setPicks([...picks.map((pick, key) => 
                                 key === pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
                                     newPick.element === repeatedPlayer[0].element ? repeatedPlayer[0] : newPick )} : pick)])
                             // set picks for later weeks
-                            setPicks(prev => prev.map((pick, key) => 
-                            key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
+                            if(chips.freehit.event === (+eventId+pickIndex)) {
+                                if(pickIndex === 1) {
+                                    setPicks(prev => prev.map((pick, key) => 
+                                    key > pickIndex-1 ? {...pick, newPicks:real} : pick))
+                                } else {
+                                    setPicks(prev => prev.map((pick, key) => 
+                                    key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-2].newPicks} : pick))
+                                }
+                            } else {
+                                setPicks(prev => prev.map((pick, key) => 
+                                key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
+                            } 
                             
                         }
                         let pIndex = tempPlayersOut.findIndex(x => x.element_type === player.element_type && x.element === likelyReplaced.element)
@@ -697,8 +762,19 @@ function BootstrapstaticProvider({children}) {
                         setTempPlayersOut(x => [...x.filter((y, idx) => idx !== pIndex)])
 
                         // set picks for later weeks
-                        setPicks(prev => prev.map((pick, key) => 
-                            key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick))    
+                        if(chips.freehit.event === (+eventId+pickIndex)) {
+                            if(pickIndex === 1) {
+                                setPicks(prev => prev.map((pick, key) => 
+                                key > pickIndex-1 ? {...pick, newPicks:real} : pick))
+                            } else {
+                                setPicks(prev => prev.map((pick, key) => 
+                                key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-2].newPicks} : pick))
+                            }
+                        } else {
+                            setPicks(prev => prev.map((pick, key) => 
+                            key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
+                        }
+                           
                     }
                 
                 }
@@ -723,9 +799,20 @@ function BootstrapstaticProvider({children}) {
                 newPick.element === player.element ? 
                 {...newPick, is_captain:playerCap, is_vice_captain:playerVc,
                 multiplier:playerMultiplier} : newPick )} : pick))
+
         // set picks for later weeks
-        setPicks(prev => prev.map((pick, key) => 
-        key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick))    
+        if(chips.freehit.event === (+eventId+pickIndex)) {
+            if(pickIndex === 1) {
+                setPicks(prev => prev.map((pick, key) => 
+                key > pickIndex-1 ? {...pick, newPicks:real} : pick))
+            } else {
+                setPicks(prev => prev.map((pick, key) => 
+                key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-2].newPicks} : pick))
+            }
+        } else {
+            setPicks(prev => prev.map((pick, key) => 
+            key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
+        }    
     }
     const changeViceCaptain = (id) => {
         const old = picks[pickIndex-1].newPicks.find(x => x.is_vice_captain)
@@ -744,8 +831,18 @@ function BootstrapstaticProvider({children}) {
                 {...newPick, is_captain:playerCap, is_vice_captain:playerVc,
                 multiplier: 1} : newPick )} : pick)])
         // set picks for later weeks
-        setPicks(prev => prev.map((pick, key) => 
-        key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick))    
+        if(chips.freehit.event === (+eventId+pickIndex)) {
+            if(pickIndex === 1) {
+                setPicks(prev => prev.map((pick, key) => 
+                key > pickIndex-1 ? {...pick, newPicks:real} : pick))
+            } else {
+                setPicks(prev => prev.map((pick, key) => 
+                key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-2].newPicks} : pick))
+            }
+        } else {
+            setPicks(prev => prev.map((pick, key) => 
+            key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
+        }   
     }
     
     const getOutPlayer = (outplayer) => {
@@ -770,8 +867,18 @@ function BootstrapstaticProvider({children}) {
                 position: outplayer.position} : newPick )} : pick)])
 
         // set picks for later weeks
-        setPicks(prev => prev.map((pick, key) => 
-        key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick))    
+        if(chips.freehit.event === (+eventId+pickIndex)) {
+            if(pickIndex === 1) {
+                setPicks(prev => prev.map((pick, key) => 
+                key > pickIndex-1 ? {...pick, newPicks:real} : pick))
+            } else {
+                setPicks(prev => prev.map((pick, key) => 
+                key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-2].newPicks} : pick))
+            }
+        } else {
+            setPicks(prev => prev.map((pick, key) => 
+            key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
+        }   
         
         setOutPlayer({})
         setInPlayerOne({})
@@ -785,8 +892,18 @@ function BootstrapstaticProvider({children}) {
                 {...newPick,position:inplayerOne.position} : newPick )} : pick)])
         
         // set picks for later weeks
-        setPicks(prev => prev.map((pick, key) => 
-        key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick))    
+        if(chips.freehit.event === (+eventId+pickIndex)) {
+            if(pickIndex === 1) {
+                setPicks(prev => prev.map((pick, key) => 
+                key > pickIndex-1 ? {...pick, newPicks:real} : pick))
+            } else {
+                setPicks(prev => prev.map((pick, key) => 
+                key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-2].newPicks} : pick))
+            }
+        } else {
+            setPicks(prev => prev.map((pick, key) => 
+            key > pickIndex-1 ? {...pick, newPicks:prev[pickIndex-1].newPicks} : pick)) 
+        }   
         setInPlayerOne({})
         setInPlayerTwo({})
     }
@@ -865,7 +982,8 @@ function BootstrapstaticProvider({children}) {
     }
 
     const transferCost = () => {
-        let fts = freeTransfers()
+        let fts = 
+        (chips.freehit.event === (+eventId+pickIndex) || chips.wildcard.event === (+eventId+pickIndex)) ? 1e10000 : freeTransfers()
         let playerLength = playersOut[pickIndex-1]?.arr.length
         let cost = playerLength <= fts ? 0 : (fts-playerLength)*4
         return cost
@@ -923,7 +1041,9 @@ function BootstrapstaticProvider({children}) {
         freeTransfers,
         updateFreehit,
         updateBboost,
-        updateTcap
+        updateTcap,
+        actDeact,
+        colorOfArrow
     }
 
     return (
