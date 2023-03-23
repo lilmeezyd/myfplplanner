@@ -51,7 +51,7 @@ function Pitch(props) {
 			nextBtn.removeAttribute('disabled')
 			prevBtn.removeAttribute('disabled')
 		}
-		if(playersSelected < 15 || outKeys > 0 || inKeys > 0) {
+		if(playersSelected < 15 || playersSelected === undefined ||  outKeys > 0 || inKeys > 0) {
 			nextBtn.setAttribute('disabled', true)
 			prevBtn.setAttribute('disabled', true)
 		}
@@ -65,6 +65,10 @@ function Pitch(props) {
 							bbench: 'bboost'
 						}
 		let chipsBtn = document.querySelectorAll('.btn-chip')
+		let fhit = document.getElementById('fhit')
+		let bbench = document.getElementById('bbench')
+		let wcard = document.getElementById('wcard')
+		let tcap = document.getElementById('tcap')
 		const disableOtherChips = (id) => {
 			const a = Array.from(chipsBtn)
 				.filter(x => x.id !== id && !x.innerText.includes('Played'))
@@ -74,24 +78,49 @@ function Pitch(props) {
 		const enableOtherChips = (id) => {
 			const a = Array.from(chipsBtn)
 				.filter(x => x.id !== id && !x.innerText.includes('Played'))
-				console.log(a)
+				//console.log(a)
 				a.forEach(x => x.removeAttribute('disabled'))
 		}
-		Array.from(chipsBtn).forEach(btn => {
-			btn.innerText.endsWith('Active') ? 
-			disableOtherChips(btn.id) :	enableOtherChips(btn.id)
-			//btn.innerText.endsWith('Active') && console.log(btn.id)
+		if(chips.wildcard.event === (+eventId+curPage)) {
+			bbench?.setAttribute('disabled', true)
+			console.log('wlidcard active')
+		}
+		if(chips.bboost.event === (+eventId+curPage)) {
+			Array.from(chipsBtn).forEach(btn => 
+				disableOtherChips('bbench')
+			)
+		}
+		if(chips.freehit.event === (+eventId+curPage)) {
+			Array.from(chipsBtn).forEach(btn => 
+				disableOtherChips('fhit')
+			)
+		}
+		if(chips.tcap.event === (+eventId+curPage)) {
+			Array.from(chipsBtn).forEach(btn => 
+				disableOtherChips('tcap')
+			)
+		}
+		
+		/*Array.from(chipsBtn).forEach(btn => {
+			if(btn.innerText.endsWith('Active')){ 
+				disableOtherChips(btn.id)
+			 } else {
+				enableOtherChips(btn.id)
+			 }
 		})
 		Array.from(chipsBtn).forEach(btn => {
 			btn.onclick = function() {
 				if(btn.innerText.endsWith('Active')) {
-					 enableOtherChips(btn.id) 
+					console.log(btn.id)
+					enableOtherChips(btn.id) 
 				} else {
+					console.log(btn.id)
 					disableOtherChips(btn.id)
 				}
 			}
-		})
-	})
+		})*/
+		console.log(chips) 
+	}, [chips, eventId, curPage])
 
 
 
