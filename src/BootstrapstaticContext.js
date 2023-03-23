@@ -53,7 +53,8 @@ export const BootstrapstaticContext = createContext({
     updateBboost: () => {},
     updateTcap: () => {},
     actDeact: () =>{},
-    colorOfArrow: () => {}
+    colorOfArrow: () => {},
+    resetGws: () => {}
 })
 
 function BootstrapstaticProvider({children}) {
@@ -421,17 +422,19 @@ function BootstrapstaticProvider({children}) {
     } 
     
     const colorOfArrow = () => {
-        let color
-        let gwCurrent = managerHistory.current[managerHistory.current.length -1].overall_rank
-		let gwPrevious = managerHistory.current[managerHistory.current.length -2].overall_rank
-        if(gwCurrent < gwPrevious) {
-            color = 'green'
-        } else if(gwCurrent > gwPrevious) {
-            color = 'red'
-        } else {
-            color = 'grey'
+        if(managerHistory.current){
+            let color
+            let gwCurrent = managerHistory.current[managerHistory.current.length -1].overall_rank
+            let gwPrevious = managerHistory.current[managerHistory.current.length -2].overall_rank
+            if(gwCurrent < gwPrevious) {
+                color = 'green'
+            } else if(gwCurrent > gwPrevious) {
+                color = 'red'
+            } else {
+                color = 'grey'
+            }
+            return color
         }
-        return color
     }
 
     const getManagerInfo = (id) => {
@@ -440,7 +443,7 @@ function BootstrapstaticProvider({children}) {
 
     const getPickIndex = (id) => {
         setPickIndex(id)
-        //setPlayerName('')
+        setPlayerName('')
     } 
 
     const updateWildcard = (isUsed, eventPlayed) => {
@@ -455,6 +458,38 @@ function BootstrapstaticProvider({children}) {
         })
     }
 
+    const resetGws = () => {
+        // set playersIn and playersOut
+        setPlayersIn(prev => prev.map((gw, idx) => idx >= pickIndex-1 ? 
+                {...gw, arr:[]} : gw))
+        setPlayersOut(prev => prev.map((gw, idx) => idx >= pickIndex-1 ? 
+                {...gw, arr:[]} : gw))
+        setTempPlayersOut([])
+        setOutPlayer({})
+        setInPlayerOne({})
+        // set picks for later weeks
+        if(pickIndex === 1) {
+            setPicks(prev => prev.map((pick, key) => 
+                key >= pickIndex-1 ? {...pick, newPicks:real} : pick))
+        } else {
+            if((chips.freehit.event === picks[pickIndex-2].event) && (pickIndex-2 > 0)){
+                console.log('gt 0')
+                setPicks(prev => prev.map((pick, key) => 
+                    key >= pickIndex-1 ? 
+                    {...pick, newPicks:prev[pickIndex-3].newPicks} : pick))
+            } else if((chips.freehit.event === picks[pickIndex-2].event) && (pickIndex-2 === 0)) {
+                console.log('lt 0')
+                setPicks(prev => prev.map((pick, key) => 
+                    key >= pickIndex-1 ? {...pick, newPicks:real} : pick))
+            } else {
+                console.log('normal')
+                setPicks(prev => prev.map((pick, key) => 
+                key >= pickIndex-1 ? 
+                {...pick, newPicks:prev[pickIndex-2].newPicks} : pick))
+            }
+        }
+       
+    }
     const actDeact = () => {
         if(chips.freehit.event === (+eventId+pickIndex)) {
             setPlayersIn(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
@@ -1043,7 +1078,8 @@ function BootstrapstaticProvider({children}) {
         updateBboost,
         updateTcap,
         actDeact,
-        colorOfArrow
+        colorOfArrow,
+        resetGws
     }
 
     return (

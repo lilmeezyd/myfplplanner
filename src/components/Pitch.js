@@ -19,6 +19,8 @@ function Pitch(props) {
 	const picks = fplElements.picks
 	const pickIndex = fplElements.pickIndex
     const playersSelected = fplElements.playersSelected()
+	const outplayer = fplElements.outplayer
+	const inplayerOne = fplElements.inplayerOne
 	const playerPosition = fplElements.playerPosition
 	const chips = fplElements.chips
 	const eventId = fplElements.eventId
@@ -38,43 +40,60 @@ function Pitch(props) {
 
 	useEffect(() => {
 		getPickIndex(curPage)
-	}, [curPage, getPickIndex])
+	}, [curPage])
 
 	useEffect(() => {
 		let prevBtn = document.getElementById('prevGameweek')
 		let nextBtn = document.getElementById('nextGameweek')
-		if(playersSelected === 15) {
+		let outKeys = Object.keys(outplayer).length
+		let inKeys = Object.keys(inplayerOne).length
+		if(playersSelected === 15 || outKeys < 0 || inKeys < 0) {
 			nextBtn.removeAttribute('disabled')
 			prevBtn.removeAttribute('disabled')
-		} else {
+		}
+		if(playersSelected < 15 || outKeys > 0 || inKeys > 0) {
 			nextBtn.setAttribute('disabled', true)
 			prevBtn.setAttribute('disabled', true)
 		}
-	},[playersSelected]) 
+	},[playersSelected, outplayer, inplayerOne]) 
 
 	useEffect(() => {
+		const chipsObj =  {
+							wcard: 'wildcard',
+							fhit: 'freehit',
+							tcap: 'tcap',
+							bbench: 'bboost'
+						}
 		let chipsBtn = document.querySelectorAll('.btn-chip')
 		const disableOtherChips = (id) => {
-			Array.from(chipsBtn)
+			const a = Array.from(chipsBtn)
 				.filter(x => x.id !== id && !x.innerText.includes('Played'))
-				.forEach(x => x.setAttribute('disabled', true))
+				console.log(a)
+				a.forEach(x => x.setAttribute('disabled', true))
 		}
 		const enableOtherChips = (id) => {
-			Array.from(chipsBtn)
+			const a = Array.from(chipsBtn)
 				.filter(x => x.id !== id && !x.innerText.includes('Played'))
-				.forEach(x => x.removeAttribute('disabled'))
+				console.log(a)
+				a.forEach(x => x.removeAttribute('disabled'))
 		}
 		Array.from(chipsBtn).forEach(btn => {
 			btn.innerText.endsWith('Active') ? 
 			disableOtherChips(btn.id) :	enableOtherChips(btn.id)
+			//btn.innerText.endsWith('Active') && console.log(btn.id)
 		})
 		Array.from(chipsBtn).forEach(btn => {
 			btn.onclick = function() {
-				btn.innerText.endsWith('Active') ? enableOtherChips(btn.id) :
-				disableOtherChips(btn.id)
+				if(btn.innerText.endsWith('Active')) {
+					 enableOtherChips(btn.id) 
+				} else {
+					disableOtherChips(btn.id)
+				}
 			}
 		})
 	})
+
+
 
 	useEffect(() => {
 		let bench = document.getElementById('bench')
@@ -144,7 +163,7 @@ function Pitch(props) {
 		fplElements.updateFreehit(isUsed, eventPlayed)
 	}
 	const resetGW = () => {
-		console.log(`reset Gw ${eventId+curPage}`)
+		fplElements.resetGws()
 	}
 
 	
@@ -203,7 +222,7 @@ function Pitch(props) {
 								<span className="points-lost">{fplElements.transferCost()}</span>
 							</div>
 							<div className="remain large">
-								<h4 className="large">Remaining Budget</h4>
+								<h4 className="large">Bank</h4>
 								{players.length && picks.length && fixtures.length && events.length && 
 								<span className="remain-budget">
 									{fplElements.getInTheBank()}
@@ -280,7 +299,7 @@ function Pitch(props) {
 					{showTransfersMade && <TransferRows />}
 					{fplElements.playerName && 
 					<div className={`message small ${fplElements.playerName && 'success'}`}>
-						<span>{fplElements.playerName} has been added</span>
+						<span>{fplElements.playerName} has been added tp your squad</span>
 					</div>}
 				</div>
 				<div className="field">

@@ -36,20 +36,18 @@ function Header(props) {
   return (
 	<>
     <nav id="myNav" className="topnav">
-		<h4 className="logo">Hi,&nbsp;
+		<h4 className="logo large">Hi,&nbsp;
 			{fplManager.managerInfo.player_first_name === undefined ? 'Fpl Gang' : fplManager.managerInfo.player_first_name}</h4>
 		<div className="tname-details large">
-			<span className="theading">Name</span>
 			<h4 className="tname">{fplManager.managerInfo.name}</h4>
 		</div>
 		<div className="trank-details large">
-			<span className="theading">OR</span>
 				<div>
 					<h4 className="trank">
 					{fplManager.managerInfo.summary_overall_rank}
 					</h4>
 				<div className="arrow">
-					{arrow === 'green' ? 
+					{fplManager.colorOfArrow()=== 'green' ? 
 					<svg xmlns="http://www.w3.org/2000/svg" fill="green" height="24" width="24"><path d="m7 14 5-5.025L17 14Z"/></svg> : 
 					arrow === 'red' ? 
 					<svg xmlns="http://www.w3.org/2000/svg" fill="red" height="24" width="24"><path d="m12 15-5-4.975h10Z"/></svg> : 
