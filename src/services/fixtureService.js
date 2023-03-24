@@ -106,6 +106,10 @@ export const loadOpponents = (fixtures, events, teamId, gws=38) => {
     })
 
     playerInfoOpp.push(...teamAandH)
+    playerInfoOpp.sort((x,y) => {
+        if(x['event'] > y['event']) return 1
+        if(x['event'] < y['event']) return -1
+    })
 
     function final(a,b) {
         return a.findLastIndex(x => x.event===b)
@@ -125,6 +129,11 @@ export const loadOpponents = (fixtures, events, teamId, gws=38) => {
             teamAandH[init].arr.push(...teamAandH[fin].arr)
             teamAandH.splice(fin,1)
         }
+    })
+
+    teamAandH.sort((x,y) => {
+        if(x['event'] > y['event']) return 1
+        if(x['event'] < y['event']) return -1
     })
 
     const newTeamAandH = teamAandH.slice(0,gws)
