@@ -255,6 +255,9 @@ function SquadPlayer(props) {
                     x.style.display = 'none'
                 })
             }
+            return () => {
+                window.removeEventListener('resize', setDimensions)
+              }
         },[playersSelected, width])    
     const transferOut = (player) => {
         fplElements.addToTransfersOut(player)

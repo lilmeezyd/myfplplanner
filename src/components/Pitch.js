@@ -118,8 +118,7 @@ function Pitch(props) {
 					disableOtherChips(btn.id)
 				}
 			}
-		})*/
-		console.log(chips) 
+		})*/ 
 	}, [chips, eventId, curPage])
 
 

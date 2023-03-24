@@ -26,8 +26,8 @@ function Header(props) {
 	const getManagerId = (e) => {
 		e.preventDefault()
 		fplManager.getManagerInfo(managerId)
-		//localStorage.removeItem('managerId')
-		//localStorage.setItem('managerId', JSON.stringify(managerId))
+		localStorage.removeItem('managerId')
+		localStorage.setItem('managerId', JSON.stringify(managerId))
 		handleCloseModal()
 		e.target.value = ''
 	}
