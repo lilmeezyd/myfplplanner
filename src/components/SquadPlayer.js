@@ -245,7 +245,7 @@ function SquadPlayer(props) {
     }, [inplayerOne, picks, pickIndex])
     useEffect(() => {
            // const element1 = transferRef.current.nextElementSibling.classList[1]
-           window.addEventListener('resize', setDimensions)
+           //window.addEventListener('resize', setDimensions)
             if(playersSelected === 15 && width > 620) {
                 Array.from(document.querySelectorAll(`.swap-button`)).forEach(x => {
                     x.style.display = 'block'
@@ -255,9 +255,9 @@ function SquadPlayer(props) {
                     x.style.display = 'none'
                 })
             }
-            return () => {
+            /*return () => {
                 window.removeEventListener('resize', setDimensions)
-              }
+              }*/
         },[playersSelected, width])    
     const transferOut = (player) => {
         fplElements.addToTransfersOut(player)
