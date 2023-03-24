@@ -116,7 +116,6 @@ function BootstrapstaticProvider({children}) {
                 const response = await fetch(url)
                 const data = await response.json()
                 setManagerHistory(data)
-                if(data.chips) {
                 let wildcardLength = data.chips.filter(x => x.name === 'wildcard').length
                 let wildcard = data.chips.some(x => x.name === 'wildcard') && wildcardLength === 2 ? true : 
                 wildcardLength === 1 && data.chips.filter(x => x.name === 'wildcard')[0].time > new Date('2022/12/26/14:00').toISOString() ? true : false
@@ -177,13 +176,13 @@ function BootstrapstaticProvider({children}) {
                     }
                     a+=1
                     returnFt(a, b, c)
-                }    }
+                }    
             } catch (error) {
                 console.log(error)
             }
         }
-        fetchManagerInfo()
-        fetchManagerHistory()
+        managerId >= 1 && fetchManagerInfo()
+        managerId >= 1 && fetchManagerHistory()
     }, [managerId])
     
 
@@ -214,7 +213,7 @@ function BootstrapstaticProvider({children}) {
 				let bank, value
 
                 // Resetting Team to state before auto-subs
-				if(data.automatic_subs) {
+				if(data.automatic_subs.length > 0) {
 					data.picks.map(x => {
 						let found = data.automatic_subs.some(player => player.element_in === x.element)
 						if(found) {
@@ -383,7 +382,7 @@ function BootstrapstaticProvider({children}) {
             }
         }
 
-         fetchManagerPicks()
+         managerId >= 1 && fetchManagerPicks()
 
     }, [managerId, eventId, players])
 
