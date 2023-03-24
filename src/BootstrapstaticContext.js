@@ -371,8 +371,8 @@ function BootstrapstaticProvider({children}) {
                 setReal(realPicks)
                 setPlayersOut(gameweekTransfersOut)
                 setPlayersIn(gameweekTransfersIn)
-                localStorage.removeItem('picks')
-                localStorage.setItem('picks', JSON.stringify(gameweekPicks))
+                //localStorage.removeItem('picks')
+                //localStorage.setItem('picks', JSON.stringify(gameweekPicks))
 
 
             } catch (error) {
