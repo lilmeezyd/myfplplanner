@@ -29,6 +29,7 @@
     "production": [
       ">0.2%",
       "not dead",
+      "Chrome > 94",
       "not op_mini all"
     ],
     "development": [
