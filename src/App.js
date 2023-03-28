@@ -9,7 +9,10 @@ import BootstrapstaticProvider, { BootstrapstaticContext } from './Bootstrapstat
 
 function Welcome() {
   return (
-    <p className="welcome">Welcome To The Captain's FPL Planner</p>
+    <div className="welcome">
+      <p className='header'>Welcome To The Captain's FPL Planner</p>
+      <p className='sub-header'>A look at what team you might assemble for future gameweeks</p>
+    </div>
   )
 }
 function App() {

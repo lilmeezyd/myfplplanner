@@ -1702,18 +1702,35 @@
 }	
 
 .welcome {
-	font-weight: 100;
-	text-align: center;
-	padding: 1.5rem 0;
-	font-size: 2rem;
-	background: aliceblue;
 	width: 90%;
+	text-align: center;
+	background: aliceblue;
 	margin: auto;
+	padding: 1.5rem 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 45vh;
+}
+.header {
+	font-weight: 500;
+	font-size: 2rem;
+	padding-bottom: 1.5rem;
+}
+.sub-header {
+	font-weight: 200;
+	font-size: 0.9rem;
 }
 
 @media(max-width: 1000px) {
-	.welcome {
+	.welcome  {
 		width: 100%;
+	}
+}
+
+@media(max-width: 600px) {
+	.welcome {
+		height: 35vh;
 	}
 }
 		
