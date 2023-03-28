@@ -24,6 +24,7 @@ function SquadPlayer(props) {
     const [ playerElement, setPlayerElement ] = useState(null)
     const [ playerMultiplier, setPlayerMultiplier ] = useState(null)
     const [ width, setWidth ] = useState(window.innerWidth)
+    const [ swapArray, setSwapArray ] = useState([])
     const ref = useRef(null)
     const transferRef = useRef(null)
 
@@ -76,18 +77,27 @@ function SquadPlayer(props) {
         let pPicks = document.querySelectorAll('.element_container_1')
         let noDefenders = picks[pickIndex-1].newPicks
                             .filter(x => x.element_type === 2 && x.multiplier !== 0).length
+        let noMidfielders = picks[pickIndex-1].newPicks
+                            .filter(x => x.element_type === 3 && x.multiplier !== 0).length
         let noForwards = picks[pickIndex-1].newPicks
                             .filter(x => x.element_type === 4 && x.multiplier !== 0).length
         const disablePlayers = (arr) => {
             Array.from(pPicks).forEach(x => {
                 if(arr.includes(+x.id)) {
-                    Array.from(x.getElementsByTagName('button'))
+                    Array.from(x.getElementsByClassName('swap-button'))
                     .forEach(y => {
-                        y.setAttribute('disabled', true)
-                        y.style.opacity = 0.7
+                        y.style.display = 'none'
+                        y.parentElement.querySelector('.btn-details').style.opacity = 0.7
                 })
                 }
             }) }
+        const addSwap = (arr) => {
+            Array.from(pPicks).forEach(x => {
+                if(arr.includes(+x.id)) {
+                   x.parentElement.classList.add('swap')
+                }
+            })
+        }    
         if(Object.keys(outplayer).length > 0) {
             let playerType = outplayer.element_type
             let playerId = outplayer.element
@@ -95,70 +105,90 @@ function SquadPlayer(props) {
                 const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => x.element_type !== 1)
                                         .map(x => x.element)
-                disablePlayers(toDisable)                         
+                const swap = picks[pickIndex-1].newPicks
+                                .filter(x => x.element_type === 1 && x.multiplier === 0)
+                                .map(x => x.element)
+                addSwap(swap)
+                setSwapArray(toDisable)
+                disablePlayers(toDisable)                          
             }
             if(playerType === 2) {
                 if(noDefenders === 3) {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type !== 2))
                                         .map(x => x.element)
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => x.element_type === 2 && x.multiplier === 0)
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
                     disablePlayers(toDisable)               
                 } else {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
                                         .map(x => x.element)
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => x.element_type !== 1 && x.multiplier === 0)
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
                     disablePlayers(toDisable) 
                 }
             }
             if(playerType === 3) {
+                if(noMidfielders === 2) {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
                                         .map(x => x.element)
-                    disablePlayers(toDisable)  
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => x.element_type === 3 && x.multiplier === 0)
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
+                    disablePlayers(toDisable) 
+                } else {
+                    const toDisable = picks[pickIndex-1].newPicks
+                                        .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
+                                        .map(x => x.element)
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => x.element_type !== 1 && x.multiplier === 0)
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
+                    disablePlayers(toDisable) 
+                } 
             }
             if(playerType === 4) {
                 if(noForwards === 1) {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type !== 4))
                                         .map(x => x.element)
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => x.element_type === 4 && x.multiplier === 0)
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
                     disablePlayers(toDisable)               
                 } else {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
                                         .map(x => x.element)
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => x.element_type !== 1 && x.multiplier === 0)
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
                     disablePlayers(toDisable) 
                 }
             }
-            /*Array.from(pPicks).forEach(x => {
-                let multi1 = +x.getAttribute('multiplier')
-                if(playerType === 2) {
-                    if(noDefenders === 3) {}
-                }
-                if(playerType === 4) {
-                    if(noForwards === 1) {
-                        if((+x.id !== +outplayer.element && multi1 !== 0) || (multi1 === 0 && +outplayer.element !== 4)) {
-                            Array.from(x.getElementsByTagName('button'))
-                            .forEach(y => {
-                                y.setAttribute('disabled', true)
-                                y.style.opacity = 0.7
-                        })
-                        }
-                    } else {}
-                }
-                if(+x.id !== +outplayer.element && multi1 !== 0) {
-                    Array.from(x.getElementsByTagName('button'))
-                        .forEach(y => {
-                            y.setAttribute('disabled', true)
-                            y.style.opacity = 0.7
-                        })
-                }
-            })*/
         } else {
+            setSwapArray([])
             Array.from(pPicks).forEach(x => {
-                Array.from(x.getElementsByTagName('button'))
+                x.parentElement.classList.remove('swap')
+                Array.from(x.getElementsByClassName('swap-button'))
                         .forEach(y => {
-                            y.removeAttribute('disabled')
-                            y.style.opacity = 1
+                            y.style.display = 'block'
+                            y.parentElement.querySelector('.btn-details').style.opacity = 1
                         })
             })
         }
@@ -173,13 +203,20 @@ function SquadPlayer(props) {
         const disablePlayers = (arr) => {
             Array.from(pPicks).forEach(x => {
                 if(arr.includes(+x.id)) {
-                    Array.from(x.getElementsByTagName('button'))
+                    Array.from(x.getElementsByClassName('swap-button'))
                     .forEach(y => {
-                        y.setAttribute('disabled', true)
-                        y.style.opacity = 0.7
+                        y.style.display = 'none'
+                        y.parentElement.querySelector('.btn-details').style.opacity = 0.7
                 })
                 }
             }) }
+        const addSwap = (arr) => {
+            Array.from(pPicks).forEach(x => {
+                if(arr.includes(+x.id)) {
+                    x.parentElement.classList.add('swap')
+                }
+            })
+        }    
         if(Object.keys(inplayerOne).length > 0) {
             let playerType = inplayerOne.element_type
             let playerId = inplayerOne.element
@@ -187,6 +224,11 @@ function SquadPlayer(props) {
                 const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => (x.multiplier === 0 && x.element !== playerId) || (x.multiplier !== 0 && x.element_type !== 1))
                                         .map(x => x.element)
+                const swap = picks[pickIndex-1].newPicks
+                                .filter(x => x.element_type === 1 && x.multiplier !== 0)
+                                .map(x => x.element)
+                addSwap(swap)
+                setSwapArray(toDisable)
                 disablePlayers(toDisable) 
             }
             if(playerType === 2) {
@@ -194,11 +236,21 @@ function SquadPlayer(props) {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => ((x.element_type === 4 && x.multiplier !== 0) || x.element_type === 1))
                                         .map(x => x.element)
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => x.element !== playerId && ( (x.element_type !== 4 && x.element_type !== 1) || (x.multiplier === 0 && x.element_type !== 1)))
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
                     disablePlayers(toDisable)
                 } else {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => x.element_type === 1)
                                         .map(x => x.element)
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => x.element !== playerId && x.element_type !== 1)
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
                     disablePlayers(toDisable)
                 }
             }
@@ -207,16 +259,31 @@ function SquadPlayer(props) {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => (x.element_type === 4 && x.multiplier !== 0) || x.element_type === 1)
                                         .map(x => x.element)
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => x.element !== playerId && ((x.element_type !== 4 && x.element_type !== 1 )|| (x.multiplier === 0 && x.element_type !== 1)))
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
                     disablePlayers(toDisable)
                 } else if(noDefenders === 3) {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => (x.element_type === 2 && x.multiplier !== 0) || x.element_type === 1)
                                         .map(x => x.element)
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => x.element !== playerId &&  ((x.element_type !== 2 && x.element_type !== 1) || (x.multiplier === 0 && x.element_type !== 1)))
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
                     disablePlayers(toDisable)
                 } else {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => x.element_type === 1)
                                         .map(x => x.element)
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => (x.element_type !== 1 && x.multiplier !== 0)||(x.element !== playerId && x.element_type !== 1))
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
                     disablePlayers(toDisable)
                 }
             }
@@ -225,20 +292,32 @@ function SquadPlayer(props) {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => (x.element_type === 2 && x.multiplier !== 0) || x.element_type === 1)
                                         .map(x => x.element)
+                    const swap = picks[pickIndex-1].newPicks
+                                    .filter(x => x.element !== playerId &&  ((x.element_type !== 2 && x.element_type !== 1) || (x.multiplier === 0 && x.element_type !== 1)))
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
                     disablePlayers(toDisable)
                 } else {
                     const toDisable = picks[pickIndex-1].newPicks
                                         .filter(x => x.element_type === 1)
                                         .map(x => x.element)
+                    const swap  = picks[pickIndex-1].newPicks
+                                    .filter(x => (x.element_type !== 1 && x.multiplier !== 0)||(x.element !== playerId && x.element_type !== 1))
+                                    .map(x => x.element)
+                    addSwap(swap)
+                    setSwapArray(toDisable)
                     disablePlayers(toDisable)
                 }
             }
         } else {
+            setSwapArray([])
             Array.from(pPicks).forEach(x => {
-                Array.from(x.getElementsByTagName('button'))
+                x.parentElement.classList.remove('swap')
+                Array.from(x.getElementsByClassName('swap-button'))
                         .forEach(y => {
-                            y.removeAttribute('disabled')
-                            y.style.opacity = 1
+                            y.style.display = 'block'
+                            y.parentElement.querySelector('.btn-details').style.opacity = 1
                         })
             })
         }
@@ -250,8 +329,14 @@ function SquadPlayer(props) {
                 Array.from(document.querySelectorAll(`.swap-button`)).forEach(x => {
                     x.style.display = 'block'
                 })
+                Array.from(document.querySelectorAll(`.player-info-button`)).forEach(x => {
+                    x.style.display = 'block'
+                })
             } else {
                 Array.from(document.querySelectorAll(`.swap-button`)).forEach(x => {
+                    x.style.display = 'none'
+                })
+                Array.from(document.querySelectorAll(`.player-info-button`)).forEach(x => {
                     x.style.display = 'none'
                 })
             }
@@ -420,7 +505,8 @@ function SquadPlayer(props) {
                 ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element) ? 'hide-btn':'show-btn'}  transfer`}>
                 {fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                     'Restore':'Remove'}</button>}
-            {tempPlayersOut.length === 0 && <button className={`btn-info btn-info-block 
+            {(tempPlayersOut.length === 0 && 
+            !swapArray.includes(playerPos.element)) && <button className={`btn-info btn-info-block 
             ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'} btn-warn substitute`}
                 onClick={(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)

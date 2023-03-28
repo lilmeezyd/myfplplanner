@@ -292,6 +292,13 @@
 	.oppfix span.opponent:not(span.opponent:nth-of-type(1)),
 	.up-fix > div > span.opponent:not(span.opponent:nth-of-type(1)){
 		border-left: none;
+	} 
+	@media(max-width: 600px) {
+		.oppfix span.opponent:not(span.opponent:nth-of-type(1)),
+	.up-fix > div > span.opponent:not(span.opponent:nth-of-type(1)){
+		border-left: 1px solid black;
+		border-top: none;
+	} 
 	}
 	.players-col {
 		background: #fff;
@@ -1222,16 +1229,18 @@
 		display: flex;
 		align-items: center;
 		margin: auto;
-		width: 80%;
+		width: 100%;
 		margin-top: 1.5rem;
 		justify-content: space-between;
 		padding: 0.4rem;
 		column-gap: 1rem;
 		background: rgba(0, 139, 139, 0.1);
 	}
-	@media(max-width:  620px) {
+	@media(max-width:  600px) {
 		.upper-buttons, .chip-buttons {
 			width: unset;
+			flex-flow: column;
+			row-gap: 0.5rem;
 		}
 	}
 	.transfer, .substitute {
@@ -1450,6 +1459,7 @@
 		.pitch {
 			min-height: 545.5px;
 			background: url('./static/pitch.png') center center / 808.71px 545.5px no-repeat;
+			background-size: cover;
 		}
 		.player-info-button, .swap-button, .transfer-button {
 			display: none;
@@ -1485,6 +1495,7 @@
 		.pitch {
 			min-height: 532.4px;
 			background: url('./static/pitch.png') center center / 760.9px 532.4px no-repeat;
+			background-size: cover;
 		}
 	}
 	@media(max-width: 515px) {
@@ -1500,6 +1511,7 @@
 		.pitch {
 			min-height: 462.66px;
 			background: url('./static/pitch.png') center center / 695.4px 462.66px no-repeat;
+			background-size: cover;
 		}
 	}
 	@media(max-width: 475px) {
@@ -1571,6 +1583,7 @@
 	@media(max-width: 600px) {
 		.up-fix div {
 			font-size: xx-small;
+			flex-flow: column;
 		}
 	}
 	.data_fixtures span {
@@ -1589,7 +1602,7 @@
 		display: none;
 	}
 	#modal {
-		width: 70vw;
+		width: 40vw;
 		position: fixed;
 		top: 0;
 		bottom: 0;
@@ -1604,6 +1617,13 @@
 		/*animation-name: modal-animate;
 		animation-duration: 0.5s;*/
 	}
+	@media(max-width: 600px) {
+		#modal {
+			width: 70vw;
+		}
+	}
+
+	
 
 	/*-webkit- @keyframes modal-animate {
 		from {
@@ -1678,4 +1698,24 @@
                 transform: rotate(360deg);
             }
         }
+.swap {
+	background: rgba(251, 13, 102, 0.35);
+	border-radius: 5px;
+}	
+
+.welcome {
+	font-weight: 100;
+	text-align: center;
+	padding: 1.5rem 0;
+	font-size: 2rem;
+	background: aliceblue;
+	width: 90%;
+	margin: auto;
+}
+
+@media(max-width: 1000px) {
+	.welcome {
+		width: 100%;
+	}
+}
 		

@@ -1019,7 +1019,8 @@ function BootstrapstaticProvider({children}) {
     const transferCost = () => {
         let fts = 
         (chips.freehit.event === (+eventId+pickIndex) || chips.wildcard.event === (+eventId+pickIndex)) ? 1e10000 : freeTransfers()
-        let playerLength = playersOut[pickIndex-1]?.arr.length
+        let playerLength = playersOut[pickIndex-1]?.arr.length === undefined ? 0 :
+                            playersOut[pickIndex-1]?.arr.length
         let cost = playerLength <= fts ? 0 : (fts-playerLength)*4
         return cost
     }

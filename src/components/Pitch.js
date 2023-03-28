@@ -126,7 +126,7 @@ function Pitch(props) {
 	useEffect(() => {
 		let bench = document.getElementById('bench')
 		if(chips.bboost.used && chips.bboost.event === (+eventId+curPage)) {
-			 bench.classList.add('bench_boost')
+			 bench?.classList.add('bench_boost')
 		} else {
 			bench?.classList.remove('bench_boost')
 		}
