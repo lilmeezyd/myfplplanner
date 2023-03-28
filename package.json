@@ -1,6 +1,5 @@
 {
   "name": "myfplplanner",
-  "homepage": "https://fplcapatain.netlify.app/myfplplanner",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
