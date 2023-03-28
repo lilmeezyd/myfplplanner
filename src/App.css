@@ -251,7 +251,8 @@ option div {
   align-items: center;
   justify-content: center;
   margin: 1rem 0;
-  box-shadow: black 0 0 2px;
+  /*box-shadow: black 0 0 2px;*/
+  background: aliceblue;
 }
 .button-controls img, .prev_next img {
   width: 25px;
@@ -281,13 +282,12 @@ option div {
 .btn-controls {
   color: rgba(0, 255, 255, 100);
   outline: none;
-  border: none;
+  border: 1px solid black;
   background: rgba(255, 255, 255, 1.0);
   /*padding: 1rem 1rem;*/
   margin: 0 0.2rem;
   border-radius: 50%;
   font-size: 0.7rem;
-  box-shadow: black 0 0 5px 2px;
 }
 .pages {
   padding: 0.2rem;

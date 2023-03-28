@@ -78,7 +78,6 @@ function Pitch(props) {
 		const enableOtherChips = (id) => {
 			const a = Array.from(chipsBtn)
 				.filter(x => x.id !== id && !x.innerText.includes('Played'))
-				//console.log(a)
 				a.forEach(x => x.removeAttribute('disabled'))
 		}
 		if(chips.wildcard.event === (+eventId+curPage)) {
@@ -100,25 +99,6 @@ function Pitch(props) {
 				disableOtherChips('tcap')
 			)
 		}
-		
-		/*Array.from(chipsBtn).forEach(btn => {
-			if(btn.innerText.endsWith('Active')){ 
-				disableOtherChips(btn.id)
-			 } else {
-				enableOtherChips(btn.id)
-			 }
-		})
-		Array.from(chipsBtn).forEach(btn => {
-			btn.onclick = function() {
-				if(btn.innerText.endsWith('Active')) {
-					console.log(btn.id)
-					enableOtherChips(btn.id) 
-				} else {
-					console.log(btn.id)
-					disableOtherChips(btn.id)
-				}
-			}
-		})*/ 
 	}, [chips, eventId, curPage])
 
 
@@ -327,7 +307,7 @@ function Pitch(props) {
 					{showTransfersMade && <TransferRows />}
 					{fplElements.playerName && 
 					<div className={`message small ${fplElements.playerName && 'success'}`}>
-						<span>{fplElements.playerName} has been added tp your squad</span>
+						<span>{fplElements.playerName} has been added to your squad</span>
 					</div>}
 				</div>
 				<div className="field">

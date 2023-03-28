@@ -23,7 +23,9 @@ function App() {
     <>
     <BootstrapstaticProvider>
       <Header handleShow={handleShow} handleClose={handleClose} showPop={showPop} />
-      <Main handleShow={handleShow} handleClose={handleClose} showPop={showPop} />
+      {JSON.parse(localStorage.getItem('managerId')) > 0 ?
+      <Main handleShow={handleShow} handleClose={handleClose} showPop={showPop} /> : 
+      <Welcome />}
       
       <Fixtures />
       <Footer />
