@@ -187,12 +187,12 @@ function SquadPlayer(props) {
                 x.parentElement.classList.remove('swap')
                 Array.from(x.getElementsByClassName('swap-button'))
                         .forEach(y => {
-                            y.style.display = 'block'
+                            width > 620 ? y.style.display = 'block' : y.style.display = 'none'
                             y.parentElement.querySelector('.btn-details').style.opacity = 1
                         })
             })
         }
-    },[outplayer, picks, pickIndex])    
+    },[outplayer, picks, pickIndex, width])    
     
     useEffect(() => {
         let pPicks = document.querySelectorAll('.element_container_1')
@@ -316,12 +316,12 @@ function SquadPlayer(props) {
                 x.parentElement.classList.remove('swap')
                 Array.from(x.getElementsByClassName('swap-button'))
                         .forEach(y => {
-                            y.style.display = 'block'
+                            width > 620 ? y.style.display = 'block' : y.style.display = 'none'
                             y.parentElement.querySelector('.btn-details').style.opacity = 1
                         })
             })
         }
-    }, [inplayerOne, picks, pickIndex])
+    }, [inplayerOne, picks, pickIndex, width])
     useEffect(() => {
            // const element1 = transferRef.current.nextElementSibling.classList[1]
            window.addEventListener('resize', setDimensions)
@@ -499,7 +499,7 @@ function SquadPlayer(props) {
             {
                 (Object.keys(outplayer).length === 0 && Object.keys(inplayerOne).length === 0) &&
                  <button onClick={() => transferOut(playerPos)} 
-            className={`btn-info btn-info-block 
+            className={`btn-info btn-info-block small
             ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'btn-green':'btn-danger'}
                 ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element) ? 'hide-btn':'show-btn'}  transfer`}>
@@ -508,21 +508,21 @@ function SquadPlayer(props) {
             {(tempPlayersOut.length === 0 && 
             !swapArray.includes(playerPos.element)) && <button className={`btn-info btn-info-block 
             ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
-                'hide-btn':'show-btn'} btn-warn substitute`}
+                'hide-btn':'show-btn'} btn-warn substitute small`}
                 onClick={(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)
                     ? () => cancelPlayer(playerPos) : () => setSwitchPlayer(playerPos)}>
                     {(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)
                      ? 'Cancel' : 'Switch'}
                 </button>}
             {tempPlayersOut.length === 0 &&
-            (Object.keys(outplayer).length === 0 && Object.keys(inplayerOne).length === 0) && <button className={`btn-info btn-info-block
+            (Object.keys(outplayer).length === 0 && Object.keys(inplayerOne).length === 0) && <button className={`btn-info btn-info-block small
             ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'} 
                 ${playerPos.multiplier > 0 ? 'show-btn':'hide-btn'} 
                 ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element) ? 'hide-btn':'show-btn'} btn-cap `}
                 onClick={() => captain(playerPos.element)}>Make Captain</button>}
             {tempPlayersOut.length === 0 &&
-            (Object.keys(outplayer).length === 0 && Object.keys(inplayerOne).length === 0) && <button className={`btn-info btn-info-block 
+            (Object.keys(outplayer).length === 0 && Object.keys(inplayerOne).length === 0) && <button className={`btn-info btn-info-block small
             ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'}
                 ${playerPos.multiplier > 0 ? 'show-btn':'hide-btn'} 
@@ -530,7 +530,7 @@ function SquadPlayer(props) {
                 onClick={() => viceCaptain(playerPos.element)}>Make Vice Captain</button>}
             <button 
             onClick={clickInfo}
-            className={`btn-info btn-info-block btn-light
+            className={`btn-info btn-info-block btn-light small
             ${fplElements.playersOut[pickIndex-1].arr.some(x => x.element === playerPos.element) ?
                 'hide-btn':'show-btn'} 
             ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element) ? 'hide-btn':'show-btn'} btn-player-info`}>View Information</button>

@@ -294,7 +294,6 @@
 		border-left: none;
 	} 
 	@media(max-width: 600px) {
-		.oppfix span.opponent:not(span.opponent:nth-of-type(1)),
 	.up-fix > div > span.opponent:not(span.opponent:nth-of-type(1)){
 		border-left: 1px solid black;
 		border-top: none;

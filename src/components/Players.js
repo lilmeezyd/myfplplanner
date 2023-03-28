@@ -110,27 +110,6 @@ function Players(props) {
                             <option value="total_points">Total points</option>
                             <option value="event_points">Round points</option>
                         <option value="now_cost">Price</option>
-                        <option>Team selected by %</option>
-                        <option>Minutes played</option>
-                        <option>Goals scored</option>
-                        <option>Assists</option>
-                        <option>Clean sheets</option>
-                        <option>Goals conceded</option>
-                        <option>Own goals</option>
-                        <option>Penalties saved</option>
-                        <option>Penalties missed</option>
-                        <option>Yellow cards</option>
-                        <option>Red cards</option>
-                        <option>Saves</option>
-                        <option>Points per match</option>
-                        <option>Transfers in</option>
-                        <option>Transfers out</option>
-                        <option>Transfers in(round)</option>
-                        <option>Transfers out(round)</option>
-                        <option>Price rise</option>
-                        <option>Price fall</option>
-                        <option>Price rise(round)</option>
-                        <option>Price fall(round)</option>
                     </select>
                 </div>
                 <div className="search">

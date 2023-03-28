@@ -439,6 +439,7 @@ function BootstrapstaticProvider({children}) {
 
     const getManagerInfo = (id) => {
         setManagerId(id)
+        setPickIndex(1)
     }
 
     const getPickIndex = (id) => {
