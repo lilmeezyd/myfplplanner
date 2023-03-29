@@ -57,49 +57,7 @@ function Pitch(props) {
 		}
 	},[playersSelected, outplayer, inplayerOne]) 
 
-	useEffect(() => {
-		const chipsObj =  {
-							wcard: 'wildcard',
-							fhit: 'freehit',
-							tcap: 'tcap',
-							bbench: 'bboost'
-						}
-		let chipsBtn = document.querySelectorAll('.btn-chip')
-		let fhit = document.getElementById('fhit')
-		let bbench = document.getElementById('bbench')
-		let wcard = document.getElementById('wcard')
-		let tcap = document.getElementById('tcap')
-		const disableOtherChips = (id) => {
-			const a = Array.from(chipsBtn)
-				.filter(x => x.id !== id && !x.innerText.includes('Played'))
-				console.log(a)
-				a.forEach(x => x.setAttribute('disabled', true))
-		}
-		const enableOtherChips = (id) => {
-			const a = Array.from(chipsBtn)
-				.filter(x => x.id !== id && !x.innerText.includes('Played'))
-				a.forEach(x => x.removeAttribute('disabled'))
-		}
-		if(chips.wildcard.event === (+eventId+curPage)) {
-			bbench?.setAttribute('disabled', true)
-			console.log('wlidcard active')
-		}
-		if(chips.bboost.event === (+eventId+curPage)) {
-			Array.from(chipsBtn).forEach(btn => 
-				disableOtherChips('bbench')
-			)
-		}
-		if(chips.freehit.event === (+eventId+curPage)) {
-			Array.from(chipsBtn).forEach(btn => 
-				disableOtherChips('fhit')
-			)
-		}
-		if(chips.tcap.event === (+eventId+curPage)) {
-			Array.from(chipsBtn).forEach(btn => 
-				disableOtherChips('tcap')
-			)
-		}
-	}, [chips, eventId, curPage])
+	
 
 
 
@@ -179,6 +137,10 @@ function Pitch(props) {
 	let pageOneVisible = curPage === 1 ? 'hidden' : 'visible'
 	let lastPageVisible = curPage === length ? 'hidden' : 'visible'
 	let tabBorder = 'rgba(22, 22, 68, 1.0) 4px solid'
+	let wc = chips.wildcard.event === (+eventId+curPage) && true
+	let tc = chips.tcap.event === (+eventId+curPage) && true
+	let bb = chips.bboost.event === (+eventId+curPage) && true
+	let fh = chips.freehit.event === (+eventId+curPage) && true
 
   return (
     <div className="transfers-col">
@@ -252,7 +214,7 @@ function Pitch(props) {
 					</div>}
 					{showChips && <div id="chip-tab"  className="chip-buttons button-item">
 					<button onClick={() => setWildCard(+eventId+curPage)} 
-						disabled={chips.wildcard.used && +chips.wildcard.event < +eventId+curPage && true}	
+						disabled={((chips.wildcard.used && +chips.wildcard.event < +eventId+curPage) || fh || tc || bb) && true}	
 						style={{opacity: chips.wildcard.used && +chips.wildcard.event < +eventId+curPage && 0.7,
 							background: (+chips.wildcard.event) === +eventId+curPage && "rgb(22, 22, 68)",
 							color: (+chips.wildcard.event) === +eventId+curPage && 'white'}} className="btn btn-block btn-chip small" id="wcard">
@@ -265,7 +227,7 @@ function Pitch(props) {
 					  </div>}
 							</button>
 						<button onClick={() => setBenchBoost(+eventId+curPage)} 
-						disabled={chips.bboost.used && +chips.bboost.event < +eventId+curPage && true}	
+						disabled={((chips.bboost.used && +chips.bboost.event < +eventId+curPage)|| wc || fh || tc) && true}	
 						style={{opacity: chips.bboost.used && +chips.bboost.event < +eventId+curPage && 0.7,
 							background: (+chips.bboost.event) === +eventId+curPage && "rgb(22, 22, 68)",
 							color: (+chips.bboost.event) === +eventId+curPage && 'white'}} className="btn btn-block btn-chip small" id="bbench">
@@ -278,7 +240,7 @@ function Pitch(props) {
 					  </div>}
 							</button>
 						<button onClick={() => setTriple(+eventId+curPage)} 
-						disabled={chips.tcap.used && +chips.tcap.event < +eventId+curPage && true}	
+						disabled={((chips.tcap.used && +chips.tcap.event < +eventId+curPage)|| wc || fh || bb) && true}	
 						style={{opacity: chips.tcap.used && +chips.tcap.event < +eventId+curPage && 0.7,
 							background: (+chips.tcap.event) === +eventId+curPage && "rgb(22, 22, 68)",
 							color: (+chips.tcap.event) === +eventId+curPage && 'white'}} className="btn btn-block btn-chip small" id="tcap">
@@ -291,7 +253,7 @@ function Pitch(props) {
 					  </div>}
 						</button>
 						<button onClick={() => setFreeHit(+eventId+curPage)}
-							disabled={chips.freehit.used && +chips.freehit.event < +eventId+curPage && true}	
+							disabled={((chips.freehit.used && +chips.freehit.event < +eventId+curPage) || bb || wc || tc) && true}	
 						  	style={{opacity: chips.freehit.used && +chips.freehit.event < +eventId+curPage && 0.7,
 								background: (+chips.freehit.event) === +eventId+curPage && "rgb(22, 22, 68)",
 								color: (+chips.freehit.event) === +eventId+curPage && 'white'}} className="btn btn-block btn-chip small" id="fhit">
