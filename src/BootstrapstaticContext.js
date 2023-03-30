@@ -996,23 +996,58 @@ function BootstrapstaticProvider({children}) {
     }
 
     const getTransferLogic = () => {
-        if(pickIndex > 1) {
-            playersOut[pickIndex-2].arr.length === 0 && (setTransferLogic({...transferLogic, rolledFt:true}))
-            playersOut[pickIndex-2].arr.length > 1 && (setTransferLogic({...transferLogic, rolledFt:false}))
-            playersOut[pickIndex-2].arr.length === 1 && transferLogic.rolledFt && (setTransferLogic({...transferLogic, rolledFt:true}))
-            playersOut[pickIndex-2].arr.length === 1 && !transferLogic.rolledFt && (setTransferLogic({...transferLogic, rolledFt:false}))
-        }
+        let fts = transferLogic.fts
+        let current = playersOut[pickIndex-2]
+        console.log(fts)
+        console.log(current)
+        /*returnFt(1, current.length, fts)
+        function returnFt(a, b, c) {
+                    if(a === b) {
+                        fts = c
+                        setTransferLogic({fts:fts,
+                            rolledFt: fts === 1 ? false : true
+                        })
+                        return;
+                    }
+                    if(current[a].event_transfers === 0 && current[a].event !== chips.filter(x => x.name === 'wildcard')[0]?.event) {
+                        c = 2
+                    }
+                    if(current[a].event_transfers === 0 && current[a].event === chips.filter(x => x.name === 'wildcard')[0]?.event ) {
+                        c = 1
+                    }
+                    if(current[a].event_transfers === 0 && current[a].event === chips.filter(x => x.name === 'freehit')[0]?.event ) {
+                        c = 1
+                    }
+                    if(current[a].event_transfers > 1) {
+                        c = 1
+                    }
+                    if(current[a].event_transfers === 1 && c === 1) {
+                        c = 1
+                    }
+                    if(current[a].event_transfers === 1 && c === 2) {
+                        c = 2
+                    }
+                    a+=1
+                    returnFt(a, b, c)
+                } */
     } 
 
     const freeTransfers = () => {
         let fts
         if(pickIndex > 1) {
-            playersOut[pickIndex-2].arr.length === 0 && (fts=2)
+            playersOut[pickIndex-2].arr.length === 0 && 
+            chips.freehit.event !== (+eventId+pickIndex-1) &&
+            chips.wildcard.event !== (+eventId+pickIndex-1) && (fts=2)
+
+            playersOut[pickIndex-2].arr.length === 0 && 
+            (chips.freehit.event === (+eventId+pickIndex-1) ||
+            chips.wildcard.event === (+eventId+pickIndex-1)) && (fts=1)
+            
             playersOut[pickIndex-2].arr.length > 1 && (fts=1)
             playersOut[pickIndex-2].arr.length === 1 && transferLogic.rolledFt && (fts=2)
             playersOut[pickIndex-2].arr.length === 1 && !transferLogic.rolledFt && (fts=1)
         } else {
-            fts = transferLogic.fts
+            fts = transferLogic.fts 
         }
         return fts
     }

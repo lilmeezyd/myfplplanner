@@ -57,10 +57,6 @@ function Pitch(props) {
 		}
 	},[playersSelected, outplayer, inplayerOne]) 
 
-	
-
-
-
 	useEffect(() => {
 		let bench = document.getElementById('bench')
 		if(chips.bboost.used && chips.bboost.event === (+eventId+curPage)) {
@@ -74,8 +70,7 @@ function Pitch(props) {
 		actDeact()
 	}, [freehit])
 
-		
-		
+	
 	const viewNextPage = () => {
         setCurPage(v => v+1)
     }

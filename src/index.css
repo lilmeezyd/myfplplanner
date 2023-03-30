@@ -656,7 +656,7 @@
 		align-items: center;
 		justify-content: center;
 		column-gap:  0.5rem;
-		font-weight: bolder;
+		font-weight: 600;
 		padding: 0.25rem;
 	}
 	.ttime div {
@@ -1013,11 +1013,11 @@
 	}
 	.oppfix span.opponent {
 		flex: 1 1 0%;
-		padding: 0.2rem;
+		padding: 0.1rem;
 	}
 	span.opponent {
 		display:block;
-		font-weight: 600;
+		font-weight: 500;
 		min-height: 15px;
 		border: 1px solid rgb(27, 26, 26, 1.0);
 	}
@@ -1322,7 +1322,7 @@
 		overflow-x: auto;
 		white-space: nowrap;
 		position: relative;
-		border-right: 1px solid rgba(0, 0, 0, 0.2);
+		border-right: 1px solid #00ffff42;
 	}
 	@media(max-width: 620px) {
 		.ticker-table {
@@ -1330,7 +1330,7 @@
 		}
 	}
 	.ticker-table tbody td {
-		padding: 0.2rem;
+		padding: 0.1rem;
 	}
 	.ticker-table tbody td:not(.ticker-table tbody td:first-child),
 	.ticker-table thead th:not(.ticker-table thead th:first-child) {
@@ -1355,7 +1355,6 @@
 		top: 0;
 		background: rgba(255, 255, 255, 1);
 		z-index: 4;
-		box-shadow: 1px 0;
 	}
 	/*.ticker-table tbody td:nth-child(2) {
 		font-size: 0.9rem;
@@ -1399,26 +1398,24 @@
 		left: 0;
 		background: rgba(255, 255, 255, 1);
 		z-index: 1;
-		border: 1px solid rgba(0, 0, 0, 0.1);
 	}
 	/*.ticker-table tbody td:first-child span {
 		display: block;
 	}*/
 	.ticker-image {
-		padding: 0.2rem;
+		padding: 0.1rem;
 	}
 	.ticker-team {
 		/*min-width: 200px;*/
-		padding: 0.2rem;
+		padding: 0.1rem;
 		text-align: left;
 	}
 	.ticker-image img {
 		width: 20px;
-		height: 25px;
+		height: 20px;
 	}
 	.ticker-table tr {
-		border: 1px solid rgba(22, 22, 68, 0.2);
-		padding: 0 0.5rem;
+		background: #00ffff42;
 	}
 	.ticker-table .ticker-team {
 		font-weight: 600;
@@ -1478,7 +1475,7 @@
 		}
 		.ticker-image img {
 			width: 16px;
-			height: 20px;
+			height: 16px;
 		}
 		.ticker-table tbody td:first-child {
 			max-width:200px;
