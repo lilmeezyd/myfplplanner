@@ -43,7 +43,9 @@ export const getPicks = (players, picks, curPage, curSize) => {
 
     const benched = returnedPicks[0].newPicks.filter(bench => {
         if(bench.position > 11) return true
-    }).sort((a,b) => {
+    })
+    .map(x => ({...x, multiplier:0}))
+    .sort((a,b) => {
         if(a.position < b.position) return -1
         if(a.position > b.position) return 1
     })
