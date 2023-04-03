@@ -120,7 +120,7 @@ function PlayerCard(props) {
           playerPos.element_type === 3 && midfieldersSelected < 5) ||
           (playersSelected < 15 &&
             playerPos.element_type === 4 && forwardsSelected < 3))&& <button
-         onClick={() => transferIn(playerPos.id, position, team)} className='btn-info btn-info-block btn-green'>Add Player</button>}
+         onClick={() => transferIn(playerPos.id, position, team)} className='btn-info btn-info-block btn-green small'>Add Player</button>}
     </div>
   </div>}
 
