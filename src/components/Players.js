@@ -106,7 +106,7 @@ function Players(props) {
                         </div>
                         <div className="sort">
                             <label>Sorted by</label>
-                            <select onChange={onSort} className="custom-select" id="sort_by">
+                            <select onChange={onSort} className="custom-select small" id="sort_by">
                             <option value="total_points">Total points</option>
                             <option value="event_points">Round points</option>
                         <option value="now_cost">Price</option>
@@ -132,7 +132,7 @@ function Players(props) {
 
 {(players.length) ? 
 <div className="player-info">
-    <div className="player-numbers">
+    <div className="player-numbers small">
         <span className="number">{players.length}</span>
         <span className="numbers">{players.length === 1 ? 'Player' : 'Players'}</span>
     </div>

@@ -18,7 +18,7 @@ function SquadPlayer(props) {
         handleShow, handleClose, showPop, image, 
         backgroundColor, 
         color,playerOpps, idx, player, teams , playerPos,positionObj,
-        playerInClass, newPlayer, newPadding, curPage } = props
+        playerInClass, curPage } = props
     const [ show, setShow ] = useState(false)
     const [ showInfo, setShowInfo ] = useState(false)
     const [ playerElement, setPlayerElement ] = useState(null)
@@ -396,9 +396,12 @@ function SquadPlayer(props) {
    
     <div key={idx} className={ ` pitch_unit`}>
                         {playerPos.multiplier === 0 ? <h3 className='bench_unit_heading'>
-        <span className='bean tooltip'>{
+        <span className='bean tooltip'>
+            {playerPos.position === 12 ? '' :
+            playerPos.position === 13 ? '1.' : 
+            playerPos.position === 14 ? '2.' : '3.'}&nbsp;{
         fplElements.playerPosition
-                .find(x => x.id === +playerPos.element_type).singular_name_short }</span>
+                .find(x => x.id === +playerPos.element_type).singular_name_short}</span>
     </h3> : ''}
         <div className={`element_container ${(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)
                      ? 'player-active' : ''} ${playerInClass}`}>
@@ -464,8 +467,7 @@ function SquadPlayer(props) {
                         <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
                         </svg>} 
                 </button>
-                <div className="new"
-										style={{padding: `${newPadding}px`}}>{newPlayer}</div>
+                
                 <div className="captain">
                     {playerPos.is_captain && chips.tcap.event !== (+eventId+curPage) ? 
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" role="img" focusable="false" className="captain">

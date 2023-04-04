@@ -535,15 +535,11 @@
 		order: -1;
 	}
 	.bench_unit_heading {
-		/*border: 1px solid black;*/
-		order: 2;
-		margin: 0.1rem 0;
+		margin: 0.2rem;
 		padding: 0.1rem;
 		font-size: 0.8rem;
 		text-align: center;
-	}
-	.bean {
-		/*text-decoration: underline dotted;*/
+		text-decoration-line: underline;
 	}
 	.bean1 {
 		/*border: 1px solid black;*/

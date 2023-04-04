@@ -46,7 +46,6 @@ export const BootstrapstaticContext = createContext({
     midfieldersSelected: () => {},
     forwardsSelected: () => {},
     addedPlayer: () => {},
-    getTransferLogic: () => {},
     transferCost: () => {},
     freeTransfers: () => {},
     updateFreehit: () => {},
@@ -474,16 +473,16 @@ function BootstrapstaticProvider({children}) {
                 key >= pickIndex-1 ? {...pick, newPicks:real} : pick))
         } else {
             if((chips.freehit.event === picks[pickIndex-2].event) && (pickIndex-2 > 0)){
-                console.log('gt 0')
+                //console.log('gt 0')
                 setPicks(prev => prev.map((pick, key) => 
                     key >= pickIndex-1 ? 
                     {...pick, newPicks:prev[pickIndex-3].newPicks} : pick))
             } else if((chips.freehit.event === picks[pickIndex-2].event) && (pickIndex-2 === 0)) {
-                console.log('lt 0')
+                //console.log('lt 0')
                 setPicks(prev => prev.map((pick, key) => 
                     key >= pickIndex-1 ? {...pick, newPicks:real} : pick))
             } else {
-                console.log('normal')
+                //console.log('normal')
                 setPicks(prev => prev.map((pick, key) => 
                 key >= pickIndex-1 ? 
                 {...pick, newPicks:prev[pickIndex-2].newPicks} : pick))
@@ -995,62 +994,74 @@ function BootstrapstaticProvider({children}) {
         setPlayerName(playerName)
     }
 
-    const getTransferLogic = () => {
+    const freeTransfers = () => {
         let fts = transferLogic.fts
-        let current = playersOut[pickIndex-2]
-        console.log(fts)
-        console.log(current)
-        /*returnFt(1, current.length, fts)
+        const cPlayersOut = [...playersOut]
+        const current = cPlayersOut.splice(0, pickIndex)
+        if(pickIndex === 1) {
+            fts = transferLogic.fts
+        } else {
+            returnFt(0, current.length-1, fts)
+        }
         function returnFt(a, b, c) {
-                    if(a === b) {
-                        fts = c
-                        setTransferLogic({fts:fts,
-                            rolledFt: fts === 1 ? false : true
-                        })
-                        return;
-                    }
-                    if(current[a].event_transfers === 0 && current[a].event !== chips.filter(x => x.name === 'wildcard')[0]?.event) {
-                        c = 2
-                    }
-                    if(current[a].event_transfers === 0 && current[a].event === chips.filter(x => x.name === 'wildcard')[0]?.event ) {
-                        c = 1
-                    }
-                    if(current[a].event_transfers === 0 && current[a].event === chips.filter(x => x.name === 'freehit')[0]?.event ) {
-                        c = 1
-                    }
-                    if(current[a].event_transfers > 1) {
-                        c = 1
-                    }
-                    if(current[a].event_transfers === 1 && c === 1) {
-                        c = 1
-                    }
-                    if(current[a].event_transfers === 1 && c === 2) {
-                        c = 2
-                    }
-                    a+=1
-                    returnFt(a, b, c)
-                } */
+            if(a === b) {
+                fts = c
+                return;
+            }
+            if(current[a].arr.length === 0 && (chips.freehit.event !== current[a].event &&
+            chips.wildcard.event !== current[a].event) ) {
+                c = 2
+            }
+            if(current[a].arr.length === 0 && (chips.freehit.event === current[a].event ||
+                chips.wildcard.event === current[a].event) ) {
+                c = 1
+            }
+            if(current[a].arr.length > 1) {
+                c = 1
+            }
+            if(current[a].arr.length === 1 && (chips.freehit.event === current[a].event ||
+                chips.wildcard.event === current[a].event) ) {
+                c = 1
+            }
+            if(current[a].arr.length === 1 && c === 1) {
+                c = 1
+            }
+            if(current[a].arr.length === 1 && c === 2 && (chips.freehit.event !== current[a].event &&
+                chips.wildcard.event !== current[a].event)) {
+                c = 2
+            }
+            if(current[a].arr.length === 1 && c === 2 && (chips.freehit.event === current[a].event ||
+                chips.wildcard.event === current[a].event)) {
+                c = 1
+            }
+            a+=1
+            returnFt(a, b, c)
+        } 
+        return fts
     } 
-
+    /*
     const freeTransfers = () => {
         let fts
-        if(pickIndex > 1) {
-            playersOut[pickIndex-2].arr.length === 0 && 
-            chips.freehit.event !== (+eventId+pickIndex-1) &&
-            chips.wildcard.event !== (+eventId+pickIndex-1) && (fts=2)
-
-            playersOut[pickIndex-2].arr.length === 0 && 
-            (chips.freehit.event === (+eventId+pickIndex-1) ||
-            chips.wildcard.event === (+eventId+pickIndex-1)) && (fts=1)
-            
-            playersOut[pickIndex-2].arr.length > 1 && (fts=1)
-            playersOut[pickIndex-2].arr.length === 1 && transferLogic.rolledFt && (fts=2)
-            playersOut[pickIndex-2].arr.length === 1 && !transferLogic.rolledFt && (fts=1)
-        } else {
+        if(pickIndex === 1) {
             fts = transferLogic.fts 
+        } else {
+            if(playersOut[pickIndex-2].arr.length === 0) {
+                (chips.freehit.event === (+eventId+pickIndex-1) ||
+                chips.wildcard.event === (+eventId+pickIndex-1)) && (fts=1)
+
+                chips.freehit.event !== (+eventId+pickIndex-1) &&
+                chips.wildcard.event !== (+eventId+pickIndex-1) && (fts=2)
+            }
+            if(playersOut[pickIndex-2].arr.length === 1) {
+                (chips.freehit.event === (+eventId+pickIndex-1) ||
+                chips.wildcard.event === (+eventId+pickIndex-1)) && (fts=1)
+            }
+            if(playersOut[pickIndex-2].arr.length > 1){
+                fts = 1
+            }
         }
         return fts
-    }
+    } */
 
     const transferCost = () => {
         let fts = 
@@ -1108,7 +1119,6 @@ function BootstrapstaticProvider({children}) {
         midfieldersSelected,
         forwardsSelected,
         addedPlayer,
-        getTransferLogic,
         transferCost,
         freeTransfers,
         updateFreehit,

@@ -277,8 +277,6 @@ function Pitch(props) {
 								let teamObj = teams.find(x => x.id === player.team)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
 								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element === playerPos.element)
-								let newPlayer = inplayersIn ? 'NEW' : ''
-								let newPadding = inplayersIn ? 2 : 0
 								let playerInClass = inplayersIn ? 'player_in' : ''
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
@@ -300,8 +298,6 @@ function Pitch(props) {
 									playerPos={playerPos}
 									positionObj={positionObj}
 									playerInClass={playerInClass}
-									newPlayer={newPlayer}
-									newPadding={newPadding}
 									curPage={curPage}
 									handleShow={handleShow}
 									handleClose={handleClose}
@@ -315,9 +311,7 @@ function Pitch(props) {
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
-								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element == playerPos.element)
-								let newPlayer = inplayersIn ? 'NEW' : ''
-								let newPadding = inplayersIn ? 2 : 0
+								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element === playerPos.element)
 								let playerInClass = inplayersIn ? 'player_in' : ''
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66` 
@@ -338,8 +332,6 @@ function Pitch(props) {
 										playerPos={playerPos}
 										positionObj={positionObj}
 										playerInClass={playerInClass}
-										newPlayer={newPlayer}
-										newPadding={newPadding}
 										curPage={curPage}
 										handleShow={handleShow}
 										handleClose={handleClose}
@@ -353,9 +345,7 @@ function Pitch(props) {
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
-								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element == playerPos.element)
-								let newPlayer = inplayersIn ? 'NEW' : ''
-								let newPadding = inplayersIn ? 2 : 0
+								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element === playerPos.element)
 								let playerInClass = inplayersIn ? 'player_in' : ''
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66`  
@@ -376,8 +366,6 @@ function Pitch(props) {
 										playerPos={playerPos}
 										positionObj={positionObj}
 										playerInClass={playerInClass}
-										newPlayer={newPlayer}
-										newPadding={newPadding}
 										curPage={curPage}
 										handleShow={handleShow}
 										handleClose={handleClose}
@@ -391,9 +379,7 @@ function Pitch(props) {
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
-								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element == playerPos.element)
-								let newPlayer = inplayersIn ? 'NEW' : ''
-								let newPadding = inplayersIn ? 2 : 0
+								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element === playerPos.element)
 								let playerInClass = inplayersIn ? 'player_in' : ''
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66` 
@@ -414,8 +400,6 @@ function Pitch(props) {
 									playerPos={playerPos}
 									positionObj={positionObj}
 									playerInClass={playerInClass}
-									newPlayer={newPlayer}
-									newPadding={newPadding}
 									curPage={curPage}
 									handleShow={handleShow}
 									handleClose={handleClose}
@@ -432,9 +416,7 @@ function Pitch(props) {
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
-								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element == playerPos.element)
-								let newPlayer = inplayersIn ? 'NEW' : ''
-								let newPadding = inplayersIn ? 2 : 0
+								let inplayersIn = fplElements.playersIn[pickIndex-1].arr.some(x => x.element === playerPos.element)
 								let playerInClass = inplayersIn ? 'player_in' : ''
 	                            let image = (positionObj.id === 1 && !inTemp) ? `${teamObj.code}_1-66`:
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66` 
@@ -455,8 +437,6 @@ function Pitch(props) {
 									playerPos={playerPos}
 									positionObj={positionObj}
 									playerInClass={playerInClass}
-									newPadding={newPadding}
-									newPlayer={newPlayer}
 									curPage={curPage}
 									handleShow={handleShow}
 									handleClose={handleClose}
