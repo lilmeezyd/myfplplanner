@@ -119,7 +119,7 @@ function Players(props) {
                 <div className="cost">
                     <label>Max cost</label>
                     <div>Between <span id="pMin">{minPrice.toFixed(1)}</span> and <span id="pMax">{maxPrice.toFixed(1)}</span></div>
-                    <select onChange={onPrice} className="custom-select" id="cost_by">
+                    <select onChange={onPrice} className="custom-select small" id="cost_by">
                         {prices.map((price, idx) => 
                                 <option key={idx} value={price}>{price}</option>
                           )}

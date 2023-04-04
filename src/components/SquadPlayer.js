@@ -106,7 +106,7 @@ function SquadPlayer(props) {
                                         .filter(x => x.element_type !== 1)
                                         .map(x => x.element)
                 const swap = picks[pickIndex-1].newPicks
-                                .filter(x => x.element_type === 1 && x.multiplier === 0)
+                                .filter(x => x.element_type === 1 && x.position === 12)
                                 .map(x => x.element)
                 addSwap(swap)
                 setSwapArray(toDisable)
@@ -115,20 +115,20 @@ function SquadPlayer(props) {
             if(playerType === 2) {
                 if(noDefenders === 3) {
                     const toDisable = picks[pickIndex-1].newPicks
-                                        .filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type !== 2))
+                                        .filter(x => (x.position < 12 && x.element !== playerId) || (x.position >= 12 && x.element_type !== 2))
                                         .map(x => x.element)
                     const swap = picks[pickIndex-1].newPicks
-                                    .filter(x => x.element_type === 2 && x.multiplier === 0)
+                                    .filter(x => x.element_type === 2 && x.position > 12)
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
                     disablePlayers(toDisable)               
                 } else {
                     const toDisable = picks[pickIndex-1].newPicks
-                                        .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
+                                        .filter(x => x.element_type === 1 || (x.position < 12 && x.element !== playerId))
                                         .map(x => x.element)
                     const swap = picks[pickIndex-1].newPicks
-                                    .filter(x => x.element_type !== 1 && x.multiplier === 0)
+                                    .filter(x => x.element_type !== 1 && x.position > 12)
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
@@ -138,20 +138,20 @@ function SquadPlayer(props) {
             if(playerType === 3) {
                 if(noMidfielders === 2) {
                     const toDisable = picks[pickIndex-1].newPicks
-                                        .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
+                                        .filter(x => x.element_type === 1 || (x.position < 12 && x.element !== playerId))
                                         .map(x => x.element)
                     const swap = picks[pickIndex-1].newPicks
-                                    .filter(x => x.element_type === 3 && x.multiplier === 0)
+                                    .filter(x => x.element_type === 3 && x.position > 12)
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
                     disablePlayers(toDisable) 
                 } else {
                     const toDisable = picks[pickIndex-1].newPicks
-                                        .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
+                                        .filter(x => x.element_type === 1 || (x.position < 12 && x.element !== playerId))
                                         .map(x => x.element)
                     const swap = picks[pickIndex-1].newPicks
-                                    .filter(x => x.element_type !== 1 && x.multiplier === 0)
+                                    .filter(x => x.element_type !== 1 && x.position > 12)
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
@@ -161,20 +161,20 @@ function SquadPlayer(props) {
             if(playerType === 4) {
                 if(noForwards === 1) {
                     const toDisable = picks[pickIndex-1].newPicks
-                                        .filter(x => (x.multiplier !== 0 && x.element !== playerId) || (x.multiplier === 0 && x.element_type !== 4))
+                                        .filter(x => (x.position < 12 && x.element !== playerId) || (x.position > 12 && x.element_type !== 4))
                                         .map(x => x.element)
                     const swap = picks[pickIndex-1].newPicks
-                                    .filter(x => x.element_type === 4 && x.multiplier === 0)
+                                    .filter(x => x.element_type === 4 && x.position > 12)
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
                     disablePlayers(toDisable)               
                 } else {
                     const toDisable = picks[pickIndex-1].newPicks
-                                        .filter(x => x.element_type === 1 || (x.multiplier !== 0 && x.element !== playerId))
+                                        .filter(x => x.element_type === 1 || (x.position < 12 && x.element !== playerId))
                                         .map(x => x.element)
                     const swap = picks[pickIndex-1].newPicks
-                                    .filter(x => x.element_type !== 1 && x.multiplier === 0)
+                                    .filter(x => x.element_type !== 1 && x.position > 12)
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
@@ -197,9 +197,9 @@ function SquadPlayer(props) {
     useEffect(() => {
         let pPicks = document.querySelectorAll('.element_container_1')
         let noDefenders = picks[pickIndex-1].newPicks
-                            .filter(x => x.element_type === 2 && x.multiplier !== 0).length
+                            .filter(x => x.element_type === 2 && x.position < 12).length
         let noForwards = picks[pickIndex-1].newPicks
-                            .filter(x => x.element_type === 4 && x.multiplier !== 0).length
+                            .filter(x => x.element_type === 4 && x.position < 12).length
         const disablePlayers = (arr) => {
             Array.from(pPicks).forEach(x => {
                 if(arr.includes(+x.id)) {
@@ -222,10 +222,10 @@ function SquadPlayer(props) {
             let playerId = inplayerOne.element
             if(playerType === 1) {
                 const toDisable = picks[pickIndex-1].newPicks
-                                        .filter(x => (x.multiplier === 0 && x.element !== playerId) || (x.multiplier !== 0 && x.element_type !== 1))
+                                        .filter(x => (x.position > 12 && x.element !== playerId) || (x.position < 12 && x.element_type !== 1))
                                         .map(x => x.element)
                 const swap = picks[pickIndex-1].newPicks
-                                .filter(x => x.element_type === 1 && x.multiplier !== 0)
+                                .filter(x => x.element_type === 1 && x.position < 12)
                                 .map(x => x.element)
                 addSwap(swap)
                 setSwapArray(toDisable)
@@ -234,10 +234,10 @@ function SquadPlayer(props) {
             if(playerType === 2) {
                 if(noForwards === 1) {
                     const toDisable = picks[pickIndex-1].newPicks
-                                        .filter(x => ((x.element_type === 4 && x.multiplier !== 0) || x.element_type === 1))
+                                        .filter(x => ((x.element_type === 4 && x.position < 12) || x.element_type === 1))
                                         .map(x => x.element)
                     const swap = picks[pickIndex-1].newPicks
-                                    .filter(x => x.element !== playerId && ( (x.element_type !== 4 && x.element_type !== 1) || (x.multiplier === 0 && x.element_type !== 1)))
+                                    .filter(x => x.element !== playerId && ( (x.element_type !== 4 && x.element_type !== 1) || (x.position >= 12 && x.element_type !== 1)))
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
@@ -257,20 +257,20 @@ function SquadPlayer(props) {
             if(playerType === 3) {
                 if(noForwards === 1) {
                     const toDisable = picks[pickIndex-1].newPicks
-                                        .filter(x => (x.element_type === 4 && x.multiplier !== 0) || x.element_type === 1)
+                                        .filter(x => (x.element_type === 4 && x.position < 12) || x.element_type === 1)
                                         .map(x => x.element)
                     const swap = picks[pickIndex-1].newPicks
-                                    .filter(x => x.element !== playerId && ((x.element_type !== 4 && x.element_type !== 1 )|| (x.multiplier === 0 && x.element_type !== 1)))
+                                    .filter(x => x.element !== playerId && ((x.element_type !== 4 && x.element_type !== 1 )|| (x.position >= 12 && x.element_type !== 1)))
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
                     disablePlayers(toDisable)
                 } else if(noDefenders === 3) {
                     const toDisable = picks[pickIndex-1].newPicks
-                                        .filter(x => (x.element_type === 2 && x.multiplier !== 0) || x.element_type === 1)
+                                        .filter(x => (x.element_type === 2 && x.position < 12) || x.element_type === 1)
                                         .map(x => x.element)
                     const swap = picks[pickIndex-1].newPicks
-                                    .filter(x => x.element !== playerId &&  ((x.element_type !== 2 && x.element_type !== 1) || (x.multiplier === 0 && x.element_type !== 1)))
+                                    .filter(x => x.element !== playerId &&  ((x.element_type !== 2 && x.element_type !== 1) || (x.position >= 12 && x.element_type !== 1)))
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
@@ -280,7 +280,7 @@ function SquadPlayer(props) {
                                         .filter(x => x.element_type === 1)
                                         .map(x => x.element)
                     const swap = picks[pickIndex-1].newPicks
-                                    .filter(x => (x.element_type !== 1 && x.multiplier !== 0)||(x.element !== playerId && x.element_type !== 1))
+                                    .filter(x => (x.element_type !== 1 && x.position < 12)||(x.element !== playerId && x.element_type !== 1))
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
@@ -290,10 +290,10 @@ function SquadPlayer(props) {
             if(playerType === 4) {
                 if(noDefenders === 3) {
                     const toDisable = picks[pickIndex-1].newPicks
-                                        .filter(x => (x.element_type === 2 && x.multiplier !== 0) || x.element_type === 1)
+                                        .filter(x => (x.element_type === 2 && x.position < 12) || x.element_type === 1)
                                         .map(x => x.element)
                     const swap = picks[pickIndex-1].newPicks
-                                    .filter(x => x.element !== playerId &&  ((x.element_type !== 2 && x.element_type !== 1) || (x.multiplier === 0 && x.element_type !== 1)))
+                                    .filter(x => x.element !== playerId &&  ((x.element_type !== 2 && x.element_type !== 1) || (x.position >= 12 && x.element_type !== 1)))
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
@@ -303,7 +303,7 @@ function SquadPlayer(props) {
                                         .filter(x => x.element_type === 1)
                                         .map(x => x.element)
                     const swap  = picks[pickIndex-1].newPicks
-                                    .filter(x => (x.element_type !== 1 && x.multiplier !== 0)||(x.element !== playerId && x.element_type !== 1))
+                                    .filter(x => (x.element_type !== 1 && x.position < 12)||(x.element !== playerId && x.element_type !== 1))
                                     .map(x => x.element)
                     addSwap(swap)
                     setSwapArray(toDisable)
