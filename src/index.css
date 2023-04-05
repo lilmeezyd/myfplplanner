@@ -1013,7 +1013,7 @@
 	}
 	span.opponent {
 		display:block;
-		font-weight: 500;
+		font-weight: 700;
 		min-height: 15px;
 		border: 1px solid rgb(27, 26, 26, 1.0);
 	}
@@ -1446,7 +1446,11 @@
 			background: url('./static/pitch.png') center center / 808.71px 545.5px no-repeat;
 			background-size: cover;
 		}
-		.player-info-button, .swap-button, .transfer-button {
+		.player-info-button,
+		.swap-button,
+		.transfer-button,
+		.swap-button-in,
+		.swap-button-out {
 			display: none;
 		}
 		.data_name, .data_points, .bean, .x-small, .up-fix > div > span.opponent {

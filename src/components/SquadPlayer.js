@@ -86,7 +86,7 @@ function SquadPlayer(props) {
                 if(arr.includes(+x.id)) {
                     Array.from(x.getElementsByClassName('swap-button'))
                     .forEach(y => {
-                        y.style.display = 'none'
+                        //width > 620 && (y.style.display = 'none')
                         y.parentElement.querySelector('.btn-details').style.opacity = 0.7
                 })
                 }
@@ -187,7 +187,7 @@ function SquadPlayer(props) {
                 x.parentElement.classList.remove('swap')
                 Array.from(x.getElementsByClassName('swap-button'))
                         .forEach(y => {
-                            width > 620 ? y.style.display = 'block' : y.style.display = 'none'
+                            //width > 620 ? y.style.display = 'block' : y.style.display = 'none'
                             y.parentElement.querySelector('.btn-details').style.opacity = 1
                         })
             })
@@ -205,7 +205,7 @@ function SquadPlayer(props) {
                 if(arr.includes(+x.id)) {
                     Array.from(x.getElementsByClassName('swap-button'))
                     .forEach(y => {
-                        y.style.display = 'none'
+                        //width > 620 && (y.style.display = 'none')
                         y.parentElement.querySelector('.btn-details').style.opacity = 0.7
                 })
                 }
@@ -316,13 +316,13 @@ function SquadPlayer(props) {
                 x.parentElement.classList.remove('swap')
                 Array.from(x.getElementsByClassName('swap-button'))
                         .forEach(y => {
-                            width > 620 ? y.style.display = 'block' : y.style.display = 'none'
+                            //width > 620 ? y.style.display = 'block' : y.style.display = 'none'
                             y.parentElement.querySelector('.btn-details').style.opacity = 1
                         })
             })
         }
     }, [inplayerOne, picks, pickIndex, width])
-    useEffect(() => {
+    /*useEffect(() => {
            // const element1 = transferRef.current.nextElementSibling.classList[1]
            window.addEventListener('resize', setDimensions)
             if(playersSelected === 15 && width > 620) {
@@ -343,7 +343,7 @@ function SquadPlayer(props) {
             return () => {
                 window.removeEventListener('resize', setDimensions)
               }
-        },[playersSelected, width])    
+        },[playersSelected, width])    */
     const transferOut = (player) => {
         fplElements.addToTransfersOut(player)
         handleCloseModal()
