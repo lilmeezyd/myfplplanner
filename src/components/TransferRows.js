@@ -39,7 +39,8 @@ function TransferRows() {
         return { newPlayersOut, newPlayersIn }
     }
   return (
-    <div className="transfer-rows">
+    (fplElements.playersOut[pickIndex-1].arr.length > 0 ?
+        <div className="transfer-rows">
         <div className="transfer-out-wrapper">
             <h4 className="small">Transfer Out</h4>
                 <div className="transfer-out">
@@ -74,7 +75,7 @@ function TransferRows() {
                     })}
                 </div>
         </div>
-    </div>
+    </div> : <div className='no-trans small'>No Transfers Made</div>)
   )
 }
 

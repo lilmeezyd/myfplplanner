@@ -124,7 +124,7 @@ function Pitch(props) {
 				<div className="details-one">
 					<div className="gw-buttonswrapper">
 						<div className="gw-buttons">
-							<button style={{visibility: pageOneVisible}} onClick={viewPreviousPage} className="btn btn-fpl small prev_next" id="prevGameweek">
+							<button style={{visibility: pageOneVisible}} onClick={viewPreviousPage} className="small prev_next" id="prevGameweek">
 								<img src={prevPage} alt="prev_page" />
 							</button>
 							<div id="deadline">
@@ -146,7 +146,7 @@ function Pitch(props) {
 										})}
 								</div>
 							</div>
-							<button style={{visibility: lastPageVisible}} onClick={viewNextPage} className="btn btn-fpl small prev_next" id="nextGameweek">
+							<button style={{visibility: lastPageVisible}} onClick={viewNextPage} className="small prev_next" id="nextGameweek">
 								<img src={nextPage}  alt="next_page" />
 							</button>
 						</div>
@@ -176,19 +176,15 @@ function Pitch(props) {
 							</div>
 						</div>
 					</div>
-					<div className="btn-displayer">
-						<div style={{borderBottom: tabBorder}} id="transfer"  className="tab-item">
-							<p className="large">Transfers</p>
-						</div>
-					</div>
 					<div id="transfer-tab"  className="upper-buttons button-item show">
-						<button onClick={showPlayersOut} className="btn btn-block show-fpl btn-fpl small">Transfers</button>
+						<button onClick={showPlayersOut} className="btn btn-block show-fpl btn-fpl small">
+							{!showTransfersMade ? 'Show Transfers' : 'Hide Transfers'}</button>
 						<button onClick={resetGW} className="btn btn-block reset btn-fpl small">Reset</button>
 					</div>
 					{showTransfersMade && <TransferRows />}
 					{fplElements.playerName && 
 					<div className={`message small ${fplElements.playerName && 'success'}`}>
-						<span>{fplElements.playerName} has been added to your squad</span>
+						{fplElements.playersIn[curPage-1].arr && <span>{fplElements.playerName} has been added to your squad</span>}
 					</div>}
 				</div>
 				<div className="field">
