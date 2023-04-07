@@ -35,7 +35,7 @@ function PlayerInfo(props) {
       <div className="games-info">
         <div className="games-info-buttons">
 				  <div
-           className="btn btn-block btn-fpl btn-game-fixtures">Fixtures</div>
+           className="btn-game-fixtures">Fixtures</div>
         </div>
         <div className="games-info-fixtures">
           <table className="table" style={{width: '100%'}}>

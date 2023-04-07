@@ -112,7 +112,6 @@ function Pitch(props) {
     
 	let pageOneVisible = curPage === 1 ? 'hidden' : 'visible'
 	let lastPageVisible = curPage === length ? 'hidden' : 'visible'
-	let tabBorder = 'rgba(22, 22, 68, 1.0) 4px solid'
 	let wc = chips.wildcard.event === (+eventId+curPage) && true
 	let tc = chips.tcap.event === (+eventId+curPage) && true
 	let bb = chips.bboost.event === (+eventId+curPage) && true
@@ -160,6 +159,7 @@ function Pitch(props) {
 							<div className="free-transfers large">
 								<h4 title="Free Transfers large">FT</h4>
 								<span className="transfer-number">
+									{fplElements.playersOut[pickIndex-1].arr.length}&nbsp;/&nbsp;
 									{(chips.freehit.event === (+eventId+pickIndex) || chips.wildcard.event === (+eventId+pickIndex)) ? 
 									'∞' : fplElements.freeTransfers()}</span>
 							</div>

@@ -252,6 +252,7 @@
 	.no-trans {
 		text-align: center;
 		font-weight: 700;
+		padding: 0.2rem;
 	}
 	.transfer-out-wrapper, .transfer-in-wrapper{
 		/*border: 1px solid black;*/
@@ -861,10 +862,11 @@
 		height: fit-content;
 		margin: auto;
 		padding: 0.4rem;
-		background: rgba(13, 122, 86, 1);
+		background: white;
 		z-index: 99;
 		/*animation-name: modal-animate;
 		animation-duration: 0.5s;*/
+		border: 1px solid rgba(0, 0, 0, 0.3);
 	}
 	@media(max-width: 620px) {
 		.playerpop {
@@ -873,12 +875,12 @@
 	}
 
 	.playerpop1 {
-		border: 1px solid rgba(0, 0, 0, 0.2);
+		border: 1px solid rgba(0, 0, 0, 0.3);
 		margin: auto;
 		max-width: min-content;
 		height: min-content;
 		padding: 0.4rem;
-		background: rgba(13, 122, 86, 1);
+		background: white;
 		text-transform: capitalize;
 		position: fixed;
 		top: 0;
@@ -896,9 +898,10 @@
 		color: rgba(22,22,68,1);
 	}
 	.info-details {
-		background: white;
+		background: ghostwhite;
 		/*border-radius: 5px;*/
 		padding: 0.5rem;
+		border: 1px solid rgba(0, 0, 0, 0.3);
 	}
 	.btn-player {
 		position: absolute;
@@ -907,12 +910,15 @@
 	}
 	.games-info {
 		padding: 0.1rem;
+		border: 1px solid rgba(0, 0, 0, 0.3);
+		border-top: none;
 	}
 	.games-info-fixtures {
 		/*display: none;*/
 		display: flex;
 		justify-content: left;
 		align-items: center;
+		border: 1px solid rgba(0, 0, 0, 0.3);
 	}
 	.games-info-fixtures .table tbody td, .games-info-fixtures .table thead th {
 		padding: 0.3rem 2.0rem;
@@ -1083,10 +1089,12 @@
 	}
 	.btn-danger {
 		background: rgba(219, 12, 12, 0.8);
+		border: 1px solid rgba(0, 0, 0, 0.3);
 		border-radius: 0;
 	}
 	.btn-green {
 		background: darkgreen;
+		border: 1px solid rgba(0, 0, 0, 0.3);
 	}
 	.btn-danger:hover {
 		background: rgba(219, 12, 12, 1.0);
@@ -1099,6 +1107,7 @@
 	}
 	 .btn-vcap {
 		background: rgba(192, 192, 192, 0.8);
+		border: 1px solid rgba(0, 0, 0, 0.3);
 		color: black;
 		font-weight: 600;
 	}
@@ -1107,6 +1116,7 @@
 	}
 	.btn-cap {
 		background: rgba(255, 215, 0, 0.8);
+		border: 1px solid rgba(0, 0, 0, 0.3);
 		color: black;
 		font-weight: 600;
 	}
@@ -1115,6 +1125,7 @@
 	}
 	.btn-light {
 		background: rgba(245, 245, 245, 1.0);
+		border: 1px solid rgba(0, 0, 0, 0.3);
 		color: #000;
 	}
 	.btn-light:hover {
@@ -1143,6 +1154,10 @@
 		border: 1px solid rgba(0, 255, 255, 1.0);
 		width: 25%;
 	}
+	.btn-game-fixtures {
+		font-weight: 700;
+		padding: 0.2rem;
+	}
 	.btn:hover {
 		opacity: 0.8;
 	}
@@ -1157,6 +1172,7 @@
 	}
 	.btn-warn {
 		background: rgba(45, 137, 147, 0.8);
+		border: 1px solid rgba(0, 0, 0, 0.3);
 	}
 	.btn-warn:hover {
 		background: rgba(45, 137, 147, 1.0);
@@ -1348,7 +1364,8 @@
 		overflow-x: auto;
 		white-space: nowrap;
 		position: relative;
-		border-right: 1px solid #00ffff42;
+		border-top: 1px solid rgba(0,0,0,0.3);
+		border-bottom: 1px solid rgba(0,0,0,0.3);
 	}
 	@media(max-width: 620px) {
 		.ticker-table {
