@@ -1233,8 +1233,7 @@
 		font-weight: 700;
 	}
 	.btn-chip {
-		background: linear-gradient(300deg, rgba(0, 229, 229, 0.56) 15.54%, 
-	    	rgba(0, 229, 0, 0.192) 60.23%, rgba(0, 229, 229, 8e-5) 100%);
+		background: aqua;
 		color: rgba(22, 22, 68, 1.0);
 		font-weight: 700;
 		border: 1px solid rgba(22, 22, 68, 0.5);
