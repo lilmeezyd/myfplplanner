@@ -46,12 +46,12 @@ function Pitch(props) {
 		let outKeys = Object.keys(outplayer).length
 		let inKeys = Object.keys(inplayerOne).length
 		if(playersSelected === 15 || outKeys < 0 || inKeys < 0) {
-			nextBtn.removeAttribute('disabled')
-			prevBtn.removeAttribute('disabled')
+			nextBtn?.removeAttribute('disabled')
+			prevBtn?.removeAttribute('disabled')
 		}
 		if(playersSelected < 15 || playersSelected === undefined ||  outKeys > 0 || inKeys > 0) {
-			nextBtn.setAttribute('disabled', true)
-			prevBtn.setAttribute('disabled', true)
+			nextBtn?.setAttribute('disabled', true)
+			prevBtn?.setAttribute('disabled', true)
 		}
 	},[playersSelected, outplayer, inplayerOne]) 
 
@@ -119,7 +119,10 @@ function Pitch(props) {
 
   return (
     <div className="transfers-col">
-			<div>
+			{typeof(fplElements.managerInfo) === 'string' ?
+				<div className="message small">The game is being updated.</div> : 
+				<>
+				<div>
 				<div className="details-one">
 					<div className="gw-buttonswrapper">
 						<div className="gw-buttons">
@@ -419,7 +422,8 @@ function Pitch(props) {
 							+chips.freehit.event === +eventId+curPage ? 'ACTIVE' : 'PLAY'}
 						</button>
 					</div>
-					</div>
+			</div>
+			</>}
 		</div>
   )
 }

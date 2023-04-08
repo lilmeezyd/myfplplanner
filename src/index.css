@@ -1238,6 +1238,9 @@
 		font-weight: 700;
 		border: 1px solid rgba(22, 22, 68, 0.5);
 	}
+	.btn-primary {
+		padding: 0.3rem;
+	}
 	@media(max-width: 600px) {
 		.btn-chip, .btn-fpl {
 			padding: 0.4rem;
