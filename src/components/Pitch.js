@@ -159,7 +159,7 @@ function Pitch(props) {
 							<div className="free-transfers large">
 								<h4 title="Free Transfers large">FT</h4>
 								<span className="transfer-number">
-									{fplElements.playersOut[pickIndex-1].arr.length}&nbsp;/&nbsp;
+									{fplElements.playersOut[pickIndex-1]?.arr.length}&nbsp;/&nbsp;
 									{(chips.freehit.event === (+eventId+pickIndex) || chips.wildcard.event === (+eventId+pickIndex)) ? 
 									'∞' : fplElements.freeTransfers()}</span>
 							</div>
