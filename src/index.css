@@ -1144,15 +1144,15 @@
 		font-family: 'Montserrat';
 		/*border-radius: 5px;*/
 	}
-	.btn-block {
-		width: 100%;
-	}
 	.btn-fpl {
 		background: rgba(22, 22, 98, 1.0);
 		color: rgba(0, 255, 255, 1.0);
 		font-weight: 600;
 		border: 1px solid rgba(0, 255, 255, 1.0);
 		width: 25%;
+	}
+	.btn-block {
+		width: 100%;
 	}
 	.btn-game-fixtures {
 		font-weight: 700;
