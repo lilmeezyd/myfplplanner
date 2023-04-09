@@ -1749,7 +1749,9 @@
 	background: rgba(251, 13, 102, 0.35);
 	border-radius: 5px;
 }	
-
+.full {
+	opacity: 1;
+}
 .welcome {
 	width: 90%;
 	text-align: center;

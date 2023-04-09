@@ -185,11 +185,6 @@ function SquadPlayer(props) {
             setSwapArray([])
             Array.from(pPicks).forEach(x => {
                 x.parentElement.classList.remove('swap')
-                Array.from(x.getElementsByClassName('swap-button'))
-                        .forEach(y => {
-                            //width > 620 ? y.style.display = 'block' : y.style.display = 'none'
-                            y.parentElement.querySelector('.btn-details').style.opacity = 1
-                        })
             })
         }
     },[outplayer, picks, pickIndex, width])    
@@ -314,36 +309,9 @@ function SquadPlayer(props) {
             setSwapArray([])
             Array.from(pPicks).forEach(x => {
                 x.parentElement.classList.remove('swap')
-                Array.from(x.getElementsByClassName('swap-button'))
-                        .forEach(y => {
-                            //width > 620 ? y.style.display = 'block' : y.style.display = 'none'
-                            y.parentElement.querySelector('.btn-details').style.opacity = 1
-                        })
             })
         }
     }, [inplayerOne, picks, pickIndex, width])
-    /*useEffect(() => {
-           // const element1 = transferRef.current.nextElementSibling.classList[1]
-           window.addEventListener('resize', setDimensions)
-            if(playersSelected === 15 && width > 620) {
-                Array.from(document.querySelectorAll(`.swap-button`)).forEach(x => {
-                    x.style.display = 'block'
-                })
-                Array.from(document.querySelectorAll(`.player-info-button`)).forEach(x => {
-                    x.style.display = 'block'
-                })
-            } else {
-                Array.from(document.querySelectorAll(`.swap-button`)).forEach(x => {
-                    x.style.display = 'none'
-                })
-                Array.from(document.querySelectorAll(`.player-info-button`)).forEach(x => {
-                    x.style.display = 'none'
-                })
-            }
-            return () => {
-                window.removeEventListener('resize', setDimensions)
-              }
-        },[playersSelected, width])    */
     const transferOut = (player) => {
         fplElements.addToTransfersOut(player)
         handleCloseModal()
@@ -408,7 +376,10 @@ function SquadPlayer(props) {
             <div className="element_container_1 element_container-two"
             id={playerPos.element} position={positionObj.id} multiplier={playerPos.multiplier}>
                 <button
-                onClick={handleShowModal} type="button" className="btn-details">
+                onClick={handleShowModal} type="button" 
+                className={`btn-details`}
+                style={{opacity:(Object.keys(outplayer).length === 0 && 
+                    Object.keys(inplayerOne).length === 0 && 1)}}>
                     <img src={require(`../static/shirt_${image}.webp`)} className="image_pic" alt={player.web_name}/>
                         <div className="details-cont">
                             <div className="data_name"
@@ -454,7 +425,9 @@ function SquadPlayer(props) {
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
                         </svg>
                 </button>}
-                <button
+                {(tempPlayersOut.length === 0 && 
+                !swapArray.includes(playerPos.element)) &&
+                    <button
                     ref={ref}
                 onClick={(playerPos.element === fplElements.outplayer.element || playerPos.element === fplElements.inplayerOne.element)
                     ? () => cancelPlayer(playerPos) : () => setSwitchPlayer(playerPos)} 
@@ -466,7 +439,7 @@ function SquadPlayer(props) {
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="darkgreen" className="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
                         </svg>} 
-                </button>
+                </button>}
                 
                 <div className="captain">
                     {playerPos.is_captain && chips.tcap.event !== (+eventId+curPage) ? 
