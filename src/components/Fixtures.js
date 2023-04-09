@@ -2,6 +2,7 @@ import { useContext, useState } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
 import { numberOfFixtures, loadOpponents } from '../services/fixtureService'
 import Loader from './Loader'
+import TeamRow from './TeamRow'
 
 function Fixtures() {
 
@@ -34,39 +35,21 @@ function Fixtures() {
 					<thead className="small">
 						<tr>
 							<th style={{background: 'white'}}>Team</th>
-							{fixHeader.map((header, idx) => {
+							{fixHeader.map((header) => {
 								return (
-									<th style={{background: 'white'}} key={idx}>GW{header.id}</th>
+									<th style={{background: 'white'}} key={header.id}>GW{header.id}</th>
 								)
 							})}
 						</tr>
 					</thead>
 					<tbody className="small triple">
-						{teams.map((team, idx) => {
+						{teams.map((team) => {
 							const opponents = loadOpponents(fixtures, events, team.id, gws).newTeamAandH
 							return(
-							<tr key={idx}>
-								<td>
-									<span className="ticker-image">
-										<img src={require(`../static/t${team.code}.png`)} alt={team.name} />
-									</span>
-									<span className="ticker-team">{team.name}</span>
-								</td>
-								{opponents.map((cell, idx) => {
-									return (<td><div className="oppfix" key={idx}>
-										{cell.arr.map((x, idx) => {
-											let color = x.difficulty === 4 || x.difficulty === 5 ? 
-											'rgb(255,255,255)': 'rgb(0,0,0)'
-											let backgroundColor = x.difficulty === 2 ? 'rgb(1, 252, 122)' : 
-											x.difficulty === 3 ? 'rgb(231, 231, 231)' : x.difficulty === 4 ?
-											'rgb(255, 23, 81)' : x.difficulty === 5 ? 'rgb(128, 7, 45)' : 'rgb(0,0,0)'
-											let name =  x.opponent > 0 ? teams.filter(y => y.id === x.opponent)[0].short_name : ''
-											return (
-											<span className='opponent' style={{color: color, backgroundColor: backgroundColor}} key={idx}>{name}{x.venue}</span>)
-										})}
-									</div></td>)
-								})}
-							</tr>)
+								<TeamRow
+								teams={teams}
+								 team={team} key={team.id} opponents={opponents} />
+							)
 						})}
 					</tbody>
 				</table>

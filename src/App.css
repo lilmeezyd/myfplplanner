@@ -263,7 +263,7 @@ option div {
   outline: none;
   border: none;
   background-color: transparent;
-  padding: 0.2rem;
+  padding: 0rem;
   margin: 0.3rem 0;
   cursor: pointer;
 }

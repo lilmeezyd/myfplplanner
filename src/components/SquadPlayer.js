@@ -17,7 +17,7 @@ function SquadPlayer(props) {
     const { 
         handleShow, handleClose, showPop, image, 
         backgroundColor, 
-        color,playerOpps, idx, player, teams , playerPos,positionObj,
+        color,playerOpps, player, teams , playerPos,positionObj,
         playerInClass, curPage } = props
     const [ show, setShow ] = useState(false)
     const [ showInfo, setShowInfo ] = useState(false)
@@ -362,7 +362,7 @@ function SquadPlayer(props) {
   return (
     <>
    
-    <div key={idx} className={ ` pitch_unit`}>
+    <div className={ ` pitch_unit`}>
                         {playerPos.multiplier === 0 ? <h3 className='bench_unit_heading'>
         <span className='bean tooltip'>
             {playerPos.position === 12 ? '' :

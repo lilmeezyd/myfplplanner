@@ -538,6 +538,62 @@
 	#goalkeeper {
 		order: -1;
 	}
+	.player-header {
+		display: flex;
+		align-items: center;
+		padding: 0.2rem 0.5rem;
+		column-gap: 20px;
+		font-weight: 700;
+		border: 1px solid transparent;
+	}
+	.player-tbh {
+		display: flex;
+		align-items: center;
+		padding: 0 0.5rem;
+		column-gap: 20px;
+	}
+	.player-tbh:not(.player-tbh:last-of-type) {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+	}
+	#goalkeepers .player-header {
+		background: #ebff00;
+		border: 1px solid transparent;
+	}
+	#defenders .player-header {
+		background: #00ff87;
+		border: 1px solid transparent;
+	}
+	#midfielders .player-header {
+		background: #05f0ff;
+		border: 1px solid transparent;
+	}
+	#forwards .player-header {
+		background: #e90052;
+		border: 1px solid transparent;
+	}
+	.player-header .info, .player-tbh .info {
+		width: 16px;
+		text-align: center;
+	}
+	.position-table {
+		width: 60%;
+	}
+	.line-header {
+		height: 10px;
+		width: 1px;
+		border: 1px solid transparent;
+	}
+	.line {
+		height: 20px;
+		width: 1px;
+		border: 1px solid rgba(0, 0, 0, 0.3);
+	}
+	.money {
+		width: 10%;
+	}
+	.others {
+		width: 20%;
+	}
 	.bench_unit_heading {
 		margin: 0.2rem;
 		padding: 0.1rem;

@@ -195,7 +195,7 @@ function Pitch(props) {
                         {(players.length && picks.length && fixtures.length && events.length) ? 
 						<>
 						<div className="pitch_row" id="goal" width="pitch">
-							{getPicks(players, picks, curPage, curSize).goalkeeper.map((playerPos, idx)=>{
+							{getPicks(players, picks, curPage, curSize).goalkeeper.map((playerPos)=>{
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let inTemp = fplElements.tempPlayersOut.some(x => x.element === playerPos.element)
@@ -215,7 +215,7 @@ function Pitch(props) {
 									backgroundColor={backgroundColor}
 									color={color}
 									playerOpps={playerOpps}
-									idx={idx}
+									key={player.id}
 									player={player} 
 									teams={teams}
 									playerPos={playerPos}
@@ -229,7 +229,7 @@ function Pitch(props) {
 						</div>
                         
                         <div className="pitch_row" id="defend" width="pitch">
-						{getPicks(players, picks, curPage, curSize).defenders.map((playerPos, idx)=>{
+						{getPicks(players, picks, curPage, curSize).defenders.map((playerPos)=>{
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
@@ -249,7 +249,7 @@ function Pitch(props) {
 										backgroundColor={backgroundColor}
 										color={color}
 										playerOpps={playerOpps}
-										idx={idx}
+										key={player.id}
 										player={player} 
 										teams={teams}
 										playerPos={playerPos}
@@ -263,7 +263,7 @@ function Pitch(props) {
 						</div>
 
 						<div className="pitch_row" id="mid" width="pitch">
-						{getPicks(players, picks, curPage, curSize).midfielders.map((playerPos, idx)=>{
+						{getPicks(players, picks, curPage, curSize).midfielders.map((playerPos)=>{
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
@@ -283,7 +283,7 @@ function Pitch(props) {
 										backgroundColor={backgroundColor}
 										color={color}
 										playerOpps={playerOpps}
-										idx={idx}
+										key={player.id}
 										player={player} 
 										teams={teams}
 										playerPos={playerPos}
@@ -297,7 +297,7 @@ function Pitch(props) {
 						</div>
 
 						<div className="pitch_row" id="forw" width="pitch">
-						{getPicks(players, picks, curPage, curSize).forwards.map((playerPos, idx)=>{
+						{getPicks(players, picks, curPage, curSize).forwards.map((playerPos)=>{
 								let player = players.find(x => x.id === playerPos.element)
 								let teamObj = teams.find(x => x.id === player.team)
 								let positionObj = playerPosition.find(x => x.id === player.element_type)
@@ -317,7 +317,7 @@ function Pitch(props) {
 									backgroundColor={backgroundColor}
 									color={color}
 									playerOpps={playerOpps}
-									idx={idx}
+									key={player.id}
 									player={player} 
 									teams={teams}
 									playerPos={playerPos}
@@ -354,7 +354,7 @@ function Pitch(props) {
 									backgroundColor={backgroundColor}
 									color={color}
 									playerOpps={playerOpps}
-									idx={idx}
+									key={player.id}
 									player={player} 
 									teams={teams}
 									playerPos={playerPos}

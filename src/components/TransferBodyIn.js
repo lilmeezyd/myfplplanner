@@ -1,9 +1,9 @@
 
 function TransferBodyIn(props) {
 
-    const { idx, player, playerTeam, image } = props
+    const { player, playerTeam, image } = props
   return (
-    <div key={idx} className="trans-wrapper">
+    <div className="trans-wrapper">
         <div className="trans small">
             <span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="darkGreen" className="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">

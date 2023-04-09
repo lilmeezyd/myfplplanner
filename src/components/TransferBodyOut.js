@@ -1,9 +1,9 @@
 
 function TransferBodyOut(props) {
 
-    const { idx, player, playerTeam, image } = props
+    const { player, playerTeam, image } = props
   return ( 
-        <div key={idx} className="trans-wrapper">
+        <div className="trans-wrapper">
             <div className="trans small">
                 <span>{player.web_name}</span>
                 <span>

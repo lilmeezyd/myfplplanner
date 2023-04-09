@@ -44,13 +44,13 @@ function TransferRows() {
         <div className="transfer-out-wrapper">
             <h4 className="small">Transfer Out</h4>
                 <div className="transfer-out">
-                    {loadTransfers().newPlayersOut.map((player, idx) => {
+                    {loadTransfers().newPlayersOut.map((player) => {
                         const teamObj = fplElements.teams.find(x => x.id === player.team)
                         let playerTeam = teamObj.name
                         let image = player.element_type === 1 ? `${teamObj.code}_1-66` : `${teamObj.code}-66`
                         return (
                             <TransferBodyOut 
-                                idx={idx}
+                                key={player.element}
                                 player={player}
                                 playerTeam={playerTeam}
                                 image={image} >
@@ -60,13 +60,13 @@ function TransferRows() {
         <div className="transfer-in-wrapper">
             <h4 className="small">Transfer In</h4>
                 <div className="transfer-in">
-                {loadTransfers().newPlayersIn.map((player, idx) => {
+                {loadTransfers().newPlayersIn.map((player) => {
                         const teamObj = fplElements.teams.find(x => x.id === player.team)
                         let playerTeam = teamObj.name
                         let image = player.element_type === 1 ? `${teamObj.code}_1-66` : `${teamObj.code}-66`
                         return (
                             <TransferBodyIn 
-                                idx={idx}
+                                key={player.element}
                                 player={player}
                                 playerTeam={playerTeam}
                                 image={image} >

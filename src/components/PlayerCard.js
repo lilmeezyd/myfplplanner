@@ -5,7 +5,7 @@ import PlayerInfo from './PlayerInfo'
 function PlayerCard(props) {
 
   const { 
-    idx, backgroundColor, color, forwardImage, playerPos, shortName, shortPos,
+     backgroundColor, color, forwardImage, playerPos, shortName, shortPos,
     position, team, sort, handleShow, handleClose, showPop
    } = props
     const fplElements = useContext(BootstrapstaticContext)
@@ -51,8 +51,8 @@ function PlayerCard(props) {
     }
   return (
     <>
-    <tr key={idx} className="player-tbh">
-    <td className="info">
+    <div className="player-tbh">
+    <div className="info">
         <button
         onClick={handleShowInfo}
          style={{backgroundColor: backgroundColor, color: color}} className="player-info-button-table">
@@ -61,8 +61,8 @@ function PlayerCard(props) {
   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
  </svg>
         </button>
-    </td>
-    <td className="player">
+    </div>
+    <div className="position-table">
         <button
           disabled={picks.length && playerIds().includes(playerPos.id)}
           onClick={handleShowTransfer} className="player-cell btn-table">
@@ -77,10 +77,10 @@ function PlayerCard(props) {
                 </div>
             </div>
         </button>
-    </td>
-    <td><span className="price">{(playerPos.now_cost/10).toFixed(1)}</span></td>
-    <td><span className="points">{sort === 'event_points' ? playerPos.event_points : playerPos.total_points}</span></td>
-</tr>
+    </div>
+    <div className="price money">{(playerPos.now_cost/10).toFixed(1)}</div>
+    <div className="points others">{sort === 'event_points' ? playerPos.event_points : playerPos.total_points}</div>
+</div>
 
 {showTransfer && showPop && 
   <div className="playerpop">

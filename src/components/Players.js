@@ -137,17 +137,15 @@ function Players(props) {
         <span className="numbers">{players.length === 1 ? 'Player' : 'Players'}</span>
     </div>
     <div className="players-table small">
-        { goalkeepers.length > 0 ? (<table className='table-one' id='goalkeepers'>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th className='position-table'>Goalkeepers</th>
-                    <th>£</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody>
-                {goalkeepers.map((goalkeeper, idx) => {
+        { goalkeepers.length > 0 ? <div className='table-one' id='goalkeepers'>
+            <div className='player-header'>
+                <div className='info'></div>
+                <div className='position-table'>Goalkeepers</div>
+                <div className='money'>£</div>
+                <div className='others'>Points</div>
+            </div>
+            <div>
+                {goalkeepers.map((goalkeeper) => {
                     let teamObj = teams.find(x => x.id === goalkeeper.team)
                     let news = goalkeeper.chance_of_playing_next_round
                     let short_name = teamObj.short_name
@@ -162,7 +160,7 @@ function Players(props) {
                     let color = news === 0 ? 'white' : news === 25 ? 'white' :
                     news === 50 ? 'white' : 'black'    
                     return (<PlayerCard 
-                                idx={idx}
+                                key={goalkeeper.id}
                                 backgroundColor={backgroundColor}
                                 color={color}
                                 forwardImage={forwardImage}
@@ -176,19 +174,17 @@ function Players(props) {
                                 handleClose={handleClose}
                                 showPop={showPop}></PlayerCard>)
                 })}
-            </tbody>
-        </table>): ''}
-        { defenders.length > 0 ? (<table className='table-one' id='defenders'>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th className='position-table'>Defenders</th>
-                    <th>£</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody>
-                {defenders.map((defender, idx) => {
+            </div>
+        </div>: ''}
+        { defenders.length > 0 ? (<div className='table-one' id='defenders'>
+        <div className='player-header'>
+                <div className='info'></div>
+                <div className='position-table'>Defenders</div>
+                <div className='money'>£</div>
+                <div className='others'>Points</div>
+            </div>
+            <div>
+                {defenders.map((defender) => {
                     let teamObj = teams.find(x => x.id === defender.team)
                     let news = defender.chance_of_playing_next_round
                     let short_name = teamObj.short_name
@@ -203,7 +199,7 @@ function Players(props) {
                         let color = news === 0 ? 'white' : news === 25 ? 'white' :
                         news === 50 ? 'white' : 'black'    
                         return (<PlayerCard 
-                            idx={idx}
+                            key={defender.id}
                             backgroundColor={backgroundColor}
                             color={color}
                             forwardImage={forwardImage}
@@ -217,19 +213,17 @@ function Players(props) {
                             handleClose={handleClose}
                             showPop={showPop}></PlayerCard>)
                 })}
-            </tbody>
-        </table>): ''}
-        { midfielders.length > 0 ? (<table className='table-one' id='midfielders'>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th className='position-table'>Midfielders</th>
-                    <th>£</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody>
-                {midfielders.map((midfielder, idx) => {
+            </div>
+        </div>): ''}
+        { midfielders.length > 0 ? (<div className='table-one' id='midfielders'>
+        <div className='player-header'>
+                <div className='info'></div>
+                <div className='position-table'>Midfielders</div>
+                <div className='money'>£</div>
+                <div className='others'>Points</div>
+            </div>
+            <div>
+                {midfielders.map((midfielder) => {
                     let teamObj = teams.find(x => x.id === midfielder.team)
                     let news = midfielder.chance_of_playing_next_round
                     let short_name = teamObj.short_name
@@ -244,7 +238,7 @@ function Players(props) {
                         let color = news === 0 ? 'white' : news === 25 ? 'white' :
                         news === 50 ? 'white' : 'black'    
                         return (<PlayerCard 
-                            idx={idx}
+                            key={midfielder.id}
                             backgroundColor={backgroundColor}
                             color={color}
                             forwardImage={forwardImage}
@@ -258,19 +252,17 @@ function Players(props) {
                             handleClose={handleClose}
                             showPop={showPop}></PlayerCard>)
                 })}
-            </tbody>
-        </table>): ''}
-        { forwards.length > 0 ? (<table className='table-one' id='forwards'>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th className='position-table'>Forwards</th>
-                    <th>£</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forwards.map((forward, idx) => {
+            </div>
+        </div>): ''}
+        { forwards.length > 0 ? (<div className='table-one' id='forwards'>
+        <div className='player-header'>
+                <div className='info'></div>
+                <div className='position-table'>Forwards</div>
+                <div className='money'>£</div>
+                <div className='others'>Points</div>
+            </div>
+            <>
+                {forwards.map((forward) => {
                     let teamObj = teams.find(x => x.id === forward.team)
                     let news = forward.chance_of_playing_next_round
                     let short_name = teamObj.short_name
@@ -285,7 +277,7 @@ function Players(props) {
                         let color = news === 0 ? 'white' : news === 25 ? 'white' :
                         news === 50 ? 'white' : 'black'    
                         return (<PlayerCard 
-                            idx={idx}
+                            key={forward.id}
                             backgroundColor={backgroundColor}
                             color={color}
                             forwardImage={forwardImage}
@@ -299,8 +291,8 @@ function Players(props) {
                             handleClose={handleClose}
                             showPop={showPop}></PlayerCard>)
                 })}
-            </tbody>
-        </table>): ''}
+            </>
+        </div>): ''}
     </div>
     <div className="button-controls">
         <button disabled={curPage === 1 ? true : false}  onClick={viewFirstPage} className="btn btn-controls" id="firstPage">
