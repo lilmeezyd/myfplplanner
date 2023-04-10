@@ -124,7 +124,7 @@ function Pitch(props) {
 				<>
 				<div>
 				<div className="details-one">
-					<div className="gw-buttonswrapper">
+					{picks.length > 0  && <div className="gw-buttonswrapper">
 						<div className="gw-buttons">
 							<button style={{visibility: pageOneVisible}} onClick={viewPreviousPage} className="small prev_next" id="prevGameweek">
 								<img src={prevPage} alt="prev_page" />
@@ -152,8 +152,8 @@ function Pitch(props) {
 								<img src={nextPage}  alt="next_page" />
 							</button>
 						</div>
-					</div>
-					<div className="budgetwrapper">
+					</div>}
+					{picks.length > 0  && <div className="budgetwrapper">
 						<div className="budget">
 							<div className="budget-players large">
 								<h4 className="large">Player Selection</h4>
@@ -178,12 +178,12 @@ function Pitch(props) {
 								</span>}
 							</div>
 						</div>
-					</div>
-					<div id="transfer-tab"  className="upper-buttons button-item show">
+					</div>}
+					{picks.length > 0 && <div id="transfer-tab"  className="upper-buttons button-item show">
 						<button onClick={showPlayersOut} className="btn btn-block show-fpl btn-fpl small">
 							{!showTransfersMade ? 'Show Transfers' : 'Hide Transfers'}</button>
 						<button onClick={resetGW} className="btn btn-block reset btn-fpl small">Reset</button>
-					</div>
+					</div>}
 					{showTransfersMade && <TransferRows />}
 					{fplElements.playerName && 
 					<div className={`message small ${fplElements.playerName && 'success'}`}>
@@ -332,7 +332,7 @@ function Pitch(props) {
 						</> : <Loader />}
 						
 					</div>
-					{players.length && picks.length && fixtures.length && events.length && 
+					{players.length > 0 && picks.length > 0 && fixtures.length > 0 && events.length > 0 && 
 					<div className="pitch_row bench" id="bench">
 					{getPicks(players, picks, curPage, curSize).benched.map((playerPos, idx)=>{
 								let player = players.find(x => x.id === playerPos.element)
@@ -374,7 +374,7 @@ function Pitch(props) {
 				chips.freehit.event === +eventId+curPage ? 'Freehit Active' :
 				chips.tcap.event === +eventId+curPage ? 'Triple Captain Active' : ''
 			}</div>
-			<div id="chip-tab"  className="chip-buttons button-item">
+			{picks.length > 0  && <div id="chip-tab"  className="chip-buttons button-item">
 					<div className="chip">
 						<h6>Wildcard</h6>
 						<button onClick={() => setWildCard(+eventId+curPage)} 
@@ -427,7 +427,7 @@ function Pitch(props) {
 							+chips.freehit.event === +eventId+curPage ? 'ACTIVE' : 'PLAY'}
 						</button>
 					</div>
-			</div>
+			</div>}
 			</>}
 		</div>
   )

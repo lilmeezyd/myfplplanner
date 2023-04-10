@@ -46,7 +46,7 @@ function Header(props) {
 					<h4 className="trank">
 					{fplManager.managerInfo.summary_overall_rank}
 					</h4>
-				<div className="arrow">
+				{fplManager.picks.length > 0 && <div className="arrow">
 					{fplManager.colorOfArrow()=== 'green' ? 
 					<svg xmlns="http://www.w3.org/2000/svg" fill="green" height="24" width="24"><path d="m7 14 5-5.025L17 14Z"/></svg> : 
 					arrow === 'red' ? 
@@ -54,7 +54,7 @@ function Header(props) {
 					<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="grey" className="bi bi-circle-fill" viewBox="0 0 12 12">
 						 <circle cx="6" cy="6" r="6"/>
 					</svg>}
-				</div>
+				</div>}
 				</div>
 			</div>
 		<div className="links small">
