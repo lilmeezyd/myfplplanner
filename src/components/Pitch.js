@@ -379,9 +379,11 @@ function Pitch(props) {
 						<h6>Wildcard</h6>
 						<button onClick={() => setWildCard(+eventId+curPage)} 
 						disabled={((chips.wildcard.used && +chips.wildcard.event < +eventId+curPage) || fh || tc || bb) && true}	
-						style={{opacity: chips.wildcard.used && +chips.wildcard.event < +eventId+curPage && 0.7,
-							background: (+chips.wildcard.event) === +eventId+curPage && "rgb(22, 22, 68)",
-							color: (+chips.wildcard.event) === +eventId+curPage && 'white'}} className="btn btn-block btn-chip small" id="wcard">
+						style={{opacity: chips.wildcard.used && +chips.wildcard.event < +eventId+curPage && 0.5,
+							background: (+chips.wildcard.event) === +eventId+curPage ? "rgb(22, 22, 68)":
+							((chips.wildcard.used && +chips.wildcard.event < +eventId+curPage) || fh || tc || bb) ? 'white' : '',
+							color: (+chips.wildcard.event) === +eventId+curPage && 'white'}} 
+							className="btn btn-block btn-chip small" id="wcard">
 					  
 					  {+chips.wildcard.event < +eventId+curPage && chips.wildcard.event !== null ? `PLAYED GW${chips.wildcard.event}` : 
 					  +chips.wildcard.event === +eventId+curPage ? 'ACTIVE' : 'PLAY'}
@@ -391,8 +393,9 @@ function Pitch(props) {
 						<h6>Bench Boost</h6>
 						<button onClick={() => setBenchBoost(+eventId+curPage)} 
 						disabled={((chips.bboost.used && +chips.bboost.event < +eventId+curPage)|| wc || fh || tc) && true}	
-						style={{opacity: chips.bboost.used && +chips.bboost.event < +eventId+curPage && 0.7,
-							background: (+chips.bboost.event) === +eventId+curPage && "rgb(22, 22, 68)",
+						style={{opacity: chips.bboost.used && +chips.bboost.event < +eventId+curPage && 0.5,
+							background: (+chips.bboost.event) === +eventId+curPage ? "rgb(22, 22, 68)":
+							((chips.bboost.used && +chips.bboost.event < +eventId+curPage)|| wc || fh || tc) ? 'white':'',
 							color: (+chips.bboost.event) === +eventId+curPage && 'white'}} className="btn btn-block btn-chip small" id="bbench">
 					  
 					  {+chips.bboost.event < +eventId+curPage && chips.bboost.event !== null ? `PLAYED GW${chips.bboost.event}`: 
@@ -403,8 +406,9 @@ function Pitch(props) {
 						<h6>Triple Captain</h6>
 						<button onClick={() => setTriple(+eventId+curPage)} 
 						disabled={((chips.tcap.used && +chips.tcap.event < +eventId+curPage)|| wc || fh || bb) && true}	
-						style={{opacity: chips.tcap.used && +chips.tcap.event < +eventId+curPage && 0.7,
-							background: (+chips.tcap.event) === +eventId+curPage && "rgb(22, 22, 68)",
+						style={{opacity: chips.tcap.used && +chips.tcap.event < +eventId+curPage && 0.5,
+							background: (+chips.tcap.event) === +eventId+curPage ? "rgb(22, 22, 68)":
+							((chips.tcap.used && +chips.tcap.event < +eventId+curPage)|| wc || fh || bb) ? 'white':'',
 							color: (+chips.tcap.event) === +eventId+curPage && 'white'}} className="btn btn-block btn-chip small" id="tcap">
 					 	 
 					  {+chips.tcap.event < +eventId+curPage && chips.tcap.event !== null ? `PLAYED GW${chips.tcap.event}` : 
@@ -415,8 +419,9 @@ function Pitch(props) {
 						<h6>FreeHit</h6>
 						<button onClick={() => setFreeHit(+eventId+curPage)}
 							disabled={((chips.freehit.used && +chips.freehit.event < +eventId+curPage) || bb || wc || tc) && true}	
-						  	style={{opacity: chips.freehit.used && +chips.freehit.event < +eventId+curPage && 0.7,
-								background: (+chips.freehit.event) === +eventId+curPage && "rgb(22, 22, 68)",
+						  	style={{opacity: chips.freehit.used && +chips.freehit.event < +eventId+curPage && 0.5,
+								background: (+chips.freehit.event) === +eventId+curPage ? "rgb(22, 22, 68)":
+								((chips.freehit.used && +chips.freehit.event < +eventId+curPage) || bb || wc || tc) ? 'white':'',
 								color: (+chips.freehit.event) === +eventId+curPage && 'white'}} className="btn btn-block btn-chip small" id="fhit">
 							{+chips.freehit.event < +eventId+curPage && chips.freehit.event !== null ? `PLAYED GW${chips.freehit.event}` : 
 							+chips.freehit.event === +eventId+curPage ? 'ACTIVE' : 'PLAY'}
