@@ -438,7 +438,7 @@
 		padding: 0.4rem 0;
 	}
 	.data_name {
-		border: 1px solid black;
+		/*border: 1px solid transparent;*/
 		width: 100%;
 		padding: 0.2rem;
 		background-color: rgba(0, 0, 55, 0.9);
@@ -1080,7 +1080,7 @@
 		display:block;
 		font-weight: 700;
 		min-height: 15px;
-		border: 1px solid rgb(27, 26, 26, 1.0);
+		border: 1px solid transparent;
 	}
 	.diff-2 {
 		background: darkgreen;
@@ -1145,7 +1145,6 @@
 	}
 	.btn-danger {
 		background: rgba(219, 12, 12, 0.8);
-		border: 1px solid rgba(0, 0, 0, 0.3);
 		border-radius: 0;
 	}
 	.btn-green {
@@ -1191,24 +1190,25 @@
 		display: inline-block;
 		outline: none;
 		border: none;
-		background-color: rgba(0, 0, 0, 0.5);
-		padding: 0.8rem;
+		background-color: rgba(0, 0, 0, 0.2);
+		padding: 0.6rem;
 		margin: 0.2rem 0;
 		text-align: center;
 		cursor: pointer;
-		color: #fff;
+		color: #000;
 		font-family: 'Montserrat';
 		/*border-radius: 5px;*/
+	}
+	.btn-block {
+		width: 100%;
 	}
 	.btn-fpl {
 		background: rgba(22, 22, 98, 1.0);
 		color: rgba(0, 255, 255, 1.0);
 		font-weight: 600;
 		border: 1px solid rgba(0, 255, 255, 1.0);
-		width: 25%;
-	}
-	.btn-block {
-		width: 100%;
+		width: fit-content;
+		padding: 0.6rem;
 	}
 	.btn-game-fixtures {
 		font-weight: 700;
@@ -1234,7 +1234,7 @@
 		background: rgba(45, 137, 147, 1.0);
 	}
 	.btn-close {
-		font-size: 0.1rem;
+		font-size: 1rem;
 		font-weight: 600;
 		padding: 0.2rem 0.4rem;
 	}
@@ -1295,11 +1295,10 @@
 		border: 1px solid rgba(22, 22, 68, 0.5);
 	}
 	.btn-primary {
-		padding: 0.3rem;
+		font-weight: 600;
 	}
 	@media(max-width: 600px) {
 		.btn-chip, .btn-fpl {
-			padding: 0.4rem;
 			font-size: 0.6rem;
 		}
 	}
@@ -1621,9 +1620,6 @@
 		[width="pitch"] {
 			height: 6.3rem;
 		}
-		.btn {
-			padding: 0.4rem;
-		}
 		#nextGameweek, #prevGameweek {
 			padding: 0.4rem;
 		}
@@ -1648,9 +1644,6 @@
 		[width="pitch"] {
 			height: 6.0rem;
 		}
-		.btn {
-			padding: 0.2rem;
-		}
 	} 
 	.data_fixtures {
 		background: transparent;
@@ -1658,8 +1651,8 @@
 	.next-fix  {
 		background: #fff;
 		padding: 0.1rem 0;
-		border-left: 1px solid black;
-		border-right: 1px solid black;
+		/*border-left: 1px solid transparent;
+		border-right: 1px solid transparent;*/
 	}
 	.next-fix > span, .up-fix > span {
 		font-weight: bolder;
