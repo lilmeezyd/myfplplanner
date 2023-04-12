@@ -398,7 +398,7 @@
 	}
 	@media (max-width: 545px) {
 		.element_container {
-			margin: 0.08rem;
+			margin: 0.2rem 0.08rem;
 			padding: 0.15rem;
 		}
 	}
@@ -1080,7 +1080,6 @@
 		display:block;
 		font-weight: 700;
 		min-height: 15px;
-		border: 1px solid transparent;
 	}
 	.diff-2 {
 		background: darkgreen;
@@ -1673,13 +1672,12 @@
 
 	.up-fix div {
 		flex: 1 1 0%;
-		/*font-size: small;*/
 		display: flex;
+		align-items: center;
 	}
 	@media(max-width: 600px) {
 		.up-fix div {
 			font-size: xx-small;
-			/*flex-flow: column;*/
 		}
 	}
 	.data_fixtures span {
@@ -1760,18 +1758,11 @@
 		display: block;
 	}
 	.player_in {
-		border: 1px solid #00000078;
+		border-radius: 5px;
 		background-color: #ffd70099;
 	}
 
-	/*.btn-save {
-		background-color: black;
-		color: white;
-		width: 50%;
-		padding: 1.2rem 0.5rem;
-		border-radius: .3rem;
-		font-size: 1.2rem;
-	}*/
+	
 	.container {
             display: flex;
             justify-content: center;
