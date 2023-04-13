@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useState, useEffect, useCallback } from 'react'
 
 export const BootstrapstaticContext = createContext({
     teams: [],
@@ -485,7 +485,7 @@ function BootstrapstaticProvider({children}) {
         }
        
     }
-    const actDeact = () => {
+    const actDeact = useCallback(() => {
         if(chips.freehit.event === (+eventId+pickIndex)) {
             setPlayersIn(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
                 {...gw, arr:[]} : gw))
@@ -506,7 +506,7 @@ function BootstrapstaticProvider({children}) {
             setPlayersOut(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
                 {...gw, arr:[]} : gw))
         } 
-    }
+    },[chips.freehit.event, eventId, pickIndex, real])
 
     const updateBboost = (isUsed, eventPlayed) => {
         setChips({

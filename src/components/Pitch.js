@@ -65,7 +65,7 @@ function Pitch(props) {
 
 	useEffect(() => {
 		actDeact()
-	}, [freehit])
+	}, [freehit, actDeact])
 
 	
 	const viewNextPage = () => {
