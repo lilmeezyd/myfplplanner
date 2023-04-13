@@ -27,16 +27,15 @@ export const getPlayers = (players, sort, view, word, cutPrice) => {
     } else {
         filteredPlayers.push(...players)
     }
+    const sortPlayer = (x,y) => {
+        if(x[sort]>y[sort]) return -1
+        if(x[sort]<y[sort]) return 1
+    }
     
     const returnedPlayers = filteredPlayers
-                            .sort((x,y) => {
-                                if(x[sort]>y[sort]) return -1
-                                if(x[sort]<y[sort]) return 1
-                            })
+                            .sort(sortPlayer)
                             .filter(player => +(player.now_cost/10).toFixed(1)<=cutPrice)
-                            .filter(player => {
-                                if(player.web_name.toLowerCase().startsWith(word?.toLowerCase())) return true
-                            })
+                            .filter(player => player.web_name.toLowerCase().startsWith(word?.toLowerCase()))
 
     
 
@@ -44,32 +43,25 @@ export const getPlayers = (players, sort, view, word, cutPrice) => {
 }
 
 export const getArrangedPlayers = (players, curPage, pageSize) => {
+    const returned = (event, idx) => {
+        let start = (curPage-1)*pageSize
+        let end = curPage*pageSize
+        if(idx >= start && idx < end) return true
+    }
     const returnedPlayers = players
-                            .filter((player, idx) => {
-                                let start = (curPage-1)*pageSize
-                                let end = curPage*pageSize
-                                if(idx >= start && idx < end) return true
-                            })
+                            .filter(returned)
 
     const goalkeepers = returnedPlayers
-    .filter((player => {
-        if(player.element_type === 1) return true
-    }))
+                        .filter(player => player.element_type === 1)
     
     const defenders = returnedPlayers
-    .filter((player => {
-        if(player.element_type === 2) return true
-    }))
+                        .filter(player => player.element_type === 2)
                                 
     const midfielders = returnedPlayers
-    .filter((player => {
-        if(player.element_type === 3) return true
-    }))
+                        .filter(player => player.element_type === 3)
 
     const forwards = returnedPlayers
-    .filter((player => {
-        if(player.element_type === 4) return true
-    }))
+                        .filter(player => player.element_type === 4)
 
     return { goalkeepers, defenders, midfielders, forwards}
 }

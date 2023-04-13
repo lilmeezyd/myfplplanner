@@ -14,7 +14,6 @@ export const BootstrapstaticContext = createContext({
     real: [],
     chips: {},
     transferLogic: {},
-    transfers: [],
     playersOut: [],
     playersIn: [],
     outplayer: {},
@@ -83,10 +82,7 @@ function BootstrapstaticProvider({children}) {
         fts: 1
     })
     const [ picks, setPicks ] = useState([])
-    //const [ picks, setPicks ] = 
-    //useState(+(localStorage.getItem('managerId')) === managerId ? [] : JSON.parse(localStorage.getItem('picks')) )
     const [ real, setReal ] = useState([])
-    const [ transfers, setTransfers ] = useState([])
     const [ remainingBudget, setRemainingBudget ] = useState(null)
     const [ playersOut, setPlayersOut ] = useState([])
     const [ playersIn, setPlayersIn ] = useState([])
@@ -213,7 +209,7 @@ function BootstrapstaticProvider({children}) {
 
                 // Resetting Team to state before auto-subs
 				if(data.automatic_subs.length > 0) {
-					data.picks.map(x => {
+					data.picks.forEach(x => {
 						let found = data.automatic_subs.some(player => player.element_in === x.element)
 						if(found) {
 							let autoIn = data.automatic_subs.find(player => player.element_in === x.element)
@@ -438,7 +434,6 @@ function BootstrapstaticProvider({children}) {
 
     const getManagerInfo = (id) => {
         setManagerId(id)
-        setPickIndex(1)
     }
 
     const getPickIndex = (id) => {
@@ -595,7 +590,6 @@ function BootstrapstaticProvider({children}) {
             
             //In PlayersOut Array
 			let	isFoundOutIndex = playersOut.findIndex(x => x.element === player.element)
-            let isFoundOutTempIndex = tempPlayersOut.findIndex(x => x.element === player.element)
             setPlayersOut(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
                 {...gw, arr: gw.arr.filter((y, key) => key !==  isFoundOutIndex)} : gw )])
             setTempPlayersOut(x => [...x, replacedElementObj])
@@ -614,13 +608,6 @@ function BootstrapstaticProvider({children}) {
         let midfielders = picks[pickIndex-1].newPicks.filter(x => x.element_type === 3).length - playersOutM
         let forwards = picks[pickIndex-1].newPicks.filter(x => x.element_type === 4).length - playersOutF
 
-        let playersOutCap = tempPlayersOut.some(x => x.is_captain)
-        let playersOutvCap = tempPlayersOut.some(x => x.is_vice_captain)
-
-        let isCaptain = picks[pickIndex-1].newPicks.some(x => x.is_captain)
-        let isViceCaptain = picks[pickIndex-1].newPicks.some(x => x.is_vice_captain)
-
-        
         //let price_change = (players.find(x => x.id === id).price_change/10).toFixed(1)
         let element_in_cost = (players.find(x => x.id === id).now_cost/10).toFixed(1)
         let selling_price = (players.find(x => x.id === id).now_cost/10).toFixed(1)
@@ -635,25 +622,19 @@ function BootstrapstaticProvider({children}) {
         player.element_in_cost = element_in_cost
         player.selling_price = selling_price
 
-        let playersOutBenchG = tempPlayersOut.filter(x => x.multiplier === 0 && x.element_type === 1).length
+        //let playersOutBenchG = tempPlayersOut.filter(x => x.multiplier === 0 && x.element_type === 1).length
         let playersOutnonB = tempPlayersOut.filter(x => x.multiplier !== 0).length
         let playersOutPG =  tempPlayersOut.filter(x => x.multiplier !== 0 && x.element_type === 1).length
         let playersOutPD = tempPlayersOut.filter(x => x.multiplier !== 0 && x.element_type === 2).length
         let playersOutPM = tempPlayersOut.filter(x => x.multiplier !== 0 && x.element_type === 3).length
         let playersOutPF = tempPlayersOut.filter(x => x.multiplier !==0 && x.element_type === 4).length
 
-        let benchGoalie = picks[pickIndex-1].newPicks.filter(x => x.multiplier === 0 && x.element_type === 1).length - playersOutBenchG
+        //let benchGoalie = picks[pickIndex-1].newPicks.filter(x => x.multiplier === 0 && x.element_type === 1).length - playersOutBenchG
         let	nonBench = picks[pickIndex-1].newPicks.filter(x => x.multiplier !== 0).length - playersOutnonB
         let playingGoalie = picks[pickIndex-1].newPicks.filter(x => x.multiplier !== 0 && x.element_type === 1).length - playersOutPG
         let playingDef = picks[pickIndex-1].newPicks.filter(x => x.multiplier !== 0 && x.element_type === 2).length - playersOutPD
         let playingMid = picks[pickIndex-1].newPicks.filter(x => x.multiplier !== 0 && x.element_type === 3).length - playersOutPM
         let playingFwd = picks[pickIndex-1].newPicks.filter(x => x.multiplier !==0 && x.element_type === 4).length - playersOutPF
-
-        let num = elementType === 1 ? 2 : elementType === 2 ? 5 : 
-					elementType === 3 ? 5 : 3
-		let fieldnum = elementType === 1 ? 'Goalkeepers' : 
-					elementType === 2 ?	'Defenders' : elementType === 3 ? 'Midfielder' : 'Forwards'	
-
         
         if(picks[pickIndex-1].newPicks.length < 15 || tempPlayersOut.length > 0) {
             let orderOne = picks[pickIndex-1].newPicks.some(x => x.position === 13)
@@ -1085,7 +1066,6 @@ function BootstrapstaticProvider({children}) {
         chips: chips,
         picks: picks,
         real: real,
-        transfers: transfers,
         playersOut: playersOut,
         playersIn: playersIn,
         tempPlayersOut: tempPlayersOut,

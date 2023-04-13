@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef, useCallback } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
 import PlayerInfo from './PlayerInfo'
 
@@ -22,15 +22,13 @@ function SquadPlayer(props) {
     const [ show, setShow ] = useState(false)
     const [ showInfo, setShowInfo ] = useState(false)
     const [ playerElement, setPlayerElement ] = useState(null)
-    const [ playerMultiplier, setPlayerMultiplier ] = useState(null)
-    const [ width, setWidth ] = useState(window.innerWidth)
+    //const [ playerMultiplier, setPlayerMultiplier ] = useState(null)
+   // const [ width, setWidth ] = useState(window.innerWidth)
     const [ swapArray, setSwapArray ] = useState([])
     const ref = useRef(null)
     const transferRef = useRef(null)
 
-    const setDimensions = () => {
-        setWidth(window.innerWidth)
-    }
+    
 
     const handleShowModal = () => {
         setShow(true)
@@ -187,7 +185,7 @@ function SquadPlayer(props) {
                 x.parentElement.classList.remove('swap')
             })
         }
-    },[outplayer, picks, pickIndex, width])    
+    },[outplayer, picks, pickIndex])    
     
     useEffect(() => {
         let pPicks = document.querySelectorAll('.element_container_1')
@@ -311,7 +309,7 @@ function SquadPlayer(props) {
                 x.parentElement.classList.remove('swap')
             })
         }
-    }, [inplayerOne, picks, pickIndex, width])
+    }, [inplayerOne, picks, pickIndex])
     const transferOut = (player) => {
         fplElements.addToTransfersOut(player)
         handleCloseModal()
@@ -329,7 +327,7 @@ function SquadPlayer(props) {
     const setSwitchPlayer = (player) => {
 
         setPlayerElement(player.element_type)
-        setPlayerMultiplier(player.multiplier)
+        //setPlayerMultiplier(player.multiplier)
 
         if(player.multiplier <= 0) {
             if(Object.keys(inplayerOne).length > 0) {
@@ -349,7 +347,7 @@ function SquadPlayer(props) {
 
     const cancelPlayer = (player) => {
         setPlayerElement(player.element_type)
-        setPlayerMultiplier(player.multiplier)
+        //setPlayerMultiplier(player.multiplier)
         fplElements.cancelPlayer(player)
         handleCloseModal()
     }

@@ -79,6 +79,14 @@ export const loadOpponents = (fixtures, events, teamId, gws=38) => {
     const teamAandHIds = teamAandH.map(x => x.event)
     const blankIds = eventIds.filter(x => !teamAandHIds.includes(x))
     const blankEvents = []
+    const sortEvent = (x,y) => {
+        if(x['event'] > y['event']) return 1
+        if(x['event'] < y['event']) return -1
+    }
+    const sortKickOff = (x,y) => {
+        if(x['kickoff'] > y['kickoff']) return 1
+        if(x['kickoff'] < y['kickoff']) return -1
+    }
 
     blankIds.length && blankIds.forEach(x => {
         const obj = {}
@@ -97,19 +105,10 @@ export const loadOpponents = (fixtures, events, teamId, gws=38) => {
 
     teamAandH.push(...blankEvents)
 
-    teamAandH.sort((x,y) => {
-        if(x['event'] > y['event']) return 1
-        if(x['event'] < y['event']) return -1
-    }).sort((x,y) => {
-        if(x['kickoff'] > y['kickoff']) return 1
-        if(x['kickoff'] < y['kickoff']) return -1
-    })
+    teamAandH.sort(sortEvent).sort(sortKickOff)
 
     playerInfoOpp.push(...teamAandH)
-    playerInfoOpp.sort((x,y) => {
-        if(x['event'] > y['event']) return 1
-        if(x['event'] < y['event']) return -1
-    })
+    playerInfoOpp.sort(sortEvent)
 
     function final(a,b) {
         return a.findLastIndex(x => x.event===b)
@@ -131,10 +130,7 @@ export const loadOpponents = (fixtures, events, teamId, gws=38) => {
         }
     })
 
-    teamAandH.sort((x,y) => {
-        if(x['event'] > y['event']) return 1
-        if(x['event'] < y['event']) return -1
-    })
+    teamAandH.sort(sortEvent)
 
     const newTeamAandH = teamAandH.slice(0,gws)
 

@@ -10,6 +10,10 @@ function TransferRows() {
     const loadTransfers = () => {
         const newPlayersOut = []
         const newPlayersIn = []
+        const sortPlayers = (a,b) => {
+            if(a.element_type < b.element_type) return 1
+		    if(a.element_type > b.element_type) return -1
+        }
         fplElements.playersOut[pickIndex-1]?.arr.forEach(x => {
             fplElements.players.forEach(y => { 
                 if(y.id === x.element) {
@@ -18,10 +22,7 @@ function TransferRows() {
                 }
             })
         })
-        newPlayersOut.sort((a,b) => {
-            if(a.element_type < b.element_type) return 1
-		    if(a.element_type > b.element_type) return -1
-        })
+        newPlayersOut.sort(sortPlayers)
 
         fplElements.playersIn[pickIndex-1]?.arr.forEach(x => {
             fplElements.players.forEach(y => { 
@@ -31,10 +32,7 @@ function TransferRows() {
                 }
             })
         })
-        newPlayersIn.sort((a,b) => {
-            if(a.element_type < b.element_type) return 1
-		    if(a.element_type > b.element_type) return -1
-        })
+        newPlayersIn.sort(sortPlayers)
 
         return { newPlayersOut, newPlayersIn }
     }

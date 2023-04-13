@@ -28,7 +28,6 @@ function Pitch(props) {
 	const {actDeact} = fplElements
 	const curSize = 1
 	const [ curPage, setCurPage ] = useState(1)
-	const [ gws, setGws ] = useState(38)
 	const gameweeks = getGameweeks(events, curPage, curSize).gameweeks
 	const length = getGameweeks(events, curPage, curSize).length
 	const countdowns = getGameweeks(events, curPage, curSize).countdowns
@@ -38,7 +37,7 @@ function Pitch(props) {
 
 	useEffect(() => {
 		getPickIndex(curPage)
-	}, [curPage])
+	}, [curPage, getPickIndex])
 
 	useEffect(() => {
 		let prevBtn = document.getElementById('prevGameweek')
@@ -209,7 +208,7 @@ function Pitch(props) {
 											news === 50 ? 'orange' : news === 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
 								let color = news === 25 ? 'rgba(0,0,55,0.9)' :
 											news === 50 ? 'rgba(0,0,55,0.9)' : news === 75 ? 'rgba(0,0,55,0.9)' :'white'
-								const opponents = loadOpponents(fixtures, events, teamObj.id, gws).newTeamAandH
+								const opponents = loadOpponents(fixtures, events, teamObj.id).newTeamAandH
 								const playerOpps = loadPlayerOpponents(opponents, curPage).playerFix			
 								return	(<SquadPlayer image={image} 
 									backgroundColor={backgroundColor}
@@ -243,7 +242,7 @@ function Pitch(props) {
 											news === 50 ? 'orange' : news === 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
 								let color = news === 25 ? 'rgba(0,0,55,0.9)' :
 											news === 50 ? 'rgba(0,0,55,0.9)' : news === 75 ? 'rgba(0,0,55,0.9)' :'white'
-								const opponents = loadOpponents(fixtures, events, teamObj.id, gws).newTeamAandH
+								const opponents = loadOpponents(fixtures, events, teamObj.id).newTeamAandH
 								const playerOpps = loadPlayerOpponents(opponents, curPage).playerFix;
 								return	(<SquadPlayer image={image} 
 										backgroundColor={backgroundColor}
@@ -274,10 +273,10 @@ function Pitch(props) {
 								(positionObj.id >= 1 && !inTemp) ? `${teamObj.code}-66` : `0-66`  
 								let news = player.chance_of_playing_next_round
 								let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
-											news === 50 ? 'orange' : news == 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
+											news === 50 ? 'orange' : news === 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
 								let color = news === 25 ? 'rgba(0,0,55,0.9)' :
 											news === 50 ? 'rgba(0,0,55,0.9)' : news === 75 ? 'rgba(0,0,55,0.9)' :'white'
-								const opponents = loadOpponents(fixtures, events, teamObj.id, gws).newTeamAandH
+								const opponents = loadOpponents(fixtures, events, teamObj.id).newTeamAandH
 								const playerOpps = loadPlayerOpponents(opponents, curPage).playerFix;
 								return	(<SquadPlayer image={image} 
 										backgroundColor={backgroundColor}
@@ -311,7 +310,7 @@ function Pitch(props) {
 											news === 50 ? 'orange' : news === 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
 								let color = news === 25 ? 'rgba(0,0,55,0.9)' :
 											news === 50 ? 'rgba(0,0,55,0.9)' : news === 75 ? 'rgba(0,0,55,0.9)' :'white'
-								const opponents = loadOpponents(fixtures, events, teamObj.id, gws).newTeamAandH
+								const opponents = loadOpponents(fixtures, events, teamObj.id).newTeamAandH
 								const playerOpps = loadPlayerOpponents(opponents, curPage).playerFix
 								return	(<SquadPlayer image={image} 
 									backgroundColor={backgroundColor}
@@ -348,7 +347,7 @@ function Pitch(props) {
 											news === 50 ? 'orange' : news === 75 ? 'yellow' : 'rgba(0,0,55,0.9)'
 								let color = news === 25 ? 'rgba(0,0,55,0.9)' :
 											news === 50 ? 'rgba(0,0,55,0.9)' : news === 75 ? 'rgba(0,0,55,0.9)' :'white'
-								const opponents = loadOpponents(fixtures, events, teamObj.id, gws).newTeamAandH
+								const opponents = loadOpponents(fixtures, events, teamObj.id).newTeamAandH
 								const playerOpps = loadPlayerOpponents(opponents, curPage).playerFix
 								return	(<SquadPlayer image={image} 
 									backgroundColor={backgroundColor}

@@ -9,7 +9,6 @@ function PlayerCard(props) {
     position, team, sort, handleShow, handleClose, showPop
    } = props
     const fplElements = useContext(BootstrapstaticContext)
-    const players = fplElements.players
     const pickIndex = fplElements.pickIndex
     const picks = fplElements.picks
     let playersSelected = fplElements.playersSelected()

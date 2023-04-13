@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
 import PlayerCard from './PlayerCard'
-import { getMinMax, getPlayers, getArrangedPlayers, viewNext } from '../services/playerService'
+import { getMinMax, getPlayers, getArrangedPlayers } from '../services/playerService'
 import lastPage from '../static/last_page.png'
 import firstPage from '../static/first_page.png'
 import prevPage from "../static/chevron_left.png"
@@ -149,10 +149,8 @@ function Players(props) {
                     let teamObj = teams.find(x => x.id === goalkeeper.team)
                     let news = goalkeeper.chance_of_playing_next_round
                     let short_name = teamObj.short_name
-                    let team_name = teamObj.name
                     let positionObj = playerPosition.find(x => x.id === goalkeeper.element_type)
                     let short_pos = positionObj.singular_name_short
-                    let pos_name = positionObj.singular_name
                     let forwardImage = positionObj.id === 1 ? `${teamObj.code}_1-66`:
 			            `${teamObj.code}-66`
                     let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
@@ -188,10 +186,8 @@ function Players(props) {
                     let teamObj = teams.find(x => x.id === defender.team)
                     let news = defender.chance_of_playing_next_round
                     let short_name = teamObj.short_name
-                    let team_name = teamObj.name
                     let positionObj = playerPosition.find(x => x.id === defender.element_type)
                     let short_pos = positionObj.singular_name_short
-                    let pos_name = positionObj.singular_name
                     let forwardImage = positionObj.id === 1 ? `${teamObj.code}_1-66`:
 			            `${teamObj.code}-66`
                         let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
@@ -227,10 +223,8 @@ function Players(props) {
                     let teamObj = teams.find(x => x.id === midfielder.team)
                     let news = midfielder.chance_of_playing_next_round
                     let short_name = teamObj.short_name
-                    let team_name = teamObj.name
                     let positionObj = playerPosition.find(x => x.id === midfielder.element_type)
                     let short_pos = positionObj.singular_name_short
-                    let pos_name = positionObj.singular_name
                     let forwardImage = positionObj.id === 1 ? `${teamObj.code}_1-66`:
 			            `${teamObj.code}-66`
                         let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
@@ -266,10 +260,8 @@ function Players(props) {
                     let teamObj = teams.find(x => x.id === forward.team)
                     let news = forward.chance_of_playing_next_round
                     let short_name = teamObj.short_name
-                    let team_name = teamObj.name
                     let positionObj = playerPosition.find(x => x.id === forward.element_type)
                     let short_pos = positionObj.singular_name_short
-                    let pos_name = positionObj.singular_name
                     let forwardImage = positionObj.id === 1 ? `${teamObj.code}_1-66`:
 			            `${teamObj.code}-66`
                         let backgroundColor = news === 0 ? 'darkred' : news === 25 ? 'darkorange' :
