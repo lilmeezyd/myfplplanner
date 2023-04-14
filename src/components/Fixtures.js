@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
 import { numberOfFixtures, loadOpponents } from '../services/fixtureService'
-import Loader from './Loader'
+//import Loader from './Loader'
 import TeamRow from './TeamRow'
 
 function Fixtures() {
@@ -53,7 +53,7 @@ function Fixtures() {
 						})}
 					</tbody>
 				</table>
-			</div> : <Loader />}
+			</div> : <div className='no-trans small'>No Fixtures Found</div>}
 		</div>
   )
 }
