@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "CPL",
+  "name": "Capitano FPL Planner",
   "icons": [
     {
       "src": "favicon.ico",
