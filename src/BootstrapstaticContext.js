@@ -192,8 +192,18 @@ function BootstrapstaticProvider({children}) {
                 const data1 = await response1.json()
                 setTransferHistory(data1)
             try {
+                let data
                 const response = await fetch(url)
-                const data = await response.json()
+                const data2 = await response.json()
+                if(data2.active_chip === 'freehit'){
+                    const response2 = await 
+                    fetch(`https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/${eventId-1}/picks/`)
+                    const data3 = await response2.json()
+                    data = data3
+
+                } else {
+                    data = data2
+                }
                 setManagerPicks(data)
 
                 //let buyingPrice
