@@ -15,7 +15,7 @@ export const getGameweeks = (events, curPage, curSize) => {
                         .filter(event => new Date(event.deadline_time) > new Date())
                         .map(event => event.deadline_time)
     //const deadlineTimes = getTime(deadlines)
-    const countdowns =  deadlines.filter(returnedGW)                   
+    const countdowns =  deadlines.filter(returnedGW)  
     return { gameweeks, length, countdowns }
 }
 /*

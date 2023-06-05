@@ -1,7 +1,7 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, Suspense } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
 import { numberOfFixtures, loadOpponents } from '../services/fixtureService'
-//import Loader from './Loader'
+import Loader from './Loader'
 import TeamRow from './TeamRow'
 
 function Fixtures() {
@@ -17,43 +17,45 @@ function Fixtures() {
   return (
     <div className="fixtures-col">
 			<h4 className="large fixture-heading">Fixture Ticker</h4>
-			{(events.length && teams.length && fixtures.length) ?
-			<div className="fixture-ticker">
-            <div className="next-fixtures">
-					<label className="small">Next:</label>
-					<select onChange={(e) => setGws(+e.target.value)} className="custom-select custom-select-next" id="nxt_fixtures">
-						{fixOptions.map((fix, idx) => {
-							return (
-							<option key={idx} value={fix}>{fix}</option>
-							)
-							
-						})}
-					</select>
-					<span className="small">{gws === 1 ? 'Gameweek' : 'Gameweeks'}</span>
-				</div>
-				<table className="ticker-table">
-					<thead className="small">
-						<tr>
-							<th style={{background: 'white'}}>Team</th>
-							{fixHeader.map((header) => {
+			<Suspense fallback={<Loader/>}>
+				{(events.length && teams.length && fixtures.length) ?
+				<div className="fixture-ticker">
+				<div className="next-fixtures">
+						<label className="small">Next:</label>
+						<select onChange={(e) => setGws(+e.target.value)} className="custom-select custom-select-next" id="nxt_fixtures">
+							{fixOptions.map((fix, idx) => {
 								return (
-									<th style={{background: 'white'}} key={header.id}>GW{header.id}</th>
+								<option key={idx} value={fix}>{fix}</option>
+								)
+								
+							})}
+						</select>
+						<span className="small">{gws === 1 ? 'Gameweek' : 'Gameweeks'}</span>
+					</div>
+					<table className="ticker-table">
+						<thead className="small">
+							<tr>
+								<th style={{background: 'white'}}>Team</th>
+								{fixHeader.map((header) => {
+									return (
+										<th style={{background: 'white'}} key={header.id}>GW{header.id}</th>
+									)
+								})}
+							</tr>
+						</thead>
+						<tbody className="small triple">
+							{teams.map((team) => {
+								const opponents = loadOpponents(fixtures, events, team.id, gws).newTeamAandH
+								return(
+									<TeamRow
+									teams={teams}
+									team={team} key={team.id} opponents={opponents} />
 								)
 							})}
-						</tr>
-					</thead>
-					<tbody className="small triple">
-						{teams.map((team) => {
-							const opponents = loadOpponents(fixtures, events, team.id, gws).newTeamAandH
-							return(
-								<TeamRow
-								teams={teams}
-								 team={team} key={team.id} opponents={opponents} />
-							)
-						})}
-					</tbody>
-				</table>
-			</div> : <div className='no-trans small'>No Fixtures Found</div>}
+						</tbody>
+					</table>
+				</div> : <div className='no-trans small'>No Fixtures Found</div>}
+			</Suspense>
 		</div>
   )
 }

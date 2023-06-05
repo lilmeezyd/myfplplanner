@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, Suspense } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
 import PlayerCard from './PlayerCard'
 import { getMinMax, getPlayers, getArrangedPlayers } from '../services/playerService'
@@ -6,7 +6,7 @@ import lastPage from '../static/last_page.png'
 import firstPage from '../static/first_page.png'
 import prevPage from "../static/chevron_left.png"
 import nextPage from "../static/chevron_right.png"
-//import Loader from './Loader'
+import Loader from './Loader'
 
 function Players(props) {
     
@@ -129,7 +129,7 @@ function Players(props) {
         </div>
     </div>
 </div>
-
+<Suspense fallback={<Loader/>}>
 {(players.length) ? 
 <div className="player-info">
     <div className="player-numbers small">
@@ -306,6 +306,7 @@ function Players(props) {
         </button>
     </div>
 </div> : <div className='no-trans small'>No Players Found</div>}
+</Suspense>
     </div>
   )
 }

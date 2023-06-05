@@ -367,7 +367,7 @@ function BootstrapstaticProvider({children}) {
                 let totalBudget = (newPicks.reduce((x,y) => x+(+y.selling_price),0) + +bank).toFixed(1)
 
 
-                for(let i = eventId+1; i <= 38; i++) {
+                for(let i = eventId+1; i <= 39; i++) {
                     gameweekPicks.push({event:i, newPicks, totalBudget, bank, value})
                     gameweekTransfersOut.push({event:i, arr: []})
                     gameweekTransfersIn.push({event:i, arr: []})
