@@ -111,14 +111,14 @@ function PlayerCard(props) {
         <span>Maximum Forwards Selected</span>
         </div>}
     <div className="infobuttons">
-      {((playersSelected < 15 &&
-      playerPos.element_type === 1 && goalkeepersSelected < 2) ||
-      (playersSelected < 15 &&
-        playerPos.element_type === 2 && defendersSelected < 5) ||
-        (playersSelected < 15 &&
-          playerPos.element_type === 3 && midfieldersSelected < 5) ||
-          (playersSelected < 15 &&
-            playerPos.element_type === 4 && forwardsSelected < 3))&& <button
+      {(((playersSelected < 15 || playersSelected === undefined) &&
+      playerPos.element_type === 1 && (goalkeepersSelected === undefined || goalkeepersSelected < 2)) ||
+      ((playersSelected < 15 || playersSelected === undefined) &&
+        playerPos.element_type === 2 && (defendersSelected === undefined || defendersSelected < 5)) ||
+        ((playersSelected < 15 || playersSelected === undefined) &&
+          playerPos.element_type === 3 && (midfieldersSelected === undefined || midfieldersSelected < 5)) ||
+          ((playersSelected < 15 || playersSelected === undefined) &&
+            playerPos.element_type === 4 && (forwardsSelected === undefined || forwardsSelected < 3)))&& <button
          onClick={() => transferIn(playerPos.id, position, team)} className='btn-info btn-info-block btn-green small'>Add Player</button>}
     </div>
   </div>}

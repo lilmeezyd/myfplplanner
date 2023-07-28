@@ -177,15 +177,36 @@ function BootstrapstaticProvider({children}) {
             }
         }
         managerId >= 1 && fetchManagerInfo()
-        managerId >= 1 && fetchManagerHistory()
-    }, [managerId])
+        managerId >= 1 && eventId > 1 && fetchManagerHistory()
+    }, [managerId, eventId])
     
 
     useEffect(() => {
         
 
         const fetchManagerPicks = async () => {
-            const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/${eventId}/picks/`
+            const realPicks = []
+            const gameweekPicks = []
+            const gameweekTransfersOut = []
+            const gameweekTransfersIn = []
+            const transferPlayers = []
+            const seasonPicks = []
+            let bank, value, seasonBudget = (100).toFixed(1)
+            if(eventId === 0) {
+                for(let i = eventId+1; i <= 39; i++) {
+                    gameweekPicks.push({event:i, newPicks:seasonPicks, 
+                        budget:seasonBudget, bank:(100).toFixed(1), value:(100).toFixed(1)})
+                    gameweekTransfersOut.push({event:i, arr: []})
+                    gameweekTransfersIn.push({event:i, arr: []})
+                }
+                setPicks(gameweekPicks)
+                setReal(realPicks)
+                setPlayersOut(gameweekTransfersOut)
+                setPlayersIn(gameweekTransfersIn)
+                localStorage.removeItem('picks')
+                localStorage.setItem('picks', JSON.stringify(gameweekPicks))
+            } else {
+                const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/${eventId}/picks/`
             const url1 = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/transfers/`
             try {
                 const response1 = await fetch(url1)
@@ -208,14 +229,13 @@ function BootstrapstaticProvider({children}) {
 
                 //let buyingPrice
                 const newPicks = []
-   				const realPicks = []
    				const newPicksHyp = []
    				const realPicksHyp = []
-                const gameweekPicks = []
+                /*const gameweekPicks = []
                 const gameweekTransfersOut = []
                 const gameweekTransfersIn = []
 				const transferPlayers = []
-				let bank, value
+				let bank, value*/
 
                 // Resetting Team to state before auto-subs
 				if(data.automatic_subs.length > 0) {
@@ -385,6 +405,8 @@ function BootstrapstaticProvider({children}) {
             } } catch(error) {
                 console.log(error)
             }
+            }
+            
         }
 
          managerId >= 1 && fetchManagerPicks()
@@ -534,7 +556,8 @@ function BootstrapstaticProvider({children}) {
 
         
         //Add player to playersOut or remove player from playersOut
-        let totalBudget = +picks[pickIndex-1].totalBudget
+        //let totalBudget = +picks[pickIndex-1].totalBudget
+        let totalBudget = +picks[pickIndex-1].budget
         let spent = picks[pickIndex-1].newPicks.reduce((x,y) => x+(+y.selling_price),0) - playersOut.reduce((x,y) => x+(+y.selling_price),0) 
         let isFoundOut = playersOut[pickIndex-1].arr.some(x => x.element === player.element)
         let isFoundIn = playersIn[pickIndex-1].arr.some(x => x.element === player.element)
@@ -549,9 +572,18 @@ function BootstrapstaticProvider({children}) {
             setRemainingBudget(+remainder-sellingPrice)
         } else {
             if(!isFoundIn) {
-                setPlayersOut(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
-                    {...gw, arr: [...gw.arr, player]} : gw )])
-                setTempPlayersOut(x => [...x, player])}
+                if(eventId === 0 && picks[0]?.newPicks.length <= 15 && pickIndex === 1) {
+                    setPicks([...picks.map((pick, key) => 
+                        key === 0 ? {...pick, newPicks: pick.newPicks.filter((newPick, idx) => 
+                            newPick.element !== player.element)} : pick)])
+                    setRemainingBudget(+remainder-sellingPrice)
+                } else {
+                    setPlayersOut(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
+                        {...gw, arr: [...gw.arr, player]} : gw )])
+                    setTempPlayersOut(x => [...x, player])
+                }
+                
+            }
         }
 
         if(isFoundIn) {
@@ -576,15 +608,16 @@ function BootstrapstaticProvider({children}) {
                 position:position
             }
             
-            setPlayersIn(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
-                {...gw, arr: gw.arr.filter((y, key) => key !==  isFoundInIndex)} : gw )])
-            setPlayersIn(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
-                {...gw, arr:[]} : gw))
-            setPlayersOut(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
-                {...gw, arr:[]} : gw))
-            setPicks([...picks.map((pick, key) => 
-                                key === pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
+               setPlayersIn(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
+                    {...gw, arr: gw.arr.filter((y, key) => key !==  isFoundInIndex)} : gw )])
+                setPlayersIn(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
+                    {...gw, arr:[]} : gw))
+                setPlayersOut(prev => prev.map((gw, idx) => idx > pickIndex-1 ? 
+                    {...gw, arr:[]} : gw))
+                setPicks([...picks.map((pick, key) => 
+                                    key === pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
                                     idx === isFoundInPicksIndex ? replacedElementObj : newPick )} : pick)])
+            
             if(chips.freehit.event === (+eventId+pickIndex)) {
                 if(pickIndex === 1) {
                     setPicks(prev => prev.map((pick, key) => 
@@ -627,6 +660,8 @@ function BootstrapstaticProvider({children}) {
         player.team = teamId
         player.disabled = true
         player.position = 0
+        player.is_captain = false
+        player.is_vice_captain = false
         player.multiplier = 1
         //player.price_change = price_change
         player.element_in_cost = element_in_cost
@@ -646,7 +681,7 @@ function BootstrapstaticProvider({children}) {
         let playingMid = picks[pickIndex-1].newPicks.filter(x => x.multiplier !== 0 && x.element_type === 3).length - playersOutPM
         let playingFwd = picks[pickIndex-1].newPicks.filter(x => x.multiplier !==0 && x.element_type === 4).length - playersOutPF
         
-        if(picks[pickIndex-1].newPicks.length < 15 || tempPlayersOut.length > 0) {
+        if(picks[pickIndex-1]?.newPicks.length < 15 || tempPlayersOut.length > 0) {
             let orderOne = picks[pickIndex-1].newPicks.some(x => x.position === 13)
             let orderTwo = picks[pickIndex-1].newPicks.some(x => x.position === 14)
             let orderThree = picks[pickIndex-1].newPicks.some(x => x.position === 15)
@@ -699,14 +734,12 @@ function BootstrapstaticProvider({children}) {
                 (elementType === 3 && midfielders < 5) ||
                 (elementType === 4 && forwards < 3)) {
                     let repeatedPlayer = []
-                    let playerOut = tempPlayersOut.find(x => x.element_type === player.element_type)
-                    let playerOutIndex = picks[pickIndex-1].newPicks.findIndex(x => x.element === playerOut.element)
                     //switching captaincy
-                    player.is_captain = playerOut.is_captain
+                    /*player.is_captain = playerOut.is_captain
                     player.is_vice_captain = playerOut.is_vice_captain
                     player.multiplier = playerOut.multiplier
                     player.element_out = playerOut.element
-                    player.position = playerOut.position
+                    player.position = playerOut.position*/
                     //x.setAttribute('disabled', true)
                     for(let j = 0; j < playersOut[pickIndex-1].arr.length; j++) {
                         if(player.element === playersOut[pickIndex-1].arr[j].element) {
@@ -771,21 +804,47 @@ function BootstrapstaticProvider({children}) {
                         setTempPlayersOut(x => [...x.filter((y, idx) => idx !== pIndex)])
                     }
                     else { // Normal player addition
-
                         // set playersIn array
-                        setPlayersIn(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
-                            {...gw, arr: [...gw.arr, player]} : 
-                            idx > pickIndex-1 ? {...gw, arr:[]} : gw )])
-                        // set playersOut array
-                        setPlayersOut(x => [...x.map((gw, idx) => idx > pickIndex-1 ?
-                            {...gw, arr:[]} : gw)])    
-                        
-                        // set picks in current week
-                        setPicks([...picks.map((pick, key) => 
-                                key === pickIndex-1 ? {...pick, newPicks: pick.newPicks.map((newPick, idx) =>
-                                    idx === playerOutIndex ? player : newPick )} : pick)])
-                        let pIndex = tempPlayersOut.findIndex(x => x.element_type === player.element_type)
-                        setTempPlayersOut(x => [...x.filter((y, idx) => idx !== pIndex)])
+                        if(eventId === 0 && picks[0]?.newPicks.length < 15){
+                            let hasCap = picks[0].newPicks.some(x => x.is_captain)
+                            let hasVC = picks[0].newPicks.some(x => x.is_vice_captain)
+                            let count = picks[0].newPicks.length
+                            player.position = player.position < 12 ? count+1 : player.position
+                            if(!hasCap && !hasVC && player.multiplier > 0) {
+                                player.is_captain = true
+                                player.multiplier = 2
+                            }
+                            if(hasCap && !hasVC && player.multiplier > 0) {
+                                player.is_vice_captain = true
+                            }
+
+                            // set picks in current week
+                            setPicks([...picks.map((pick, key) => 
+                                key === pickIndex-1 ? {...pick, newPicks: [...pick.newPicks, player]} : pick)])
+                        } else {
+                            
+                    let playerOut = tempPlayersOut.find(x => x.element_type === player.element_type)
+                    let playerOutIndex = picks[pickIndex-1]?.newPicks?.findIndex(x => x.element === playerOut.element)
+                            //switching captaincy
+                            player.is_captain = playerOut.is_captain
+                            player.is_vice_captain = playerOut.is_vice_captain
+                            player.multiplier = playerOut.multiplier
+                            player.element_out = playerOut.element
+                            player.position = playerOut.position
+                            setPlayersIn(x => [...x.map((gw, idx) => idx === pickIndex-1 ? 
+                                {...gw, arr: [...gw.arr, player]} : 
+                                idx > pickIndex-1 ? {...gw, arr:[]} : gw )])
+                            // set playersOut array
+                            setPlayersOut(x => [...x.map((gw, idx) => idx > pickIndex-1 ?
+                                {...gw, arr:[]} : gw)])    
+                            
+                            // set picks in current week
+                            setPicks([...picks.map((pick, key) => 
+                                    key === pickIndex-1 ? {...pick, newPicks: pick?.newPicks?.map((newPick, idx) =>
+                                        idx === playerOutIndex ? player : newPick )} : pick)])
+                            let pIndex = tempPlayersOut.findIndex(x => x.element_type === player.element_type)
+                            setTempPlayersOut(x => [...x.filter((y, idx) => idx !== pIndex)])
+                        }
 
                         // set picks for later weeks
                         if(chips.freehit.event === (+eventId+pickIndex)) {
@@ -937,7 +996,8 @@ function BootstrapstaticProvider({children}) {
         player.multiplier === 0 ? setInPlayerOne({}) : setOutPlayer({})
     }
     const getInTheBank = () => {
-        let totalBudget = +picks[pickIndex-1].totalBudget
+        //let totalBudget = +picks[pickIndex-1].totalBudget
+        let totalBudget = +picks[pickIndex-1].budget
         let spent = picks[pickIndex-1].newPicks.reduce((x,y) => x+(+y.selling_price),0)-
         tempPlayersOut.reduce((x,y) => x+(+y.selling_price),0)
         let inBank = (totalBudget-spent).toFixed(1)
@@ -989,6 +1049,9 @@ function BootstrapstaticProvider({children}) {
         let fts = transferLogic.fts
         const cPlayersOut = [...playersOut]
         const current = cPlayersOut.splice(0, pickIndex)
+        if(eventId === 0 && pickIndex === 2) {
+            return fts = 1
+        }
         if(pickIndex === 1) {
             fts = transferLogic.fts
         } else {

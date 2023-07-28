@@ -421,7 +421,7 @@
 		line-height: 1;
 		cursor: pointer;
 		font-weight: bolder;
-		font-family: 'Montserrat';
+		font-family: 'Montserrat', 'Segoe UI', 'Arial' ;
 		border-radius: 5px;
 		border: 1px solid transparent;
 	}
@@ -431,7 +431,7 @@
 	.details-cont, .data_fixtures, .next-fix, .up-fix {
 		width: 100%;
 		font-weight: 700;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'Montserrat', 'Segoe UI', 'Arial', sans-serif;
 	}
 	.next-fix {
 		background: #fff;
@@ -1067,7 +1067,7 @@
 		font-size: 0.9rem;
 	}
 	table td span:first-child {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'Montserrat', 'Segoe UI', 'Arial', sans-serif;
 	}
 	.oppfix {
 		display: flex;
@@ -1109,7 +1109,7 @@
 		margin-bottom: 0.2rem;
 		color: rgba(22, 22, 68, 1.0);
 		background: ghostwhite;
-		font-family: 'Montserrat';
+		font-family: 'Montserrat', 'Segoe UI', 'Arial';
 		font-weight: 600;
 		border: 1px solid rgba(0, 0, 0, 0.3);
 	}
@@ -1135,7 +1135,7 @@
 		margin: 0.2rem 0;
 		cursor: pointer;
 		color: #fff;
-		font-family: 'Montserrat';
+		font-family: 'Montserrat', 'Segoe UI', 'Arial';
 		font-weight: 600;
 	}
 	.btn-info-block {
@@ -1195,7 +1195,7 @@
 		text-align: center;
 		cursor: pointer;
 		color: #000;
-		font-family: 'Montserrat';
+		font-family: 'Montserrat', 'Segoe UI', 'Arial';
 		/*border-radius: 5px;*/
 	}
 	.btn-block {
@@ -1410,7 +1410,7 @@
 		/*margin: auto;
 		table-layout: fixed;
 		white-space: nowrap;*/
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'Montserrat', 'Segoe UI', 'Arial', sans-serif;
 		border-collapse: collapse;
 		margin-top: 2rem;
 		display: block;

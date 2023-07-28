@@ -51,6 +51,7 @@ function PlayerInfo(props) {
             <tbody className="t-fixtures">
               {loadOpponents(fixtures, events, playerDetails().teamId)
               .playerInfoOpp
+              .slice(0, 10)
               .map((x, idx) => {
                 let teamName = x.arr[0].opponent === 0 ? 'None' : 
                 teams.find(tname => tname.id === x.arr[0].opponent).name
