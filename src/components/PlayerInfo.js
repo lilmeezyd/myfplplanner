@@ -23,9 +23,9 @@ function PlayerInfo(props) {
   return (
     <div className="playerpop1">
         <div className="info-details">
-            <span className='large'>{playerDetails().name}</span>
-            <span className='small'>{playerDetails().team}</span>
-			<span className='small'>{playerDetails().position}</span>
+            <span>{playerDetails().name}</span>
+            <span>{playerDetails().team}</span>
+			<span>{playerDetails().position}</span>
 			<button
                 onClick={onClick}
              className="btn-close btn-info btn-danger btn-player">
@@ -38,6 +38,12 @@ function PlayerInfo(props) {
            className="btn-game-fixtures">Fixtures</div>
         </div>
         <div className="games-info-fixtures">
+          <div className='info-header'>
+                <div>Date</div>
+                <div>GW</div>
+                <div>Fixture</div>
+                <div>FDR</div>
+            </div>
           <table className="table" style={{width: '100%'}}>
             <thead>
               <tr style={{background: bgColor === 1 ? `#ebff00` :

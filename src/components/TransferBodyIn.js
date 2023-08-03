@@ -2,7 +2,7 @@ function TransferBodyIn(props) {
   const { player, playerTeam, image } = props;
   return (
     <div className="trans-wrapper">
-      <div className="trans small">
+      <div className="trans">
         <span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +17,7 @@ function TransferBodyIn(props) {
         </span>
         <span>{player.web_name}</span>
       </div>
-      <div className="trans-team small">
+      <div className="trans-team">
         <img
           src={require(`../static/shirt_${image}.webp`)}
           alt={player.web_name}

@@ -145,52 +145,15 @@ function Pitch(props) {
           <div>
             <div className="details-one">
               {picks.length > 0 && (
-                <div className="gw-buttonswrapper">
-                  <div className="gw-buttons">
-                    <button
+                <div className="budgetwrapper">
+                  <button
                       style={{ visibility: pageOneVisible }}
                       onClick={viewPreviousPage}
-                      className="small prev_next"
+                      className="prev_next"
                       id="prevGameweek"
                     >
                       <img src={prevPage} alt="prev_page" />
                     </button>
-                    <div id="deadline">
-                      {gameweeks.map((gameweek, idx) => {
-                        return (
-                          <h4 key={idx} id="gameweekNum" className="large">
-                            {gameweek}
-                          </h4>
-                        );
-                      })}
-                      <div className="large">
-                        <h4 className="theading">Deadline:</h4>
-                        {length === 0
-                          ? "Season is over!"
-                          : countdowns.map((countdown, idx) => {
-                              return (
-                                <div key={idx} className="ttime small">
-                                  <span>
-                                    {new Date(countdown).toDateString()},
-                                  </span>
-                                  <p>
-                                    {getTime(
-                                      new Date(countdown).toLocaleTimeString(
-                                        "en-US"
-                                      )
-                                    )}
-                                    &nbsp;
-                                    {getPm(
-                                      new Date(countdown).toLocaleTimeString(
-                                        "en-US"
-                                      )
-                                    )}
-                                  </p>
-                                </div>
-                              );
-                            })}
-                      </div>
-                    </div>
                     <button
                       style={{ visibility: lastPageVisible }}
                       onClick={viewNextPage}
@@ -199,27 +162,70 @@ function Pitch(props) {
                     >
                       <img src={nextPage} alt="next_page" />
                     </button>
-                  </div>
-                </div>
-              )}
-              {picks.length > 0 && (
-                <div className="budgetwrapper">
-                  <div className="budget">
-                    <div className="budget-players large">
-                      <h4 className="large">Player Selection</h4>
-                      <div>
-                        <span className="player-num">
-                          {fplElements.playersSelected()}
-                        </span>
-                        &nbsp;<span>/</span>&nbsp;<span>15</span>
-                      </div>
-                    </div>
-                    <div className="free-transfers large">
-                      <h4 title="Free Transfers large">FT</h4>
-                      {eventId === 0 && pickIndex === 1 ? (
-                        <span className="transfer-number">Unlimited</span>
+                  <div class="transfer-header">
+                    {gameweeks.map((gameweek, idx) => {
+                        return (
+                          <h3 class="gw-heading" key={idx}>
+                            {gameweek}
+                          </h3>
+                        );
+                      })}</div>
+                    <div class="matchday-deadline">
+                        {gameweeks.map((gameweek, idx) => {
+                        return (
+                          <h4 key={idx}>
+                            {gameweek} deadline:
+                          </h4>
+                        );
+                      })} {length === 0
+                        ? <p>Season is over!</p>
+                        : countdowns.map((countdown, idx) => {
+                            return (
+                              <p key={idx}>
+                                  {new Date(countdown).toDateString()},
+                                  &nbsp;
+                                  {getTime(
+                                    new Date(countdown).toLocaleTimeString(
+                                      "en-US"
+                                    )
+                                  )}
+                                  &nbsp;
+                                  {getPm(
+                                    new Date(countdown).toLocaleTimeString(
+                                      "en-US"
+                                    )
+                                  )}
+                              </p>
+                            );
+                          })}</div>
+                          <div class="players-money-select">
+          <div className='vertical'></div>
+          <div className="horizontal"></div>
+                            <div class="players-select">
+                              <h3 class="select-heading">Players Selected</h3>
+                              <div class="players-selected">{fplElements.playersSelected()} / 15</div>
+                            </div>
+                            <div class="players-money">
+                              <h3 class="money-heading">Money Remaining</h3>
+                              <div class="money-selected">{
+                              players.length &&
+                          picks.length &&
+                        fixtures.length &&
+                        events.length && 
+                            fplElements.getInTheBank()
+                        }</div>
+                            </div>
+                          </div>
+                          <div className="free-cost">
+                            
+          <div className='vertical'></div>
+          <div className="horizontal"></div>
+                            <div className="free-transfer">
+                              <h3 className="free-header">Free Transfers</h3>
+                              {eventId === 0 && pickIndex === 1 ? (
+                        <span className="free-content">Unlimited</span>
                       ) : (
-                        <span className="transfer-number">
+                        <span className="free-content">
                           {fplElements.playersOut[pickIndex - 1]?.arr.length}
                           &nbsp;/&nbsp;
                           {chips.freehit.event === +eventId + pickIndex ||
@@ -228,44 +234,32 @@ function Pitch(props) {
                             : fplElements.freeTransfers()}
                         </span>
                       )}
-                    </div>
-                    <div className="cost-transfers large">
-                      <h4 title="Transfer Cost large">TC</h4>
-                      <span className="points-lost">
+                            </div>
+                            <div className="cost-transfer">
+                            <h3 className="cost-header">TC</h3>
+                            <span className="cost-content">
                         {fplElements.transferCost()}
                       </span>
-                    </div>
-                    <div className="remain large">
-                      <h4 className="large">Bank</h4>
-                      {players.length &&
-                        picks.length &&
-                        fixtures.length &&
-                        events.length && (
-                          <span className="remain-budget">
-                            {fplElements.getInTheBank()}
-                          </span>
-                        )}
-                    </div>
-                  </div>
-                </div>
-              )}
-              {picks.length > 0 && (
-                <div
-                  id="transfer-tab"
-                  className="upper-buttons button-item show"
-                >
+                            </div>
+                          </div>
+                  <div
+                  className="upper-buttons"
+                ><div className="fpl-buttons">
                   <button
                     onClick={showPlayersOut}
-                    className="btn btn-block show-fpl btn-fpl small"
+                    className="btn btn-block show-fpl btn-fpl"
                   >
                     {!showTransfersMade ? "Show Transfers" : "Hide Transfers"}
-                  </button>
+                  </button></div>
+                  <div className="fpl-buttons">
                   <button
                     onClick={resetGW}
-                    className="btn btn-block reset btn-fpl small"
+                    className="btn btn-block reset btn-fpl"
                   >
                     Reset
                   </button>
+                  </div>
+                </div>
                 </div>
               )}
               {showTransfersMade && <TransferRows />}
@@ -697,10 +691,15 @@ function Pitch(props) {
               : ""}
           </div>
           {picks.length > 0 && (
+
+            
+
+
             <div id="chip-tab" className="chip-buttons button-item">
-              {eventId > 0 && (
+              {(eventId === 0 && pickIndex === 1) ? (''):(
                 <div className="chip">
                   <h6>Wildcard</h6>
+                  <div className="div-wrapper">
                   <button
                     onClick={() => setWildCard(+eventId + curPage)}
                     disabled={
@@ -738,11 +737,12 @@ function Pitch(props) {
                       : +chips.wildcard.event === +eventId + curPage
                       ? "ACTIVE"
                       : "PLAY"}
-                  </button>
+                  </button></div>
                 </div>
               )}
               <div className="chip">
                 <h6>Bench Boost</h6>
+                <div className="div-wrapper">
                 <button
                   onClick={() => setBenchBoost(+eventId + curPage)}
                   disabled={
@@ -780,10 +780,11 @@ function Pitch(props) {
                     : +chips.bboost.event === +eventId + curPage
                     ? "ACTIVE"
                     : "PLAY"}
-                </button>
+                </button></div>
               </div>
               <div className="chip">
                 <h6>Triple Captain</h6>
+                <div className="div-wrapper">
                 <button
                   onClick={() => setTriple(+eventId + curPage)}
                   disabled={
@@ -821,10 +822,12 @@ function Pitch(props) {
                     ? "ACTIVE"
                     : "PLAY"}
                 </button>
+                </div>
               </div>
-              {eventId > 0 && (
+              {(eventId === 0 && pickIndex === 1) ? (''): (
                 <div className="chip">
                   <h6>FreeHit</h6>
+                  <div className="div-wrapper">
                   <button
                     onClick={() => setFreeHit(+eventId + curPage)}
                     disabled={
@@ -863,6 +866,7 @@ function Pitch(props) {
                       ? "ACTIVE"
                       : "PLAY"}
                   </button>
+                  </div>
                 </div>
               )}
             </div>

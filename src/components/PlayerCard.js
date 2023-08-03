@@ -68,10 +68,10 @@ function PlayerCard(props) {
             <div className="images">
             <img src={require(`../static/shirt_${forwardImage}.webp`)} alt={forwardImage} />
             </div>
-            <div className="player-cell-info small">
+            <div className="player-cell-info">
                 <span className="name">{playerPos.web_name}</span>
                 <div className="player-cell-details">
-                    <span className="name">{shortName}</span>
+                    <span className="team-name">{shortName}</span>
                     <span className="position">{shortPos}</span>
                 </div>
             </div>
@@ -83,32 +83,32 @@ function PlayerCard(props) {
 
 {showTransfer && showPop && 
   <div className="playerpop">
-    <div className="namesection small">
+    <div className="namesection">
         <span>{playerPos.first_name}&nbsp;{playerPos.second_name}</span>
-        <button onClick={handleCloseTransfer} className="btn-info btn-close btn-danger"><svg style={{color: 'white'}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="white"></path> </svg></button>
+        <button onClick={handleCloseTransfer} className="ns-btn btn-info btn-close btn-danger"><svg style={{color: 'white'}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="white"></path> </svg></button>
     </div>
-    {playersSelected === 15 && <div className='message small danger'>
-        <span>Maximum Players Selected</span>
+    {playersSelected === 15 && <div className='message'>
+        <span className='danger span-msg'>You already have the maximum number of Players in your squad</span>
       </div>}
       {playersSelected < 15 && 
       playerPos.element_type === 1 && 
-      goalkeepersSelected === 2 && <div className='message small danger'>
-        <span>Maximum Goalkeepers Selected</span>
+      goalkeepersSelected === 2 && <div className='message'>
+         <span className='danger span-msg'>You already have the maximum number of Goalkeepers in your squad</span>
         </div>}
         {playersSelected < 15 && 
       playerPos.element_type === 2 && 
-      defendersSelected === 5 && <div className='message small danger'>
-        <span>Maximum Defenders Selected</span>
+      defendersSelected === 5 && <div className='message'>
+         <span className='danger span-msg'>You already have the maximum number of Defenders in your squad</span>
         </div>}
         {playersSelected < 15 && 
       playerPos.element_type === 3 && 
-      midfieldersSelected === 5 && <div className='message small danger'>
-        <span>Maximum Midfielders Selected</span>
+      midfieldersSelected === 5 && <div className='message'>
+         <span className='danger span-msg'>You already have the maximum number of Midfielders in your squad</span>
         </div>}
         {playersSelected < 15 && 
       playerPos.element_type === 4 && 
-      forwardsSelected === 3 && <div className='message small danger'>
-        <span>Maximum Forwards Selected</span>
+      forwardsSelected === 3 && <div className='message'>
+         <span className='danger span-msg'>You already have the maximum number of Forwards in your squad</span>
         </div>}
     <div className="infobuttons">
       {(((playersSelected < 15 || playersSelected === undefined) &&

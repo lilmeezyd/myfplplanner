@@ -47,7 +47,7 @@ function TransferRows() {
   return fplElements.playersOut[pickIndex - 1].arr.length > 0 ? (
     <div className="transfer-rows">
       <div className="transfer-out-wrapper">
-        <h4 className="small">Transfer Out</h4>
+        <h4>Transfer Out</h4>
         <div className="transfer-out">
           {loadTransfers().newPlayersOut.map((player) => {
             const teamObj = fplElements.teams.find((x) => x.id === player.team);
@@ -68,7 +68,7 @@ function TransferRows() {
         </div>
       </div>
       <div className="transfer-in-wrapper">
-        <h4 className="small">Transfer In</h4>
+        <h4>Transfer In</h4>
         <div className="transfer-in">
           {loadTransfers().newPlayersIn.map((player) => {
             const teamObj = fplElements.teams.find((x) => x.id === player.team);

@@ -710,7 +710,8 @@ function BootstrapstaticProvider({children}) {
                 (elementType === 3 && nonBench === 9 && playingMid === 4 && playingDef === 5) || 
                 (elementType === 3 && nonBench === 10 && playingGoalie === 0)||
                 (elementType === 3 && nonBench === 10 && playingFwd === 0) ||
-                (elementType === 3 && nonBench === 10 && playingDef === 2)) {
+                (elementType === 3 && nonBench === 10 && playingDef === 2) || 
+                (elementType === 3 && playingMid === 4 && playingFwd === 3)) {
                 player.multiplier = 0
                 player.position = (!orderOne && !orderTwo && !orderThree) ? 13 :
                 (orderOne && !orderTwo && !orderThree) ? 14 : 
@@ -721,7 +722,8 @@ function BootstrapstaticProvider({children}) {
 
             if((elementType === 4 && nonBench === 11) ||
                 (elementType === 4 && nonBench === 10 && playingGoalie === 0)||
-                (elementType === 4 && nonBench === 10 && playingDef === 2)) {
+                (elementType === 4 && nonBench === 10 && playingDef === 2)||
+                (elementType === 4 && playingMid === 5 && playingFwd === 2)) {
                 player.multiplier = 0
                 player.position = (!orderOne && !orderTwo && !orderThree) ? 13 :
                 (orderOne && !orderTwo && !orderThree) ? 14 : 
@@ -808,8 +810,6 @@ function BootstrapstaticProvider({children}) {
                         if(eventId === 0 && picks[0]?.newPicks.length < 15){
                             let hasCap = picks[0].newPicks.some(x => x.is_captain)
                             let hasVC = picks[0].newPicks.some(x => x.is_vice_captain)
-                            let count = picks[0].newPicks.length
-                            player.position = player.position < 12 ? count+1 : player.position
                             if(!hasCap && !hasVC && player.multiplier > 0) {
                                 player.is_captain = true
                                 player.multiplier = 2

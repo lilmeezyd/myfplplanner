@@ -4,7 +4,7 @@ function TransferBodyOut(props) {
     const { player, playerTeam, image } = props
   return ( 
         <div className="trans-wrapper">
-            <div className="trans small">
+            <div className="trans">
                 <span>{player.web_name}</span>
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="darkred" className="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
@@ -12,7 +12,7 @@ function TransferBodyOut(props) {
                     </svg>
                 </span>
             </div>
-            <div className="trans-team small">
+            <div className="trans-team">
                 <span>{playerTeam}</span>
                 <img src={require(`../static/shirt_${image}.webp`)} alt={player.web_name}/>
             </div>

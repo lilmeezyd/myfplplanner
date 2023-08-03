@@ -81,7 +81,7 @@ function Players(props) {
                     <form>
                         <div className="view">
                             <label>View</label>
-                            <select onChange={onView} className="custom-select small" id="view_by">
+                            <select onChange={onView} className="custom-select" id="view_by">
                                 <optgroup label="Global">
                                     <option value="allPlayers">All Players</option>
                                 </optgroup>
@@ -106,7 +106,7 @@ function Players(props) {
                         </div>
                         <div className="sort">
                             <label>Sorted by</label>
-                            <select onChange={onSort} className="custom-select small" id="sort_by">
+                            <select onChange={onSort} className="custom-select" id="sort_by">
                             <option value="total_points">Total points</option>
                             <option value="event_points">Round points</option>
                         <option value="now_cost">Price</option>
@@ -119,7 +119,7 @@ function Players(props) {
                 <div className="cost">
                     <label>Max cost</label>
                     <div>Between <span id="pMin">{minPrice.toFixed(1)}</span> and <span id="pMax">{maxPrice.toFixed(1)}</span></div>
-                    <select onChange={onPrice} className="custom-select small" id="cost_by">
+                    <select onChange={onPrice} className="custom-select" id="cost_by">
                         {prices.map((price, idx) => 
                                 <option key={idx} value={price}>{price}</option>
                           )}
@@ -132,7 +132,7 @@ function Players(props) {
 <Suspense fallback={<Loader/>}>
 {(players.length) ? 
 <div className="player-info">
-    <div className="player-numbers small">
+    <div className="player-numbers">
         <span className="number">{players.length}</span>
         <span className="numbers">{players.length === 1 ? 'Player' : 'Players'}</span>
     </div>
