@@ -162,15 +162,15 @@ function Pitch(props) {
                     >
                       <img src={nextPage} alt="next_page" />
                     </button>
-                  <div class="transfer-header">
+                  <div className="transfer-header">
                     {gameweeks.map((gameweek, idx) => {
                         return (
-                          <h3 class="gw-heading" key={idx}>
+                          <h3 className="gw-heading" key={idx}>
                             {gameweek}
                           </h3>
                         );
                       })}</div>
-                    <div class="matchday-deadline">
+                    <div className="matchday-deadline">
                         {gameweeks.map((gameweek, idx) => {
                         return (
                           <h4 key={idx}>
@@ -198,16 +198,16 @@ function Pitch(props) {
                               </p>
                             );
                           })}</div>
-                          <div class="players-money-select">
+                          <div className="players-money-select">
           <div className='vertical'></div>
           <div className="horizontal"></div>
-                            <div class="players-select">
-                              <h3 class="select-heading">Players Selected</h3>
-                              <div class="players-selected">{fplElements.playersSelected()} / 15</div>
+                            <div className="players-select">
+                              <h3 className="select-heading">Players Selected</h3>
+                              <div className="players-selected">{fplElements.playersSelected()} / 15</div>
                             </div>
-                            <div class="players-money">
-                              <h3 class="money-heading">Money Remaining</h3>
-                              <div class="money-selected">{
+                            <div className="players-money">
+                              <h3 className="money-heading">Money Remaining</h3>
+                              <div className="money-selected">{
                               players.length &&
                           picks.length &&
                         fixtures.length &&

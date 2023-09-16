@@ -1,5 +1,13 @@
+export const loadStartGw = (event) => {
+    const startGws = []
+    for(let i = event; i <= 38; i++) {
+        startGws.push(i)
+    }
 
-export const numberOfFixtures = (events, gws) => {
+    return startGws
+}
+
+export const numberOfFixtures = (events, gws, start) => {
     
     let fixtureNum = events.filter(event => new Date(event.deadline_time) > new Date()).length
     const fixOptions = []
@@ -7,12 +15,12 @@ export const numberOfFixtures = (events, gws) => {
     for(let i = fixtureNum; i >= 1; i--) {
         fixOptions.push(i)
     }
-
-    const fixHeader = fixtureHeader(events, fixOptions.length, gws)
+    
+    const fixHeader = fixtureHeader(events, fixOptions.length, gws, start)
     return { fixOptions, fixHeader }
 }
 
-export const loadOpponents = (fixtures, events, teamId, gws=38) => {
+export const loadOpponents = (fixtures, events, teamId, gws=38, start) => {
 
     const eventIds = events.filter(event => new Date(event.deadline_time) > new Date()).map(x => x.id)
 
@@ -132,15 +140,16 @@ export const loadOpponents = (fixtures, events, teamId, gws=38) => {
 
     teamAandH.sort(sortEvent)
 
-    const newTeamAandH = teamAandH.slice(0,gws)
+    const newTeamAandH = teamAandH.slice(start).slice(0, gws)
 
     return {newTeamAandH, playerInfoOpp}
 }
 
-const fixtureHeader = (events, fix, gws) => {
+const fixtureHeader = (events, fix, gws, start) => {
     return events
     		.filter(event => new Date(event.deadline_time) > new Date())
 	    	.filter((event, key) => key <= (fix-1))
+            .slice(start)
             .slice(0, gws)
 }
 

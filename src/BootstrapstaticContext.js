@@ -396,6 +396,7 @@ function BootstrapstaticProvider({children}) {
                 setReal(realPicks)
                 setPlayersOut(gameweekTransfersOut)
                 setPlayersIn(gameweekTransfersIn)
+                setRemainingBudget(bank)
                 localStorage.removeItem('picks')
                 localStorage.setItem('picks', JSON.stringify(gameweekPicks))
 
@@ -996,8 +997,7 @@ function BootstrapstaticProvider({children}) {
         player.multiplier === 0 ? setInPlayerOne({}) : setOutPlayer({})
     }
     const getInTheBank = () => {
-        //let totalBudget = +picks[pickIndex-1].totalBudget
-        let totalBudget = +picks[pickIndex-1].budget
+        let totalBudget = +picks[pickIndex-1].totalBudget
         let spent = picks[pickIndex-1].newPicks.reduce((x,y) => x+(+y.selling_price),0)-
         tempPlayersOut.reduce((x,y) => x+(+y.selling_price),0)
         let inBank = (totalBudget-spent).toFixed(1)

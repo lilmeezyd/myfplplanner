@@ -1,6 +1,6 @@
 import { useContext, useState, Suspense } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
-import { numberOfFixtures, loadOpponents } from '../services/fixtureService'
+import { numberOfFixtures, loadOpponents, loadStartGw } from '../services/fixtureService'
 import Loader from './Loader'
 import TeamRow from './TeamRow'
 
@@ -10,9 +10,11 @@ function Fixtures() {
 	const events = fplElements.events
 	const teams = fplElements.teams
 	const fixtures = fplElements.fixtures
+	const event = +fplElements.eventId + 1
 	const [ gws, setGws ] = useState(38)
-	const fixOptions = numberOfFixtures(events, gws).fixOptions
-	const fixHeader = numberOfFixtures(events, gws).fixHeader
+	const [ start, setStart ] = useState(0)
+	const fixOptions = numberOfFixtures(events, gws, start).fixOptions
+	const fixHeader = numberOfFixtures(events, gws, start).fixHeader
 
   return (
     <div className="fixtures-col">
@@ -20,6 +22,18 @@ function Fixtures() {
 			<Suspense fallback={<Loader/>}>
 				{(events.length && teams.length && fixtures.length) ?
 				<div className="fixture-ticker">
+					<div className='next-fixtures'>
+						<label className='small'>From Gameweek</label>
+						<select
+						onChange={(e) => setStart(+e.target.value)}
+						 className='custom-select custom-select-next'>
+							{loadStartGw(event).map((x, idx) => {
+								return (
+									<option key={idx} value={idx}>{x}</option>
+								)
+							})}
+						</select>
+					</div>
 				<div className="next-fixtures">
 						<label className="small">Next:</label>
 						<select onChange={(e) => setGws(+e.target.value)} className="custom-select custom-select-next" id="nxt_fixtures">
@@ -32,6 +46,7 @@ function Fixtures() {
 						</select>
 						<span className="small">{gws === 1 ? 'Gameweek' : 'Gameweeks'}</span>
 					</div>
+
 					<table className="ticker-table">
 						<thead className="small">
 							<tr>
@@ -45,7 +60,7 @@ function Fixtures() {
 						</thead>
 						<tbody className="small triple">
 							{teams.map((team) => {
-								const opponents = loadOpponents(fixtures, events, team.id, gws).newTeamAandH
+								const opponents = loadOpponents(fixtures, events, team.id, gws, start).newTeamAandH
 								return(
 									<TeamRow
 									teams={teams}
