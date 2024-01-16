@@ -434,7 +434,12 @@ function BootstrapstaticProvider({children}) {
     }
 
     const fetchData = async () => {
-        const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/bootstrap-static/`
+          
+          //fetch(`/api/bootstrap-static/`)
+           // .then(response => console.log(response))
+            //.then(result => console.log(result))
+            //.catch(error => console.log('error', error));
+        const url = `/api/bootstrap-static/`
         try {
             const response = await fetch(url)
             const data = await response.json()

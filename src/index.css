@@ -1190,6 +1190,8 @@ table td span:first-child {
 }
 .oppfix {
   display: flex;
+  border: 1px solid;
+  border-radius: 2px;
 }
 .oppfix span.opponent {
   flex: 1 1 0%;
@@ -1569,8 +1571,8 @@ span.opponent {
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 @media (max-width: 620px) {
-  .ticker-table {
-    height: 60vh;
+  .ticker-table, .table {
+    /*height: 60vh;*/
   }
 }
 .ticker-table tbody td {
@@ -1617,9 +1619,9 @@ span.opponent {
 }
 .table tbody td:nth-child(2) {
   position: sticky;
-  left: 30px;
+  left: 132.86px;
   background: whitesmoke;
-  z-index: 1;
+  z-index: 2;
 }
 .table tbody td:nth-child(1) {
   position: sticky;
@@ -1631,30 +1633,70 @@ span.opponent {
 .table-sticky-1 {
   font-weight: bolder;
 }
-.games-info-fixtures thead th:nth-child(1),
+
 .games-info-fixtures tbody td:nth-child(1) {
   z-index: 2;
 }
+.games-info-fixtures thead th:nth-child(1) {
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 4;
+}
+.games-info-fixtures thead th:nth-child(2) {
+  position: sticky;
+  left: 130.55px;
+  top: 0;
+  z-index: 4;
+}
+.games-info-fixtures thead tr:not(.ticker-table thead tr:first-child) {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
 .ticker-table tbody td:first-child {
+  position: sticky;
+  left: 0;
+  /*background: #161644;
+  color: #fff;*/
+  background: white;
+  z-index: 1;
+}
+
+@media (max-width: 575px) {
+  .ticker-table tbody td:first-child{
+    background: white;
+  }
+  
+}
+
+.team-row {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   column-gap: 0.5rem;
-  position: sticky;
-  left: 0;
-  background: rgba(255, 255, 255, 1);
-  z-index: 1;
+  /*border-bottom: 1px solid;*/
+  padding-right: 1rem;
+  border: 1px solid white;
+}
+@media (max-width: 575px) {
+  .team-row {
+    justify-content: center;
+  }
 }
 /*.ticker-table tbody td:first-child span {
 		display: block;
 	}*/
 .ticker-image {
   padding: 0.1rem;
+  display: flex;
+  background: white;
 }
+
 .ticker-team {
-  /*min-width: 200px;*/
+  min-width: 150px;
   padding: 0.1rem;
-  text-align: left;
+  text-align: right;
 }
 .ticker-image img {
   width: 20px;

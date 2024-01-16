@@ -38,12 +38,6 @@ function PlayerInfo(props) {
            className="btn-game-fixtures">Fixtures</div>
         </div>
         <div className="games-info-fixtures">
-          <div className='info-header'>
-                <div>Date</div>
-                <div>GW</div>
-                <div>Fixture</div>
-                <div>FDR</div>
-            </div>
           <table className="table" style={{width: '100%'}}>
             <thead>
               <tr style={{background: bgColor === 1 ? `#ebff00` :
@@ -57,7 +51,6 @@ function PlayerInfo(props) {
             <tbody className="t-fixtures">
               {loadOpponents(fixtures, events, playerDetails().teamId)
               .playerInfoOpp
-              .slice(0, 10)
               .map((x, idx) => {
                 let teamName = x.arr[0].opponent === 0 ? 'None' : 
                 teams.find(tname => tname.id === x.arr[0].opponent).name

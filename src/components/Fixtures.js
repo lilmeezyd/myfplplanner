@@ -50,7 +50,7 @@ function Fixtures() {
 					<table className="ticker-table">
 						<thead className="small">
 							<tr>
-								<th style={{background: 'white'}}>Team</th>
+								<th style={{background: 'white'}}></th>
 								{fixHeader.map((header) => {
 									return (
 										<th style={{background: 'white'}} key={header.id}>GW{header.id}</th>

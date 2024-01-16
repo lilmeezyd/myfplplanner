@@ -6,11 +6,13 @@ function TeamRow(props) {
     const { opponents, team, teams } = props
   return (
     <tr>
-        <td>
+        <td> 
+            <div className='team-row'>
             <span className="ticker-image">
                 <img src={require(`../static/t${team.code}.png`)} alt={team.name} />
             </span>
             <span className="ticker-team">{team.name}</span>
+            </div>
         </td>
         {opponents.map((cell) => {
             return (
