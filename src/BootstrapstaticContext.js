@@ -439,9 +439,13 @@ function BootstrapstaticProvider({children}) {
            // .then(response => console.log(response))
             //.then(result => console.log(result))
             //.catch(error => console.log('error', error));
-        const url = `/api/bootstrap-static/`
+        
+        //const url = `/api/bootstrap-static/`
         try {
-            const response = await fetch(url)
+            const response = await fetch(`https://proxy.cors.sh/https://fantasy.premierleague.com/api/bootstrap-static/`
+            , {headers: {
+                'x-cors-api-key': 'temp_726f12ce74cb302e45a4ff854686b866'
+            }})
             const data = await response.json()
             setPlayers(data.elements)
             setTeams(data.teams)
