@@ -23,10 +23,10 @@ function Fixtures() {
 				{(events.length && teams.length && fixtures.length) ?
 				<div className="fixture-ticker">
 					<div className='next-fixtures'>
-						<label className='small'>From Gameweek</label>
+						<label htmlFor='next-fixture' className='small'>From Gameweek</label>
 						<select
 						onChange={(e) => setStart(+e.target.value)}
-						 className='custom-select custom-select-next'>
+						 className='custom-select custom-select-next' id='next-fixture' name='next-fixture'>
 							{loadStartGw(event).map((x, idx) => {
 								return (
 									<option key={idx} value={idx}>{x}</option>
@@ -35,7 +35,7 @@ function Fixtures() {
 						</select>
 					</div>
 				<div className="next-fixtures">
-						<label className="small">Next:</label>
+						<label htmlFor='nxt_fixtures' className="small">Next:</label>
 						<select onChange={(e) => setGws(+e.target.value)} className="custom-select custom-select-next" id="nxt_fixtures">
 							{fixOptions.map((fix, idx) => {
 								return (

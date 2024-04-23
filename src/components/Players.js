@@ -80,7 +80,7 @@ function Players(props) {
                 <div className="form">
                     <form>
                         <div className="view">
-                            <label>View</label>
+                            <label htmlFor='view_by'>View</label>
                             <select onChange={onView} className="custom-select" id="view_by">
                                 <optgroup label="Global">
                                     <option value="allPlayers">All Players</option>
@@ -105,7 +105,7 @@ function Players(props) {
                             </select>
                         </div>
                         <div className="sort">
-                            <label>Sorted by</label>
+                            <label htmlFor='sort_by'>Sorted by</label>
                             <select onChange={onSort} className="custom-select" id="sort_by">
                             <option value="total_points">Total points</option>
                             <option value="event_points">Round points</option>
@@ -113,11 +113,11 @@ function Players(props) {
                     </select>
                 </div>
                 <div className="search">
-                    <label>Search</label>
+                    <label htmlFor='search'>Search</label>
                     <input onChange={onSearch} id="search" className="blur" type="text" name=""/>
                 </div>
                 <div className="cost">
-                    <label>Max cost</label>
+                    <label htmlFor='cost_by'>Max cost</label>
                     <div>Between <span id="pMin">{minPrice.toFixed(1)}</span> and <span id="pMax">{maxPrice.toFixed(1)}</span></div>
                     <select onChange={onPrice} className="custom-select" id="cost_by">
                         {prices.map((price, idx) => 
