@@ -63,7 +63,7 @@ function Header(props) {
 	</nav>
 	{show && showPop && <div id="modal" className='small'>
 		<form onSubmit={getManagerId} name="team">
-			<label htmlFor="team">Team ID</label>
+			<label htmlFor="teamid">Team ID</label>
 			<input onChange={(e) => setManagerId(+e.target.value)} type="number" id="teamid" required/>
 			<button type="submit" className="btn btn-block btn-primary">Load</button>
 		</form>
