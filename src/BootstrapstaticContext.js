@@ -223,7 +223,7 @@ function BootstrapstaticProvider({children}) {
                 if(data2.active_chip === 'freehit'){
                     //https://corsproxy.io/?https://fantasy.premierleague.com
                     const response2 = await 
-                    fetch(`/api/entry/${managerId}/event/${eventId-1}/picks/`)
+                    fetch(`https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/${eventId-1}/picks/`)
                     const data3 = await response2.json()
                     data = data3
 
@@ -428,8 +428,8 @@ function BootstrapstaticProvider({children}) {
     
 
     const fetchFixtures = async () => {
-        //https://corsproxy.io/?https://fantasy.premierleague.com
-        const url1 = `http://localhost:5000/fixtures`
+        const url1 = `https://corsproxy.io/?https://fantasy.premierleague.com/api/fixtures/`
+        //const url1 = `http://localhost:5000/fixtures`
         try {
             const response = await fetch(url1)
             const data = await response.json()
@@ -448,10 +448,8 @@ function BootstrapstaticProvider({children}) {
         
         //const url = `http://localhost:5000/bootstrap-static/`
         try {
-            const response = await fetch(`https://proxy.cors.sh/https://fantasy.premierleague.com/api/bootstrap-static/`
-            , {headers: {
-                'x-cors-api-key': 'temp_726f12ce74cb302e45a4ff854686b866'
-            }})
+            const response = await fetch(`https://corsproxy.io/?https://fantasy.premierleague.com/api/bootstrap-static/`
+            )
             //const response = await fetch(url)
             const data = await response.json()
             setPlayers(data.elements)
