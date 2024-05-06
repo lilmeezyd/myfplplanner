@@ -83,6 +83,18 @@ function Fixtures() {
 							})}
 						</select>
 					</div>
+					<div className="next-fixtures">
+						<label htmlFor='nxt_fixtures' className="small">Next:</label>
+						<select onChange={(e) => setGws(+e.target.value)} className="custom-select custom-select-next" id="nxt_fixtures">
+							{fixOptions.map((fix, idx) => {
+								return (
+								<option key={idx} value={fix}>{fix}</option>
+								)
+								
+							})}
+						</select>
+						<span className="small">{gws === 1 ? 'Gameweek' : 'Gameweeks'}</span>
+					</div>
 				</div>
 				 : <div className='no-trans small'>No Fixtures Found</div>}
 			</Suspense>
