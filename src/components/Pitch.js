@@ -144,7 +144,7 @@ function Pitch(props) {
         <>
           <div>
             <div className="details-one">
-              {picks.length > 0 && (
+              {!!picks.length && (
                 <div className="budgetwrapper">
                   <button
                       style={{ visibility: pageOneVisible }}
@@ -208,10 +208,10 @@ function Pitch(props) {
                             <div className="players-money">
                               <h3 className="money-heading">Money Remaining</h3>
                               <div className="money-selected">{
-                              players.length &&
-                          picks.length &&
-                        fixtures.length &&
-                        events.length && 
+                              !!players.length &&
+                          !!picks.length &&
+                        !!fixtures.length &&
+                        !!events.length && 
                             fplElements.getInTheBank()
                         }</div>
                             </div>
@@ -280,10 +280,10 @@ function Pitch(props) {
             <div className="field">
               <div className="pitch">
                 <Suspense fallback={Loader}>
-                  {players.length &&
-                    picks.length &&
-                    fixtures.length &&
-                    events.length && (
+                  {!!players.length &&
+                    !!picks.length &&
+                    !!fixtures.length &&
+                    !!events.length && (
                       <>
                         <div className="pitch_row" id="goal" width="pitch">
                           {getPicks(
@@ -600,10 +600,10 @@ function Pitch(props) {
                     )}
                 </Suspense>
               </div>
-              {players.length > 0 &&
-                picks.length > 0 &&
-                fixtures.length > 0 &&
-                events.length > 0 && (
+              {!!players.length &&
+                !!picks.length &&
+                !!fixtures.length &&
+                !!events.length && (
                   <div className="pitch_row bench" id="bench">
                     {getPicks(players, picks, curPage, curSize).benched.map(
                       (playerPos, idx) => {
@@ -690,7 +690,7 @@ function Pitch(props) {
               ? "Triple Captain Active"
               : ""}
           </div>
-          {picks.length > 0 && (
+          {!!picks.length && (
 
             
 

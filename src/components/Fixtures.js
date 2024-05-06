@@ -20,7 +20,7 @@ function Fixtures() {
     <div className="fixtures-col">
 			<h4 className="large fixture-heading">Fixture Ticker</h4>
 			<Suspense fallback={<Loader/>}>
-				{(events.length && teams.length && fixtures.length) ?
+				{(!!events.length && !!teams.length && !!fixtures.length) ?
 				<div className="fixture-ticker">
 					<div className='next-fixtures'>
 						<label htmlFor='next-fixture' className='small'>From Gameweek</label>

@@ -63,7 +63,7 @@ function PlayerCard(props) {
     </div>
     <div className="position-table">
         <button
-          disabled={picks.length && playerIds().includes(playerPos.id)}
+          disabled={!!picks.length && playerIds().includes(playerPos.id)}
           onClick={handleShowTransfer} className="player-cell btn-table">
             <div className="images">
             <img src={require(`../static/shirt_${forwardImage}.webp`)} alt={forwardImage} />
