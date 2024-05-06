@@ -80,6 +80,16 @@ function Fixtures() {
 								})}
 							</tr>
 						</thead>
+						<tbody className="small triple">
+							{teams.map((team) => {
+								const opponents = loadOpponents(fixtures, events, team.id, gws, start).newTeamAandH
+								return(
+									<TeamRow
+									teams={teams}
+									team={team} key={team.id} opponents={opponents} />
+								)
+							})}
+						</tbody>
 						</table>
 				</div>
 				 : <div className='no-trans small'>No Fixtures Found</div>}
