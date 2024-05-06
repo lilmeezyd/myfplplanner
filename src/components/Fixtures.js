@@ -71,7 +71,18 @@ function Fixtures() {
 			<Suspense fallback={<Loader/>}>
 				{(!!events.length && !!teams.length && !!fixtures.length) ?
 				<div className="fixture-ticker">
-					I am black
+					<div className='next-fixtures'>
+						<label htmlFor='next-fixture' className='small'>From Gameweek</label>
+						<select
+						onChange={(e) => setStart(+e.target.value)}
+						 className='custom-select custom-select-next' id='next-fixture' name='next-fixture'>
+							{loadStartGw(event).map((x, idx) => {
+								return (
+									<option key={idx} value={idx}>{x}</option>
+								)
+							})}
+						</select>
+					</div>
 				</div>
 				 : <div className='no-trans small'>No Fixtures Found</div>}
 			</Suspense>
