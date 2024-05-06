@@ -96,8 +96,8 @@ function BootstrapstaticProvider({children}) {
   
     useEffect(() => {
         const fetchManagerInfo = async () => {
-            const url = `http://localhost:5000/${managerId}`
-            //const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/`
+            //const url = `http://localhost:5000/${managerId}`
+            const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/`
             try {
                 const response = await fetch(url)
                 const data = await response.json()
@@ -107,8 +107,8 @@ function BootstrapstaticProvider({children}) {
             }
         }
         const fetchManagerHistory = async () => {
-            const url = `http://localhost:5000/history/${managerId}`
-            //const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/history/`
+            //const url = `http://localhost:5000/history/${managerId}`
+            const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/history/`
             try {
                 const response = await fetch(url)
                 const data = await response.json()
@@ -208,10 +208,10 @@ function BootstrapstaticProvider({children}) {
                 localStorage.removeItem('picks')
                 localStorage.setItem('picks', JSON.stringify(gameweekPicks))
             } else {
-                const url = `http://localhost:5000/${managerId}/event/${eventId}/picks`
-                const url1 = `http://localhost:5000/transfers/${managerId}/`
-                //const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/${eventId}/picks/`
-            //const url1 = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/transfers/`
+                //const url = `http://localhost:5000/${managerId}/event/${eventId}/picks`
+                //const url1 = `http://localhost:5000/transfers/${managerId}/`
+                const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/${eventId}/picks/`
+            const url1 = `https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/transfers/`
             try {
                 const response1 = await fetch(url1)
                 const data1 = await response1.json()
@@ -223,8 +223,8 @@ function BootstrapstaticProvider({children}) {
                 if(data2.active_chip === 'freehit'){
                     //https://corsproxy.io/?https://fantasy.premierleague.com
                     const response2 = await 
-                    fetch(`http://localhost:5000/${managerId}/event/${eventId-1}/picks`)
-                    //fetch(`https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/${eventId-1}/picks/`)
+                    //fetch(`http://localhost:5000/${managerId}/event/${eventId-1}/picks`)
+                    fetch(`https://corsproxy.io/?https://fantasy.premierleague.com/api/entry/${managerId}/event/${eventId-1}/picks/`)
                     const data3 = await response2.json()
                     data = data3
 
@@ -429,8 +429,8 @@ function BootstrapstaticProvider({children}) {
     
 
     const fetchFixtures = async () => {
-        //const url1 = `https://corsproxy.io/?https://fantasy.premierleague.com/api/fixtures/`
-        const url1 = `http://localhost:5000/fixtures`
+        const url1 = `https://corsproxy.io/?https://fantasy.premierleague.com/api/fixtures/`
+        //const url1 = `http://localhost:5000/fixtures`
         try {
             const response = await fetch(url1)
             const data = await response.json()
@@ -447,7 +447,8 @@ function BootstrapstaticProvider({children}) {
             //.then(result => console.log(result))
             //.catch(error => console.log('error', error));
         
-        const url = `http://localhost:5000/bootstrap-static/`
+        //const url = `http://localhost:5000/bootstrap-static/`
+        const url = `https://corsproxy.io/?https://fantasy.premierleague.com/api/bootstrap-static/`
         try {
             /*const response = await fetch(`https://corsproxy.io/?https://fantasy.premierleague.com/api/bootstrap-static/`
             )*/
