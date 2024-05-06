@@ -18,10 +18,7 @@ function Fixtures() {
 
   return (
     <div className="fixtures-col">
-			<h4 className="large fixture-heading">Fixture Ticker</h4>
-			<Suspense fallback={<Loader/>}>
-				{(!!events.length && !!teams.length && !!fixtures.length) ?
-				<div className="fixture-ticker">
+		{/*<div className="fixture-ticker">
 					<div className='next-fixtures'>
 						<label htmlFor='next-fixture' className='small'>From Gameweek</label>
 						<select
@@ -69,7 +66,14 @@ function Fixtures() {
 							})}
 						</tbody>
 					</table>
-				</div> : <div className='no-trans small'>No Fixtures Found</div>}
+						</div>*/}
+			<h4 className="large fixture-heading">Fixture Ticker</h4>
+			<Suspense fallback={<Loader/>}>
+				{(!!events.length && !!teams.length && !!fixtures.length) ?
+				<div className="fixture-ticker">
+					I am black
+				</div>
+				 : <div className='no-trans small'>No Fixtures Found</div>}
 			</Suspense>
 		</div>
   )
