@@ -18,33 +18,7 @@ function Fixtures() {
 
   return (
     <div className="fixtures-col">
-		{/*<div className="fixture-ticker">
-					<div className='next-fixtures'>
-						<label htmlFor='next-fixture' className='small'>From Gameweek</label>
-						<select
-						onChange={(e) => setStart(+e.target.value)}
-						 className='custom-select custom-select-next' id='next-fixture' name='next-fixture'>
-							{loadStartGw(event).map((x, idx) => {
-								return (
-									<option key={idx} value={idx}>{x}</option>
-								)
-							})}
-						</select>
-					</div>
-				<div className="next-fixtures">
-						<label htmlFor='nxt_fixtures' className="small">Next:</label>
-						<select onChange={(e) => setGws(+e.target.value)} className="custom-select custom-select-next" id="nxt_fixtures">
-							{fixOptions.map((fix, idx) => {
-								return (
-								<option key={idx} value={fix}>{fix}</option>
-								)
-								
-							})}
-						</select>
-						<span className="small">{gws === 1 ? 'Gameweek' : 'Gameweeks'}</span>
-					</div>
-
-					<table className="ticker-table">
+		{/*	<table className="ticker-table">
 						<thead className="small">
 							<tr>
 								<th style={{background: 'white'}}></th>
@@ -65,8 +39,7 @@ function Fixtures() {
 								)
 							})}
 						</tbody>
-					</table>
-						</div>*/}
+					</table>*/}
 			<h4 className="large fixture-heading">Fixture Ticker</h4>
 			<Suspense fallback={<Loader/>}>
 				{(!!events.length && !!teams.length && !!fixtures.length) ?
@@ -95,6 +68,19 @@ function Fixtures() {
 						</select>
 						<span className="small">{gws === 1 ? 'Gameweek' : 'Gameweeks'}</span>
 					</div>
+
+					<table className="ticker-table">
+						<thead className="small">
+							<tr>
+								<th style={{background: 'white'}}></th>
+								{fixHeader.map((header) => {
+									return (
+										<th style={{background: 'white'}} key={header.id}>GW{header.id}</th>
+									)
+								})}
+							</tr>
+						</thead>
+						</table>
 				</div>
 				 : <div className='no-trans small'>No Fixtures Found</div>}
 			</Suspense>
