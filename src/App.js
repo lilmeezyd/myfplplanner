@@ -29,7 +29,7 @@ function App() {
       <Main handleShow={handleShow} handleClose={handleClose} showPop={showPop} /> : 
       <Welcome />}
       
-      <Fixtures />
+      {/*<Fixtures />*/}
       <Footer />
       {showPop && <div className="playerpopup"></div>}
       </BootstrapstaticProvider>
