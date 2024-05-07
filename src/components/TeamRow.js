@@ -19,13 +19,13 @@ function TeamRow(props) {
   return (
     <tr>
       <td>
-        <div className="team-row">
+        {/*<div className="team-row">*/}
             {team.name}
           {/*<span className="ticker-image">
             <img src={require(`../static/t${team.code}.png`)} alt={team.name} />
           </span>
   <span className="ticker-team">{team.name}</span>*/}
-        </div>
+        {/*</div>*/}
       </td>
       {/*opponents.map((cell) => (
         <td key={cell.event}>
