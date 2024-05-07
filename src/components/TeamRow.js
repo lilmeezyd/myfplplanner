@@ -26,7 +26,7 @@ function TeamRow(props) {
           <span className="ticker-team">{team.name}</span>
         </div>
       </td>
-      {opponents.map((cell) => (
+      {/*opponents.map((cell) => (
         <td key={cell.event}>
           <div className="oppfix">
             {cell.arr.map((x, idx) => (
@@ -58,7 +58,7 @@ function TeamRow(props) {
             ))}
           </div>
         </td>
-      ))}
+      ))*/}
     </tr>
   );
 }
