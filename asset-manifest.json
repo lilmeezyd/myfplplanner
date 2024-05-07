@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/myfplplanner/static/css/main.2bbe68a9.css",
-    "main.js": "/myfplplanner/static/js/main.5aefee49.js",
+    "main.js": "/myfplplanner/static/js/main.7ff975d9.js",
     "static/js/787.2f0d4b1a.chunk.js": "/myfplplanner/static/js/787.2f0d4b1a.chunk.js",
     "static/media/pitch.png": "/myfplplanner/static/media/pitch.a7ba27aac7957860a878.png",
     "static/media/shirt_49-66.webp": "/myfplplanner/static/media/shirt_49-66.6177fb796d649f4b10df.webp",
@@ -50,11 +50,11 @@
     "static/media/chevron-down.svg": "/myfplplanner/static/media/chevron-down.bf176691dcfa65fc4a9c.svg",
     "static/media/chevron-up.svg": "/myfplplanner/static/media/chevron-up.dd6798f93b89dc0e4243.svg",
     "main.2bbe68a9.css.map": "/myfplplanner/static/css/main.2bbe68a9.css.map",
-    "main.5aefee49.js.map": "/myfplplanner/static/js/main.5aefee49.js.map",
+    "main.7ff975d9.js.map": "/myfplplanner/static/js/main.7ff975d9.js.map",
     "787.2f0d4b1a.chunk.js.map": "/myfplplanner/static/js/787.2f0d4b1a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2bbe68a9.css",
-    "static/js/main.5aefee49.js"
+    "static/js/main.7ff975d9.js"
   ]
 }
