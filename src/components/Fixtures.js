@@ -1,6 +1,6 @@
 import { useContext, useState, Suspense } from 'react'
 import { BootstrapstaticContext } from '../BootstrapstaticContext'
-import { numberOfFixtures, loadOpponents, loadStartGw } from '../services/fixtureService'
+import { numberOfFixtures, loadStartGw } from '../services/fixtureService'
 import Loader from './Loader'
 import TeamRow from './TeamRow'
 
@@ -18,28 +18,6 @@ function Fixtures() {
 
   return (
     <div className="fixtures-col">
-		{/*	<table className="ticker-table">
-						<thead className="small">
-							<tr>
-								<th style={{background: 'white'}}></th>
-								{fixHeader.map((header) => {
-									return (
-										<th style={{background: 'white'}} key={header.id}>GW{header.id}</th>
-									)
-								})}
-							</tr>
-						</thead>
-						<tbody className="small triple">
-							{teams.map((team) => {
-								const opponents = loadOpponents(fixtures, events, team.id, gws, start).newTeamAandH
-								return(
-									<TeamRow
-									teams={teams}
-									team={team} key={team.id} opponents={opponents} />
-								)
-							})}
-						</tbody>
-					</table>*/}
 			<h4 className="large fixture-heading">Fixture Ticker</h4>
 			<Suspense fallback={<Loader/>}>
 				{(!!events.length && !!teams.length && !!fixtures.length) ?
@@ -80,16 +58,17 @@ function Fixtures() {
 								})}
 							</tr>
 						</thead>
+						{/* Problem here */}
 						<tbody className="small triple">
 							{teams.map((team) => {
-								const opponents = loadOpponents(fixtures, events, team.id, gws, start).newTeamAandH
 								return(
 									<TeamRow
-									teams={teams}
-									team={team} key={team.id} opponents={opponents} />
+									gws={gws} start={start}
+									team={team} key={team.id} />
 								)
 							})}
 						</tbody>
+						{/* Problem here */}
 						</table>
 				</div>
 				 : <div className='no-trans small'>No Fixtures Found</div>}

@@ -1,9 +1,16 @@
-import React from 'react'
+import {useContext} from 'react'
+import { BootstrapstaticContext } from '../BootstrapstaticContext'
 import TeamRowOpponents from './TeamRowOpponents'
+import { loadOpponents } from '../services/fixtureService'
 
 function TeamRow(props) {
 
-    const { opponents, team, teams } = props
+    const { team , gws, start } = props
+    const fplElements = useContext(BootstrapstaticContext)
+	const events = fplElements.events
+	const teams = fplElements.teams
+	const fixtures = fplElements.fixtures
+    const opponents = loadOpponents(fixtures, events, team.id, gws, start).newTeamAandH
   return (
     <tr>
         <td> 
