@@ -80,7 +80,19 @@ function Fixtures() {
               {/* Problem here */}
                   {/*<TeamRow gws={gws} start={start} team={team} key={team.id} />*/}
               <tbody className="small triple">
-                {teams.map((team) => {
+                {teams.map(team => 
+                <tr>
+                  <td>
+                  <div className="team-row">
+                    <span className="ticker-image">
+                      <img src={require(`../static/t${team.code}.png`)} alt={team.name} />
+                    </span>
+            <span className="ticker-team">{team.name}</span>
+                  </div>
+                </td>
+                </tr>
+                )}
+                {/*teams.map((team) => {
                   const opponents = loadOpponents(
                     fixtures,
                     events,
@@ -88,7 +100,7 @@ function Fixtures() {
                     gws,
                     start
                   ).newTeamAandH;
-                  return (
+                  (
                   <tr>
                   <td>
                     <div className="team-row">
@@ -132,7 +144,7 @@ function Fixtures() {
                     </td>
                   ))}
                 </tr>)
-})}
+})*/}
               </tbody>
               {/* Problem here */}
             </table>
