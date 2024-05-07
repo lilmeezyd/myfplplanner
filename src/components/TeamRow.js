@@ -20,10 +20,11 @@ function TeamRow(props) {
     <tr>
       <td>
         <div className="team-row">
-          <span className="ticker-image">
+            {team.name}
+          {/*<span className="ticker-image">
             <img src={require(`../static/t${team.code}.png`)} alt={team.name} />
           </span>
-          <span className="ticker-team">{team.name}</span>
+  <span className="ticker-team">{team.name}</span>*/}
         </div>
       </td>
       {/*opponents.map((cell) => (
