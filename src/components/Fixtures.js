@@ -76,9 +76,12 @@ function Fixtures() {
                 </tr>
               </thead>
               {/* Problem here */}
+                  {/*<TeamRow gws={gws} start={start} team={team} key={team.id} />*/}
               <tbody className="small triple">
                 {teams.map((team) => (
-                  <TeamRow gws={gws} start={start} team={team} key={team.id} />
+                  <tr>
+                    <td>{team.name}</td>
+                  </tr>
                 ))}
               </tbody>
               {/* Problem here */}
