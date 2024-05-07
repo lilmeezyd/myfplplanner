@@ -1,16 +1,9 @@
 {
   "files": {
     "main.css": "/myfplplanner/static/css/main.2bbe68a9.css",
-    "main.js": "/myfplplanner/static/js/main.41b2154b.js",
+    "main.js": "/myfplplanner/static/js/main.0add980b.js",
     "static/js/787.2f0d4b1a.chunk.js": "/myfplplanner/static/js/787.2f0d4b1a.chunk.js",
     "static/media/pitch.png": "/myfplplanner/static/media/pitch.a7ba27aac7957860a878.png",
-    "static/media/t1.png": "/myfplplanner/static/media/t1.f03b4ad90b1d529c142d.png",
-    "static/media/t4.png": "/myfplplanner/static/media/t4.4c61da33bfb1cf14d1ae.png",
-    "static/media/t8.png": "/myfplplanner/static/media/t8.16806693e80f24ee365f.png",
-    "static/media/t11.png": "/myfplplanner/static/media/t11.4a3a4e9595c760624902.png",
-    "static/media/t31.png": "/myfplplanner/static/media/t31.07f282e4b52f200e9b2b.png",
-    "static/media/t43.png": "/myfplplanner/static/media/t43.f2e052b6ef8bd460bd1c.png",
-    "static/media/t94.png": "/myfplplanner/static/media/t94.3427fb67722538796d06.png",
     "static/media/shirt_49-66.webp": "/myfplplanner/static/media/shirt_49-66.6177fb796d649f4b10df.webp",
     "static/media/shirt_11_1-66.webp": "/myfplplanner/static/media/shirt_11_1-66.5ea8c2478760550d4ed2.webp",
     "static/media/shirt_54_1-66.webp": "/myfplplanner/static/media/shirt_54_1-66.324933382f14fdb8f0f9.webp",
@@ -57,11 +50,11 @@
     "static/media/chevron-down.svg": "/myfplplanner/static/media/chevron-down.bf176691dcfa65fc4a9c.svg",
     "static/media/chevron-up.svg": "/myfplplanner/static/media/chevron-up.dd6798f93b89dc0e4243.svg",
     "main.2bbe68a9.css.map": "/myfplplanner/static/css/main.2bbe68a9.css.map",
-    "main.41b2154b.js.map": "/myfplplanner/static/js/main.41b2154b.js.map",
+    "main.0add980b.js.map": "/myfplplanner/static/js/main.0add980b.js.map",
     "787.2f0d4b1a.chunk.js.map": "/myfplplanner/static/js/787.2f0d4b1a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2bbe68a9.css",
-    "static/js/main.41b2154b.js"
+    "static/js/main.0add980b.js"
   ]
 }
