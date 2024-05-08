@@ -98,8 +98,8 @@ function Fixtures() {
                     gws,
                     start
                   ).newTeamAandH.map((cell) => (
-                    <td key={cell.event}>
-                      <div className="oppfix">
+                    <tr key={cell.event}>
+                      <td className="oppfix">
                         {cell.arr.map((x, idx) => (
                           <span className='opponent' 
                           style={{color: x.difficulty === 4 || x.difficulty === 5
@@ -118,8 +118,8 @@ function Fixtures() {
                               : ""}{x.venue}</span>
                           
                         ))}
-                      </div>
-                    </td>
+                      </td>
+                    </tr>
                   ))}</>
                 </tr>
                 )}
