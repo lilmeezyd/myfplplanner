@@ -255,7 +255,7 @@ function Players(props) {
                 <div className='money'>£</div>
                 <div className='others'>Points</div>
             </div>
-            {/*<>
+            <>
                 {forwards.map((forward) => {
                     let teamObj = teams.find(x => x.id === forward.team)
                     let news = forward.chance_of_playing_next_round
@@ -283,7 +283,7 @@ function Players(props) {
                             handleClose={handleClose}
                             showPop={showPop}></PlayerCard>)
                 })}
-            </>*/}
+            </>
         </div>): ''}
     </div>
     <div className="button-controls">
