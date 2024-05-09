@@ -142,6 +142,7 @@ export const loadOpponents = (fixtures, events, teamId, gws=38, start) => {
 
     const newTeamAandH = teamAandH.slice(start).slice(0, gws)
     //playerInfoOpp
+    //console.log(newTeamAandH)
     return newTeamAandH
 }
 

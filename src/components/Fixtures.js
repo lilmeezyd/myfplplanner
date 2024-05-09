@@ -91,13 +91,13 @@ function Fixtures() {
                   </div>
                 </td>
                 
-                  {/*loadOpponents(
+                  {loadOpponents(
                     fixtures,
                     events,
                     team.id,
                     gws,
                     start
-                  ).newTeamAandH.map((cell) => (
+                  ).map((cell) => (
                     <td key={cell.event}>
                       <div className="oppfix">
                         {cell.arr.map((x, idx) => (
@@ -120,7 +120,7 @@ function Fixtures() {
                         ))}
                       </div>
                     </td>
-                  ))*/}
+                  ))}
                 </tr>
                 )}
                 {/**/}
