@@ -277,7 +277,11 @@ function Pitch(props) {
                 </div>
               )}
             </div>
+<<<<<<< HEAD
             <div className="field">
+=======
+            {/*<div className="field">
+>>>>>>> new commit
               <div className="pitch">
                 <Suspense fallback={Loader}>
                   {!!players.length &&
@@ -677,7 +681,11 @@ function Pitch(props) {
                     )}
                   </div>
                 )}
+<<<<<<< HEAD
             </div>
+=======
+              </div>*/}
+>>>>>>> new commit
           </div>
           <div className="message small">
             {chips.wildcard.event === +eventId + curPage
