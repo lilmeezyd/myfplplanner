@@ -27,9 +27,9 @@ function App() {
       <Header handleShow={handleShow} handleClose={handleClose} showPop={showPop} />
       {JSON.parse(localStorage.getItem('managerId')) > 0 ?
       
-      <p>Hello Boy</p> : 
+      <Main handleShow={handleShow} handleClose={handleClose} showPop={showPop} />
+      : 
       <Welcome />}
-      {/*<Main handleShow={handleShow} handleClose={handleClose} showPop={showPop} />*/}
       <Fixtures />
       <Footer />
       {showPop && <div className="playerpopup"></div>}

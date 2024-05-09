@@ -7,7 +7,7 @@ function Main(props) {
   return (
     <div className="main">
         <Pitch handleShow={handleShow} handleClose={handleClose} showPop={showPop} />
-        <Players handleShow={handleShow} handleClose={handleClose} showPop={showPop} />
+        {/*<Players handleShow={handleShow} handleClose={handleClose} showPop={showPop} />*/}
     </div>
   )
 }
