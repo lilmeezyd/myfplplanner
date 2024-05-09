@@ -90,16 +90,16 @@ function Fixtures() {
             <span className="ticker-team">{team.name}</span>
                   </div>
                 </td>
-                <>
-                  {loadOpponents(
+                
+                  {/*loadOpponents(
                     fixtures,
                     events,
                     team.id,
                     gws,
                     start
                   ).newTeamAandH.map((cell) => (
-                    <tr key={cell.event}>
-                      <td className="oppfix">
+                    <td key={cell.event}>
+                      <div className="oppfix">
                         {cell.arr.map((x, idx) => (
                           <span className='opponent' 
                           style={{color: x.difficulty === 4 || x.difficulty === 5
@@ -118,9 +118,9 @@ function Fixtures() {
                               : ""}{x.venue}</span>
                           
                         ))}
-                      </td>
-                    </tr>
-                  ))}</>
+                      </div>
+                    </td>
+                  ))*/}
                 </tr>
                 )}
                 {/**/}
