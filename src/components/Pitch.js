@@ -32,6 +32,11 @@ function Pitch(props) {
   const gameweeks = getGameweeks(events, curPage, curSize).gameweeks;
   const length = getGameweeks(events, curPage, curSize).length;
   const countdowns = getGameweeks(events, curPage, curSize).countdowns;
+  const goalkeeper = getPicks(players, picks, curPage, curSize).goalkeeper
+  const defenders = getPicks(players, picks, curPage, curSize).defenders
+  const midfielders = getPicks(players, picks, curPage, curSize).midfielders
+  const forwards = getPicks(players, picks, curPage, curSize).forwards
+  const benched = getPicks(players, picks, curPage, curSize).benched
   const { getPickIndex } = fplElements;
   const [showTransfersMade, setShowTransfersMade] = useState(false);
   const { handleShow, handleClose, showPop } = props;
@@ -285,12 +290,7 @@ function Pitch(props) {
                   <div className="field">
                     <div className="pitch">
                       <div className="pitch_row" id="goal" width="pitch">
-                        {getPicks(
-                          players,
-                          picks,
-                          curPage,
-                          curSize
-                        ).goalkeeper.map((playerPos) => {
+                        {goalkeeper.map((playerPos) => {
                           let player = players.find(
                             (x) => x.id === playerPos.element
                           );
@@ -361,12 +361,7 @@ function Pitch(props) {
                       </div>
 
                       <div className="pitch_row" id="defend" width="pitch">
-                        {getPicks(
-                          players,
-                          picks,
-                          curPage,
-                          curSize
-                        ).defenders.map((playerPos) => {
+                        {defenders.map((playerPos) => {
                           let player = players.find(
                             (x) => x.id === playerPos.element
                           );
@@ -437,12 +432,7 @@ function Pitch(props) {
                       </div>
 
                       <div className="pitch_row" id="mid" width="pitch">
-                        {getPicks(
-                          players,
-                          picks,
-                          curPage,
-                          curSize
-                        ).midfielders.map((playerPos) => {
+                        {midfielders.map((playerPos) => {
                           let player = players.find(
                             (x) => x.id === playerPos.element
                           );
@@ -513,12 +503,7 @@ function Pitch(props) {
                       </div>
 
                       <div className="pitch_row" id="forw" width="pitch">
-                        {getPicks(
-                          players,
-                          picks,
-                          curPage,
-                          curSize
-                        ).forwards.map((playerPos) => {
+                        {forwards.map((playerPos) => {
                           let player = players.find(
                             (x) => x.id === playerPos.element
                           );
@@ -589,7 +574,7 @@ function Pitch(props) {
                       </div>
                     </div>
                     <div className="pitch_row bench" id="bench">
-                      {getPicks(players, picks, curPage, curSize).benched.map(
+                      {benched.map(
                         (playerPos, idx) => {
                           let player = players.find(
                             (x) => x.id === playerPos.element
