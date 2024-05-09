@@ -136,7 +136,7 @@ function Players(props) {
         <span className="number">{players.length}</span>
         <span className="numbers">{players.length === 1 ? 'Player' : 'Players'}</span>
     </div>
-    <div className="players-table small">
+    {/*<div className="players-table small">
         { goalkeepers.length > 0 ? <div className='table-one' id='goalkeepers'>
             <div className='player-header'>
                 <div className='info'></div>
@@ -285,7 +285,7 @@ function Players(props) {
                 })}
             </>
         </div>): ''}
-    </div>
+    </div>*/}
     <div className="button-controls">
         <button disabled={curPage === 1 ? true : false}  onClick={viewFirstPage} className="btn btn-controls" id="firstPage">
             <img src={firstPage} alt="first_page"/>
