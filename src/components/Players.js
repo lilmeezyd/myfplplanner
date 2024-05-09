@@ -136,15 +136,15 @@ function Players(props) {
         <span className="number">{players.length}</span>
         <span className="numbers">{players.length === 1 ? 'Player' : 'Players'}</span>
     </div>
-    {/*<div className="players-table small">
-        { goalkeepers.length > 0 ? <div className='table-one' id='goalkeepers'>
+    <div className="players-table small">
+        { goalkeepers.length > 0 ? (<div className='table-one' id='goalkeepers'>
             <div className='player-header'>
                 <div className='info'></div>
                 <div className='position-table'>Goalkeepers</div>
                 <div className='money'>£</div>
                 <div className='others'>Points</div>
             </div>
-            <div>
+            {/*<div>
                 {goalkeepers.map((goalkeeper) => {
                     let teamObj = teams.find(x => x.id === goalkeeper.team)
                     let news = goalkeeper.chance_of_playing_next_round
@@ -172,8 +172,8 @@ function Players(props) {
                                 handleClose={handleClose}
                                 showPop={showPop}></PlayerCard>)
                 })}
-            </div>
-        </div>: ''}
+            </div>*/}
+        </div>): ''}
         { defenders.length > 0 ? (<div className='table-one' id='defenders'>
         <div className='player-header'>
                 <div className='info'></div>
@@ -181,7 +181,7 @@ function Players(props) {
                 <div className='money'>£</div>
                 <div className='others'>Points</div>
             </div>
-            <div>
+            {/*<div>
                 {defenders.map((defender) => {
                     let teamObj = teams.find(x => x.id === defender.team)
                     let news = defender.chance_of_playing_next_round
@@ -209,7 +209,7 @@ function Players(props) {
                             handleClose={handleClose}
                             showPop={showPop}></PlayerCard>)
                 })}
-            </div>
+            </div>*/}
         </div>): ''}
         { midfielders.length > 0 ? (<div className='table-one' id='midfielders'>
         <div className='player-header'>
@@ -218,7 +218,7 @@ function Players(props) {
                 <div className='money'>£</div>
                 <div className='others'>Points</div>
             </div>
-            <div>
+            {/*<div>
                 {midfielders.map((midfielder) => {
                     let teamObj = teams.find(x => x.id === midfielder.team)
                     let news = midfielder.chance_of_playing_next_round
@@ -246,7 +246,7 @@ function Players(props) {
                             handleClose={handleClose}
                             showPop={showPop}></PlayerCard>)
                 })}
-            </div>
+            </div>*/}
         </div>): ''}
         { forwards.length > 0 ? (<div className='table-one' id='forwards'>
         <div className='player-header'>
@@ -255,7 +255,7 @@ function Players(props) {
                 <div className='money'>£</div>
                 <div className='others'>Points</div>
             </div>
-            <>
+            {/*<>
                 {forwards.map((forward) => {
                     let teamObj = teams.find(x => x.id === forward.team)
                     let news = forward.chance_of_playing_next_round
@@ -283,9 +283,9 @@ function Players(props) {
                             handleClose={handleClose}
                             showPop={showPop}></PlayerCard>)
                 })}
-            </>
+            </>*/}
         </div>): ''}
-    </div>*/}
+    </div>
     <div className="button-controls">
         <button disabled={curPage === 1 ? true : false}  onClick={viewFirstPage} className="btn btn-controls" id="firstPage">
             <img src={firstPage} alt="first_page"/>
