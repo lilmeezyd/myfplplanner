@@ -141,8 +141,8 @@ export const loadOpponents = (fixtures, events, teamId, gws=38, start) => {
     teamAandH.sort(sortEvent)
 
     const newTeamAandH = teamAandH.slice(start).slice(0, gws)
-
-    return {newTeamAandH, playerInfoOpp}
+    //playerInfoOpp
+    return newTeamAandH
 }
 
 const fixtureHeader = (events, fix, gws, start) => {
@@ -155,5 +155,5 @@ const fixtureHeader = (events, fix, gws, start) => {
 
 export const loadPlayerOpponents = (opponents, curPage) => {
     const playerFix = opponents.slice(curPage-1, 1+(curPage-1))
-    return { playerFix }
+    return playerFix
 }

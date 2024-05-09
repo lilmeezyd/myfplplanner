@@ -329,11 +329,11 @@ function Pitch(props) {
                             fixtures,
                             events,
                             teamObj.id
-                          ).newTeamAandH;
+                          );
                           const playerOpps = loadPlayerOpponents(
                             opponents,
                             curPage
-                          ).playerFix;
+                          );
                           return (
                             <SquadPlayer
                               image={image}
@@ -400,11 +400,11 @@ function Pitch(props) {
                             fixtures,
                             events,
                             teamObj.id
-                          ).newTeamAandH;
+                          );
                           const playerOpps = loadPlayerOpponents(
                             opponents,
                             curPage
-                          ).playerFix;
+                          );
                           return (
                             <SquadPlayer
                               image={image}
@@ -471,11 +471,11 @@ function Pitch(props) {
                             fixtures,
                             events,
                             teamObj.id
-                          ).newTeamAandH;
+                          );
                           const playerOpps = loadPlayerOpponents(
                             opponents,
                             curPage
-                          ).playerFix;
+                          );
                           return (
                             <SquadPlayer
                               image={image}
@@ -542,11 +542,11 @@ function Pitch(props) {
                             fixtures,
                             events,
                             teamObj.id
-                          ).newTeamAandH;
+                          );
                           const playerOpps = loadPlayerOpponents(
                             opponents,
                             curPage
-                          ).playerFix;
+                          );
                           return (
                             <SquadPlayer
                               image={image}
@@ -614,11 +614,11 @@ function Pitch(props) {
                             fixtures,
                             events,
                             teamObj.id
-                          ).newTeamAandH;
+                          );
                           const playerOpps = loadPlayerOpponents(
                             opponents,
                             curPage
-                          ).playerFix;
+                          );
                           return (
                             <SquadPlayer
                               image={image}
