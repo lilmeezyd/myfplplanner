@@ -29,9 +29,7 @@ function Players(props) {
     const minPrice = getMinMax(players).minPrice
     const maxPrice = getMinMax(players).maxPrice
     let totalPages = Math.ceil(players.length/pageSize)
-        
     
-
 
     const onPrice = (e) => {
         setCutPrice(+e.target.value)
@@ -255,7 +253,7 @@ function Players(props) {
                 <div className='money'>£</div>
                 <div className='others'>Points</div>
             </div>
-            <>
+            <div>
                 {forwards.map((forward) => {
                     let teamObj = teams.find(x => x.id === forward.team)
                     let news = forward.chance_of_playing_next_round
@@ -283,7 +281,7 @@ function Players(props) {
                             handleClose={handleClose}
                             showPop={showPop}></PlayerCard>)
                 })}
-            </>
+            </div>
         </div>): ''}
     </div>
     <div className="button-controls">
