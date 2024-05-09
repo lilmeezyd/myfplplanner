@@ -181,7 +181,7 @@ function Players(props) {
                 <div className='money'>£</div>
                 <div className='others'>Points</div>
             </div>
-            {/*<div>
+            <div>
                 {defenders.map((defender) => {
                     let teamObj = teams.find(x => x.id === defender.team)
                     let news = defender.chance_of_playing_next_round
@@ -209,7 +209,7 @@ function Players(props) {
                             handleClose={handleClose}
                             showPop={showPop}></PlayerCard>)
                 })}
-            </div>*/}
+            </div>
         </div>): ''}
         { midfielders.length > 0 ? (<div className='table-one' id='midfielders'>
         <div className='player-header'>
