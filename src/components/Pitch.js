@@ -277,7 +277,7 @@ function Pitch(props) {
               )}
             </div>
 
-            <Suspense fallback={Loader}>
+            {/*<Suspense fallback={Loader}>
               {!!players.length &&
                 !!picks.length &&
                 !!fixtures.length &&
@@ -642,7 +642,7 @@ function Pitch(props) {
                     </div> 
                   </div>
                 )}
-            </Suspense>
+            </Suspense>*/}
           </div>
           <div className="message small">
             {chips.wildcard.event === +eventId + curPage
