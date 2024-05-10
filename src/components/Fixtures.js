@@ -16,6 +16,7 @@ function Fixtures() {
   const [start, setStart] = useState(0);
   const fixOptions = numberOfFixtures(events, gws, start).fixOptions;
   const fixHeader = numberOfFixtures(events, gws, start).fixHeader;
+  const newTeams = loadOpponents(fixtures, events,teams,gws,start)
 
   return (
     <div className="fixtures-col">
@@ -80,7 +81,7 @@ function Fixtures() {
               {/* Problem here */}
                   {/*<TeamRow gws={gws} start={start} team={team} key={team.id} />*/}
               <tbody className="small triple">
-                {teams.map(team => 
+                {newTeams.map(team => 
                 <tr key={team.id}>
                   <td>
                   <div className="team-row">
@@ -90,8 +91,30 @@ function Fixtures() {
             <span className="ticker-team">{team.name}</span>
                   </div>
                 </td>
+                  {team.teamAandH.map((cell, idx) => <td key={idx}>
+                    <div className="oppfix">
+                      {cell.arr.map((x, idx) => (
+                          <span key={idx} className='opponent' 
+                          style={{color: x.difficulty === 4 || x.difficulty === 5
+                            ? "rgb(255,255,255)"
+                            : "rgb(0,0,0)", backgroundColor: 
+                            x.difficulty === 2
+                            ? "rgb(1, 252, 122)"
+                            : x.difficulty === 3
+                            ? "rgb(231, 231, 231)"
+                            : x.difficulty === 4
+                            ? "rgb(255, 23, 81)"
+                            : x.difficulty === 5
+                            ? "rgb(128, 7, 45)"
+                            : "rgb(0,0,0)"}}>{x.opponent > 0
+                              ? teams.filter((y) => y.id === x.opponent)[0].short_name
+                              : ""}{x.venue}</span>
+                          
+                        ))}
+                    </div></td>
+                  )}
                 
-                  {loadOpponents(
+                  {/*loadOpponents(
                     fixtures,
                     events,
                     team.id,
@@ -120,7 +143,7 @@ function Fixtures() {
                         ))}
                       </div>
                     </td>
-                  ))}
+                  ))*/}
                 </tr>
                 )}
                 {/**/}
