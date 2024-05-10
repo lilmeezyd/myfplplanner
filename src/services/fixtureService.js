@@ -139,7 +139,7 @@ function initial(a,b) {
     .map(team => team.id && {...team, blankIds:eventIds.filter(x => !team.teamAandHIds.includes(x))})
     
     .map(team => team.teamAandH && {...team, teamAandH: team.teamAandH.sort(sortEvent).sort(sortKickOff)})
-    .map(team => team.teamAandH && {...team, AandH: team.teamAandH.map(x => {
+    /*.map(team => team.teamAandH && {...team, AandH: team.teamAandH.map(x => {
       team.teamAandH.forEach(x=>{
         let init = initial(team.teamAandH, x.event)
         let fin  = final(team.teamAandH, x.event)
@@ -154,7 +154,7 @@ function initial(a,b) {
     })
     
     return team.teamAandH
-    })})
+    })})*/
     
    .map(team => team.teamAandH && {...team, teamAandH: team.teamAandH.slice(start).slice(0, gws)})
   //console.log(newT);
