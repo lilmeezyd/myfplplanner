@@ -91,7 +91,7 @@ function Fixtures() {
             <span className="ticker-team">{team.name}</span>
                   </div>
                 </td>
-                  {team.teamAandH.map((cell, idx) => <td key={idx}>
+                  {team.teamAandH.map((cell, idx) => <td key={cell.event}>
                     <div className="oppfix">
                       {cell.arr.map((x, idx) => (
                           <span key={idx} className='opponent' 

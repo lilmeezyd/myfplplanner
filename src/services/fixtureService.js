@@ -45,6 +45,7 @@ function final(a,b) {
   }
 
 function initial(a,b) {
+    console.log(a)
     return a.findIndex(x => x.event===b)
 }
   const newT = teams.map(
@@ -138,7 +139,24 @@ function initial(a,b) {
     .map(team => team.id && {...team, blankIds:eventIds.filter(x => !team.teamAandHIds.includes(x))})
     
     .map(team => team.teamAandH && {...team, teamAandH: team.teamAandH.sort(sortEvent).sort(sortKickOff)})
-    .map(team => team.teamAandH && {...team, teamAandH: team.teamAandH.slice(start).slice(0, gws)});
+    .map(team => team.teamAandH && {...team, AandH: team.teamAandH.map(x => {
+      team.teamAandH.forEach(x=>{
+        let init = initial(team.teamAandH, x.event)
+        let fin  = final(team.teamAandH, x.event)
+        //const newTeam = []
+        if(init === fin) {
+            //console.log(x.event)
+            return 
+        } else {
+            team.teamAandH[init].arr.push(...team.teamAandH[fin].arr)
+            team.teamAandH.splice(fin,1)
+        }
+    })
+    
+    return team.teamAandH
+    })})
+    
+   .map(team => team.teamAandH && {...team, teamAandH: team.teamAandH.slice(start).slice(0, gws)})
   //console.log(newT);
   console.log(newTa);
   /*
